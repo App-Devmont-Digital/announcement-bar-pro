@@ -1,0 +1,22 @@
+.range-slider .range-slider__thumb[data-lower] {
+  width: 0;
+}
+
+.range-slider .range-slider__range {
+  border-radius: 6px;
+}
+
+.range-slider .range-slider__thumb {
+  background: #303030 !important;
+}
+.range-slider .range-slider__range {
+  background: #303030 !important;
+}
+.range-slider .range-slider__thumb[data-upper] {
+  width: 16px !important;
+  height: 16px !important;
+}
+.range-slider {
+    height: 6px !important;
+    background-color: #ddd !important;
+}
