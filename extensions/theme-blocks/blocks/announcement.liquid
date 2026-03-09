@@ -1,0 +1,166 @@
+{% comment %}
+  Public App Extension: Fully Dynamic JS-Injected Announcement Bars
+{% endcomment %}
+
+{{ 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css' | stylesheet_tag }}
+
+<style>
+    .app-extension-wrapper { width: 100%; position: relative; z-index: 999999; }
+    .bar-container { transition: all 0.3s ease; width: 100%; display: flex; align-items: center; }
+
+    /* 1. LINE ANNOUNCE (Marquee) Styles */
+    .announcement-bar-infinite { height: 55px; overflow: hidden; border-bottom: 1px solid #e5e7eb; }
+    .marquee-container { flex-grow: 1; overflow: hidden; display: flex; }
+    .marquee-content { display: flex; width: max-content; animation: scroll-text 25s linear infinite; }
+    @keyframes scroll-text { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .announcement-text { font-weight: 600; font-size: 15px; padding: 0 40px; white-space: nowrap; }
+    .action-area { flex-shrink: 0; padding: 0 20px; height: 100%; display: flex; align-items: center; z-index: 10; gap: 24px; }
+
+    /* 2. SIMPLE ANNOUNCE Styles */
+    .simple-announcement-bar { height: 50px; justify-content: center; border-bottom: 1px solid #e0e7ff; }
+    .simple-content { display: flex; align-items: center; gap: 24px; }
+
+    /* 3. MULTIPLE ANNOUNCE (Swiper) Styles */
+    .announcement-slider-wrapper { margin: 10px auto; padding: 0 20px; }
+    .swiper-outer-container { 
+        border-radius: 12px; height: 60px; display: flex; align-items: center; 
+        border: 1px solid #e2e8f0; position: relative; overflow: hidden; width: 100%;
+    }
+    .swiper-slide { display: flex; align-items: center; justify-content: center; font-size: 15px; padding: 0 40px; }
+    .swiper-button-next, .swiper-button-prev { color: #000 !important;  }
+    .swiper-button-next svg, .swiper-button-prev svg { width: 18px !important; height: 18px !important; }
+
+    /* Global UI */
+    .shop-btn-dark { background: #1a1a1a; color: #fff; padding: 8px 18px; border-radius: 4px; text-decoration: none; font-size: 13px; line-height: 1; }
+    .close-icon { cursor: pointer; color: #666; font-size: 18px; margin-left: 10px; }
+</style>
+
+<div id="AppAnnouncementRoot" class="app-extension-wrapper"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js" defer></script>
+
+<script>
+    (function() {
+        const shop = "{{ shop.permanent_domain }}";
+        const apiUrl = `https://contributing-albuquerque-expired-those.trycloudflare.com/api/announcement?shop=${shop}`;
+
+        fetch(apiUrl)
+            .then(res => res.json())
+            .then(response => {
+                if (!response.data || response.data.length === 0) return;
+
+                const data = response.data[0];
+                const design = JSON.parse(data.designSettings);
+                const content = JSON.parse(data.content);
+                const root = document.getElementById('AppAnnouncementRoot');
+
+                // Set Position
+                if (design.position === 'top-page') {
+                    document.body.prepend(root);
+                } else {
+                    document.body.appendChild(root);
+                }
+
+                // Route to Injection Function based on Type
+                switch(content.announcementType) {
+                    case 'line-announce':
+                        injectLineBar(root, content, design);
+                        break;
+                    case 'simple-announce':
+                        injectSimpleBar(root, content, design);
+                        break;
+                    case 'multiple-announce':
+                        injectMultipleBar(root, content, design);
+                        break;
+                }
+            })
+            .catch(err => console.error("App Logic Error:", err));
+
+        // BAR 1: LINE ANNOUNCE (Marquee)
+        function injectLineBar(parent, content, design) {
+            const bar = document.createElement('div');
+            bar.id = 'bar-1';
+            bar.className = 'bar-container announcement-bar-infinite';
+            bar.style.backgroundColor = design.singleBgColor || '#ffffff';
+            
+            const repeatedText = `<span class="announcement-text" style="color: ${design.textColor}">${content.title}</span>`.repeat(6);
+            
+            bar.innerHTML = `
+                <div class="marquee-container">
+                    <div class="marquee-content">${repeatedText}</div>
+                </div>
+                <div class="action-area" style="background-color: ${design.singleBgColor}">
+                    <a href="${content.buttonLink}" class="shop-btn-dark">${content.buttonText}</a>
+                    <div class="close-icon" onclick="closeBar('bar-1')">✕</div>
+                </div>
+            `;
+            parent.appendChild(bar);
+        }
+
+        // BAR 2: SIMPLE ANNOUNCE
+        function injectSimpleBar(parent, content, design) {
+            const bar = document.createElement('div');
+            bar.id = 'bar-2';
+            bar.className = 'bar-container simple-announcement-bar';
+            bar.style.backgroundColor = design.singleBgColor || '#eef2ff';
+            
+            bar.innerHTML = `
+                <div class="simple-content">
+                    <span style="color: ${design.textColor}; font-weight: 600;">${content.title}</span>
+                    <a href="${content.buttonLink}" class="shop-btn-dark">${content.buttonText}</a>
+                    <div class="close-icon" onclick="closeBar('bar-2')">✕</div>
+                </div>
+            `;
+            parent.appendChild(bar);
+        }
+
+        // BAR 3: MULTIPLE ANNOUNCE (Swiper)
+        function injectMultipleBar(parent, content, design) {
+            const bar = document.createElement('div');
+            bar.id = 'bar-3';
+            bar.className = 'bar-container announcement-slider-wrapper';
+            
+            bar.innerHTML = `
+                <div class="swiper-outer-container" style="background-color: ${design.singleBgColor}">
+                    <div class="swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide" style="color: ${design.textColor}">${content.title}</div>
+                            <div class="swiper-slide" style="color: ${design.textColor}">Check out our seasonal deals!</div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+            `;
+            parent.appendChild(bar);
+            
+            // Initialize Swiper after injection
+            const init = () => {
+                if (typeof Swiper !== 'undefined') {
+                    new Swiper('.swiper', {
+                        loop: true,
+                        autoplay: { delay: 4000 },
+                        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
+                    });
+                } else { setTimeout(init, 100); }
+            };
+            init();
+        }
+    })();
+
+    function closeBar(id) {
+        const bar = document.getElementById(id);
+        if (bar) {
+            bar.style.opacity = '0';
+            setTimeout(() => bar.remove(), 300);
+        }
+    }
+</script>
+
+{% schema %}
+{
+  "name": "Announcementbar Pro",
+  "target": "body",
+  "settings": []
+}
+{% endschema %}

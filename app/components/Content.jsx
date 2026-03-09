@@ -1,21 +1,14 @@
 import { useState } from "react";
 import { styles } from "../styles/appStyles1";
+import useStore from "../zustand/store";
 
-const Content = ({
-  announcementName,
-  title,
-  setAnnouncementName,
-  setTitle,
-}) => {
+const Content = ({}) => {
   const [announcementType, setAnnouncementType] = useState("simple");
 
   const [subheading, setSubheading] = useState("");
-  const [couponCode, setCouponCode] = useState("");
-  const [callToAction, setCallToAction] = useState("no_cta");
-  const [closeIcon, setCloseIcon] = useState(false);
-  const [startOption, setStartOption] = useState("right_now");
-  const [endOption, setEndOption] = useState("never");
-  const [showCombineBanner, setShowCombineBanner] = useState(true);
+
+  const { designSettings, updateDesign, content, updateContent } = useStore();
+
   return (
     <>
       {/* ── Announcement Type ── */}
@@ -27,8 +20,10 @@ const Content = ({
               label=""
               name="Announcement type"
               details=""
+              values={[content?.announcementType]}
               onChange={(event) =>
-                setAnnouncementType(event.currentTarget.values)
+                // setAnnouncementType(event.currentTarget.values)
+                updateContent("announcementType", event.currentTarget.values[0])
               }
             >
               <s-choice value="simple-announce">Simple announcement</s-choice>
@@ -54,17 +49,18 @@ const Content = ({
         {/* Announcement Name */}
         <s-text-field
           label="Announcement name"
-          value={announcementName}
+          value={content?.name}
+          details={"Only visible to you. For your own internal reference."}
           help-text="Only visible to you. For your own internal reference."
-          onInput={(e) => setAnnouncementName(e.target.value)}
+          onInput={(e) => updateContent("name", e.target.value)}
         />
 
         {/* Title */}
         <s-text-field
           label="Title"
-          value={title}
+          value={content?.title}
           multiline="2"
-          onInput={(e) => setTitle(e.target.value)}
+          onInput={(e) => updateContent("title", e.target.value)}
         />
 
         {/* Subheading */}
@@ -75,11 +71,11 @@ const Content = ({
         />
 
         {/* Coupon Code */}
-        <s-text-field
+        {/* <s-text-field
           label="Coupon code"
           value={couponCode}
           onInput={(e) => setCouponCode(e.target.value)}
-        />
+        /> */}
 
         {/* Icon — no Polaris component for icon picker, keep custom layout */}
         <div style={styles.fieldGroup}>
@@ -117,24 +113,43 @@ const Content = ({
 
       {/* ── Call to Action ── */}
       <div style={styles.section}>
-        <s-text variant="headingSm" as="h2" font-weight="semibold">
-          Call to action
-        </s-text>
+        <p style={styles.mainTitle}>Call to action</p>
 
-        <s-select
-          label="Date range"
-          value={callToAction}
-          onChange={(e) => setCallToAction(e.target.value)}
-        >
-          <s-option value="no_cta">No call to action</s-option>
-          <s-option value="button">Button</s-option>
-          <s-option value="link">Link</s-option>
-        </s-select>
+        <s-stack gap="base">
+          <s-select
+            label=""
+            value={content?.callToAction}
+            onChange={(e) => updateContent("callToAction", e.target.value)}
+          >
+            <s-option value="no_cta">No call to action</s-option>
+            <s-option value="button">Button</s-option>
+            <s-option value="link">Make entire bar clickable</s-option>
+          </s-select>
+
+          {/* Button Text  */}
+          {content?.callToAction === "button" && (
+            <s-text-field
+              label="Button Text"
+              value={content?.buttonText}
+              onInput={(e) => updateContent("buttonText", e.target.value)}
+            />
+          )}
+
+          {/* Link of button  */}
+
+          {content?.callToAction !== "no_cta" ? (
+            <s-text-field
+              label="Button Link"
+              value={content?.buttonLink}
+              onInput={(e) => updateContent("buttonLink", e.target.value)}
+            />
+          ) : null}
+        </s-stack>
 
         <s-checkbox
           label="Close icon"
-          checked={closeIcon}
-          onChange={(e) => setCloseIcon(e.target.checked)}
+          checked={content?.showCloseIcon}
+          onChange={(e) => updateContent("showCloseIcon", e.target.checked)}
         />
       </div>
 
@@ -143,10 +158,8 @@ const Content = ({
       {/* ── Scheduling ── */}
       <div style={styles.section}>
         <div style={styles.rowWithBadge}>
-          <s-text variant="headingSm" as="h2" font-weight="semibold">
-            Scheduling
-          </s-text>
-          <s-badge tone="info">Essential plan</s-badge>
+          <p style={styles.mainTitle}>Scheduling</p>
+          {/* <s-badge tone="info">Essential plan</s-badge> */}
         </div>
 
         {/* Starts */}
@@ -157,8 +170,10 @@ const Content = ({
           <s-choice-list
             label=""
             name="start"
-
-            // onChange={handleChange}
+            values={[content?.scheduleStart]}
+            onChange={(event) =>
+              updateContent("scheduleStart", event.currentTarget.values[0])
+            }
           >
             <s-choice value="right-now">Right now</s-choice>
             <s-choice value="start-date">Specific date</s-choice>
@@ -173,7 +188,10 @@ const Content = ({
           <s-choice-list
             label=""
             name="end"
-            // onChange={handleChange}
+            values={[content?.scheduleEnd]}
+            onChange={(event) =>
+              updateContent("scheduleEnd", event.currentTarget.values[0])
+            }
           >
             <s-choice value="never">Never</s-choice>
             <s-choice value="end-date">Specific date</s-choice>

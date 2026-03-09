@@ -1,20 +1,24 @@
 import { useState } from "react";
 
-import { styles } from "../styles/appStyles1";
+import RangeSlider from "react-range-slider-input";
+
+import useStore from "../zustand/store";
 import { Templates } from "../constant";
 import ColorPicker from "./ColorPicker";
 import PixelFieldInput from "./PixelFieldInput";
+import { styles } from "../styles/appStyles1";
 
-import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 
 const Design = () => {
-  const [position, setPosition] = useState("top-page");
-  const [template, setTemplate] = useState(1);
-  const [card, setCard] = useState("single-bg");
-  const [singleBgColor, setsingleBgColor] = useState("#dddddd");
+  // const [position, setPosition] = useState("top-page");
+  // const [template, setTemplate] = useState(1);
+  // const [card, setCard] = useState("single-bg");
+  // const [singleBgColor, setsingleBgColor] = useState("#dddddd");
 
-  const [value, setValue] = useState([0, 50]);
+  // const [value, setValue] = useState([0, 50]);
+
+  const { designSettings, updateDesign } = useStore();
 
   return (
     <>
@@ -22,8 +26,8 @@ const Design = () => {
         <s-stack>
           <s-select
             label="Positioning"
-            value={position}
-            onChange={(e) => setPosition(e.target.value)}
+            value={designSettings?.position}
+            onChange={(e) => updateDesign("position", e.target.value)}
           >
             <s-option value="top-page">Top page</s-option>
             <s-option value="bottom-page">Bottom page</s-option>
@@ -37,8 +41,8 @@ const Design = () => {
         <s-stack>
           <s-select
             label="Template"
-            value={template}
-            onChange={(e) => setTemplate(Number(e.target.value))}
+            value={designSettings?.template}
+            onChange={(e) => updateDesign("template", Number(e.target.value))}
           >
             {Templates.map((template) => (
               <s-option key={template.id} value={template.id}>
@@ -58,8 +62,10 @@ const Design = () => {
             label=""
             name="Card"
             details=""
-            values={[card]}
-            onChange={(event) => setCard(event.currentTarget.values[0])}
+            values={[designSettings?.cardBg]}
+            onChange={(event) =>
+              updateDesign("cardBg", event.currentTarget.values[0])
+            }
           >
             <s-choice value="single-bg">Single color background</s-choice>
             <s-choice value="gradient-bg">Gradient background</s-choice>
@@ -69,42 +75,47 @@ const Design = () => {
 
         <s-stack gap="base large">
           {/* Single Background card color  */}
-          {card === "single-bg" && (
+          {designSettings?.cardBg === "single-bg" && (
             <>
               <ColorPicker
                 label="Single background color"
-                color={singleBgColor}
-                onChange={setsingleBgColor}
+                color={designSettings?.singleBgColor}
+                onChange={(color) => updateDesign("singleBgColor", color)}
                 popoverId="single-bg-color-picker"
               />
             </>
           )}
 
-          <div style={{ display: card === "gradient-bg" ? "block" : "none" }}>
+          <div
+            style={{
+              display:
+                designSettings?.cardBg === "gradient-bg" ? "block" : "none",
+            }}
+          >
             <s-stack gap="base large">
               <s-stack gap="small">
                 <s-paragraph>Gradient angle degree</s-paragraph>
                 <RangeSlider
-                  value={value}
-                  onInput={setValue}
+                  value={designSettings?.gradientRange}
+                  onInput={(val) => updateDesign("gradientRange", val)}
                   thumbsDisabled={[true, false]}
                   rangeSlideDisabled={true}
                   min={0}
-                  max={100}
+                  max={360}
                 />
               </s-stack>
 
               <s-stack gap="small">
                 <ColorPicker
                   label=""
-                  color={singleBgColor}
-                  onChange={setsingleBgColor}
+                  color={designSettings?.gradeintColor1}
+                  onChange={(color) => updateDesign("gradeintColor1", color)}
                   popoverId="gradient-start-color-picker"
                 />
                 <ColorPicker
                   label=""
-                  color={singleBgColor}
-                  onChange={setsingleBgColor}
+                  color={designSettings?.gradeintColor2}
+                  onChange={(color) => updateDesign("gradeintColor2", color)}
                   popoverId="gradient-end-color-picker"
                 />
               </s-stack>
@@ -113,7 +124,7 @@ const Design = () => {
 
           {/* Image card Bg change and blur option  */}
           <s-stack gap="base large">
-            {card === "image-bg" && (
+            {designSettings?.cardBg === "image-bg" && (
               <>
                 <div style={styles.bgImageBoxContainer}>
                   <img
@@ -129,13 +140,19 @@ const Design = () => {
                         Change Image
                       </button>
                     </div>
-                    <s-checkbox label="Blur background" />
+                    <s-checkbox
+                      label="Blur background"
+                      value={designSettings?.blurBackground}
+                      onChange={(e) =>
+                        updateDesign("blurBackground", e.target.checked)
+                      }
+                    />
                   </div>
                 </div>
                 <ColorPicker
                   label="Background overlay color"
-                  color={singleBgColor}
-                  onChange={setsingleBgColor}
+                  color={designSettings?.singleBgColor}
+                  onChange={(color) => updateDesign("singleBgColor", color)}
                   popoverId="bg-overlay-color-picker"
                 />
               </>
@@ -148,7 +165,11 @@ const Design = () => {
               justifyContent="center"
             >
               <s-grid-item gridColumn="span 1">
-                <PixelFieldInput label="Corner radius" />
+                <PixelFieldInput
+                  label="Corner radius"
+                  value={designSettings?.cornerRadius}
+                  onChange={(value) => updateDesign("cornerRadius", value)}
+                />
               </s-grid-item>
               <s-grid-item gridColumn="span 2"></s-grid-item>
             </s-grid>
@@ -156,13 +177,16 @@ const Design = () => {
             {/* Border size and border color  */}
             <s-grid gridTemplateColumns="repeat(3, 1fr)" gap="small">
               <s-grid-item gridColumn="span 1">
-                <PixelFieldInput label="Border size" />
+                <PixelFieldInput
+                  label="Border size"
+                  onChange={(val) => updateDesign("borderSize", val)}
+                />
               </s-grid-item>
               <s-grid-item gridColumn="span 2">
                 <ColorPicker
                   label="Border color"
-                  color={singleBgColor}
-                  onChange={setsingleBgColor}
+                  color={designSettings?.borderColor}
+                  onChange={(color) => updateDesign("borderColor", color)}
                   popoverId="border-color-picker"
                 />
               </s-grid-item>
@@ -183,14 +207,18 @@ const Design = () => {
             <s-paragraph>Title size and color</s-paragraph>
             <s-grid gridTemplateColumns="repeat(3, 1fr)" gap="small">
               <s-grid-item gridColumn="span 1">
-                <PixelFieldInput label="" />
+                <PixelFieldInput
+                  label=""
+                  value={designSettings?.textSize}
+                  onChange={(val) => updateDesign("textSize", val)}
+                />
               </s-grid-item>
               <s-grid-item gridColumn="span 2">
                 <ColorPicker
                   label=""
-                  color={singleBgColor}
-                  onChange={setsingleBgColor}
-                  popoverId="border-color-picker"
+                  color={designSettings?.textColor}
+                  onChange={(color) => updateDesign("textColor", color)}
+                  popoverId="text-color-picker"
                 />
               </s-grid-item>
             </s-grid>
@@ -200,14 +228,18 @@ const Design = () => {
             <s-paragraph>Subheading size and color</s-paragraph>
             <s-grid gridTemplateColumns="repeat(3, 1fr)" gap="small">
               <s-grid-item gridColumn="span 1">
-                <PixelFieldInput label="" />
+                <PixelFieldInput
+                  label=""
+                  value={designSettings?.subheadingSize}
+                  onChange={(val) => updateDesign("subheadingSize", val)}
+                />
               </s-grid-item>
               <s-grid-item gridColumn="span 2">
                 <ColorPicker
                   label=""
-                  color={singleBgColor}
-                  onChange={setsingleBgColor}
-                  popoverId="border-color-picker"
+                  color={designSettings?.subheadingColor}
+                  onChange={(color) => updateDesign("subheadingColor", color)}
+                  popoverId="subheading-color-picker"
                 />
               </s-grid-item>
             </s-grid>
@@ -226,9 +258,9 @@ const Design = () => {
           <s-box>
             <ColorPicker
               label="Button color"
-              color={singleBgColor}
-              onChange={setsingleBgColor}
-              popoverId="border-color-picker"
+              color={designSettings?.btnColor}
+              onChange={(color) => updateDesign("btnColor", color)}
+              popoverId="btnBg-color-picker"
             />
           </s-box>
 
@@ -236,14 +268,18 @@ const Design = () => {
             <s-paragraph>Button text size and color</s-paragraph>
             <s-grid gridTemplateColumns="repeat(3, 1fr)" gap="small">
               <s-grid-item gridColumn="span 1">
-                <PixelFieldInput label="" />
+                <PixelFieldInput
+                  label=""
+                  value={designSettings?.btnTextSize}
+                  onChange={(val) => updateDesign("btnTextSize", val)}
+                />
               </s-grid-item>
               <s-grid-item gridColumn="span 2">
                 <ColorPicker
                   label=""
-                  color={singleBgColor}
-                  onChange={setsingleBgColor}
-                  popoverId="border-color-picker"
+                  color={designSettings?.btnTextColor}
+                  onChange={(color) => updateDesign("btnTextColor", color)}
+                  popoverId="btnText-color-picker"
                 />
               </s-grid-item>
             </s-grid>
@@ -255,7 +291,11 @@ const Design = () => {
             justifyContent="center"
           >
             <s-grid-item gridColumn="span 1">
-              <PixelFieldInput label="Corner radius" />
+              <PixelFieldInput
+                label="Corner radius"
+                value={designSettings?.btnRadius}
+                onChange={(val) => updateDesign("btnRadius", val)}
+              />
             </s-grid-item>
             <s-grid-item gridColumn="span 2"></s-grid-item>
           </s-grid>

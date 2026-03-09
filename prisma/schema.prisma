@@ -32,3 +32,13 @@ model Session {
   refreshToken        String?
   refreshTokenExpires DateTime?
 }
+
+model AnnSettings {
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  designSettings    String
+  content           String
+  shop              String
+  startDate         DateTime
+  endDate           DateTime?
+  createdAt         DateTime? @default(now())
+}

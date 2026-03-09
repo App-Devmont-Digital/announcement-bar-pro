@@ -198,31 +198,80 @@ export const styles = {
   rightPanel: {
     display: "flex",
     flexDirection: "column",
-    gap: "12px",
+    position: "sticky",
+    top: "5px",
   },
 
   previewBar: {
-    backgroundColor: "#ffffff",
-    border: "1px solid #e1e3e5",
-    borderRadius: "8px",
-    padding: "20px 24px",
-    textAlign: "center",
+    padding: "10px 16px",
+    position: "relative",
+  },
+  previewInnerWrapper: {
+    display: "flex",
+    alignItems: "center",
+    gap: "24px",
+    justifyContent: "center",
+  },
+  previewBarContent: {
+    display: "flex",
+    alignItems: "center",
+    gap: "24px",
+    justifyContent: "center",
+    position: "relative",
+  },
+  previewTextContent: {},
+  subHeading: {
+    margin: "0",
+    paddingTop: "2px",
+    lineHeight: "1.4",
+  },
+
+  previewText: {
+    margin: "0",
+    // flex: "1",
+    lineHeight: "1.2",
+    fontWeight: "bold",
+  },
+  previewButton: {
+    textDecoration: "none",
+    whiteSpace: "nowrap",
+    lineHeight: 1.5,
+  },
+  blurBackground: {
+    position: "absolute",
+    inset: "0px",
+    backgroundColor: " rgba(255, 255, 255, 0)",
+    backdropFilter: "blur(4px)",
+    pointerEvents: "none",
+  },
+  closeIcon: {
+    position: "relative",
+    border: 0,
+    outline: "none",
+    background: "none",
+    cursor: 'pointer'
   },
 
   /* Skeleton card */
   skeletonCard: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f6f6f7",
     border: "1px solid #e1e3e5",
-    borderRadius: "8px",
-    padding: "16px",
+    borderRadius: "0 0 4px 4px",
+    padding: "22px 24px",
     display: "flex",
-    gap: "14px",
-    alignItems: "flex-start",
+    flexDirection: "column",
+    gap: "36px",
+    border: "1px solid #f6f6f7",
+  },
+  boxGrid: {
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "20px",
   },
   skeletonThumb: {
-    width: "52px",
-    height: "52px",
-    borderRadius: "6px",
+    width: "120px",
+    height: "36px",
+    borderRadius: "4px",
     backgroundColor: "#e1e3e5",
     flexShrink: 0,
   },
@@ -319,15 +368,12 @@ export const styles = {
     flexDirection: "column",
     gap: "2px",
   },
-  colorPickerWrapper: {
-    
-  },
+  colorPickerWrapper: {},
   colorPicker: {
-   height: "33px",
-   width: "50px",
-   borderRadius: "4px",
-   cursor: "pointer",
-   
+    height: "33px",
+    width: "50px",
+    borderRadius: "4px",
+    cursor: "pointer",
   },
   bgImageBoxContainer: {
     display: "flex",
