@@ -16,11 +16,12 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
     width: 100%;
     display: flex;
     align-items: center;
+    padding: 10px;
   }
 
   /* 1. LINE ANNOUNCE (Marquee) Styles */
   .announcement-bar-infinite {
-    height: 55px;
+    /* height: 55px; */
     overflow: hidden;
     border-bottom: 1px solid #e5e7eb;
   }
@@ -66,7 +67,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
 
   /* 2. SIMPLE ANNOUNCE Styles */
   .simple-announcement-bar {
-    height: 50px;
+    /* height: 50px; */
     justify-content: center;
     /* border-bottom: 1px solid #e0e7ff; */
   }
@@ -74,7 +75,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
   .simple-content {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 28px;
   }
 
   /* 3. MULTIPLE ANNOUNCE (Swiper) Styles */
@@ -123,6 +124,16 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
   .close-icon {
     cursor: pointer;
     margin-left: 10px;
+  }
+  .title {
+    margin: 0;
+    line-height: 1.2;
+    font-weight: bold;
+  }
+  .sub-title {
+     margin: 0;
+    padding-top: 2px;
+    line-height: 1.4;
   }
 </style>
 
@@ -231,7 +242,10 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
             : `url("https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg") center center / cover`;
       bar.innerHTML = `
       <div class="simple-content">
-        <span style="color: ${design.textColor}; font-weight: 600;">${content.title}</span>
+        <div>
+        <h2 class="title" style="color: ${design.textColor}; font-size: ${design?.textSize + "px"}">${content?.title || ""}</h2>
+        ${content?.subheading ? `<p class="sub-title" style=" font-size: ${design?.subheadingSize + "px"}; color: ${design?.subheadingColor}">${content?.subheading}</p>` : ""}
+        </div>
         <a href="${content.buttonLink}" 
           class="btn-link" 
           style="

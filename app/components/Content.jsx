@@ -66,8 +66,8 @@ const Content = ({}) => {
         {/* Subheading */}
         <s-text-field
           label="Subheading"
-          value={subheading}
-          onInput={(e) => setSubheading(e.target.value)}
+          value={content?.subheading}
+          onInput={(e) => updateContent("subheading", e.target.value)}
         />
 
         {/* Coupon Code */}
