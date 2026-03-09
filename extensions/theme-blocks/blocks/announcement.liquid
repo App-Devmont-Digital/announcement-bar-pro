@@ -1,38 +1,129 @@
 {% comment %}
-  Public App Extension: Fully Dynamic JS-Injected Announcement Bars
+Public App Extension: Fully Dynamic JS-Injected Announcement Bars
 {% endcomment %}
 
 {{ 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css' | stylesheet_tag }}
 
 <style>
-    .app-extension-wrapper { width: 100%; position: relative; z-index: 999999; }
-    .bar-container { transition: all 0.3s ease; width: 100%; display: flex; align-items: center; }
+  .app-extension-wrapper {
+    width: 100%;
+    position: relative;
+    z-index: 999999;
+  }
 
-    /* 1. LINE ANNOUNCE (Marquee) Styles */
-    .announcement-bar-infinite { height: 55px; overflow: hidden; border-bottom: 1px solid #e5e7eb; }
-    .marquee-container { flex-grow: 1; overflow: hidden; display: flex; }
-    .marquee-content { display: flex; width: max-content; animation: scroll-text 25s linear infinite; }
-    @keyframes scroll-text { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-    .announcement-text { font-weight: 600; font-size: 15px; padding: 0 40px; white-space: nowrap; }
-    .action-area { flex-shrink: 0; padding: 0 20px; height: 100%; display: flex; align-items: center; z-index: 10; gap: 24px; }
+  .bar-container {
+    transition: all 0.3s ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
 
-    /* 2. SIMPLE ANNOUNCE Styles */
-    .simple-announcement-bar { height: 50px; justify-content: center; border-bottom: 1px solid #e0e7ff; }
-    .simple-content { display: flex; align-items: center; gap: 24px; }
+  /* 1. LINE ANNOUNCE (Marquee) Styles */
+  .announcement-bar-infinite {
+    height: 55px;
+    overflow: hidden;
+    border-bottom: 1px solid #e5e7eb;
+  }
 
-    /* 3. MULTIPLE ANNOUNCE (Swiper) Styles */
-    .announcement-slider-wrapper { margin: 10px auto; padding: 0 20px; }
-    .swiper-outer-container { 
-        border-radius: 12px; height: 60px; display: flex; align-items: center; 
-        border: 1px solid #e2e8f0; position: relative; overflow: hidden; width: 100%;
+  .marquee-container {
+    flex-grow: 1;
+    overflow: hidden;
+    display: flex;
+  }
+
+  .marquee-content {
+    display: flex;
+    width: max-content;
+    animation: scroll-text 25s linear infinite;
+  }
+
+  @keyframes scroll-text {
+    0% {
+      transform: translateX(0);
     }
-    .swiper-slide { display: flex; align-items: center; justify-content: center; font-size: 15px; padding: 0 40px; }
-    .swiper-button-next, .swiper-button-prev { color: #000 !important;  }
-    .swiper-button-next svg, .swiper-button-prev svg { width: 18px !important; height: 18px !important; }
 
-    /* Global UI */
-    .shop-btn-dark { background: #1a1a1a; color: #fff; padding: 8px 18px; border-radius: 4px; text-decoration: none; font-size: 13px; line-height: 1; }
-    .close-icon { cursor: pointer; color: #666; font-size: 18px; margin-left: 10px; }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .announcement-text {
+    font-weight: 600;
+    font-size: 15px;
+    padding: 0 40px;
+    white-space: nowrap;
+  }
+
+  .action-area {
+    flex-shrink: 0;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    gap: 24px;
+  }
+
+  /* 2. SIMPLE ANNOUNCE Styles */
+  .simple-announcement-bar {
+    height: 50px;
+    justify-content: center;
+    /* border-bottom: 1px solid #e0e7ff; */
+  }
+
+  .simple-content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  /* 3. MULTIPLE ANNOUNCE (Swiper) Styles */
+  .announcement-slider-wrapper {
+    margin: 6px auto;
+    padding: 0 20px;
+  }
+
+  .swiper-outer-container {
+    /* border-radius: 12px; */
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    /* border: 1px solid #e2e8f0; */
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    padding: 0 40px;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: #000 !important;
+  }
+
+  .swiper-button-next svg,
+  .swiper-button-prev svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  /* Global UI */
+  .btn-link {
+    white-space: nowrap;
+    
+    line-height: 1.5;
+  }
+
+  .close-icon {
+    cursor: pointer;
+    margin-left: 10px;
+  }
 </style>
 
 <div id="AppAnnouncementRoot" class="app-extension-wrapper"></div>
@@ -40,127 +131,204 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js" defer></script>
 
 <script>
-    (function() {
-        const shop = "{{ shop.permanent_domain }}";
-        const apiUrl = `https://contributing-albuquerque-expired-those.trycloudflare.com/api/announcement?shop=${shop}`;
+  (function () {
+    const shop = "{{ shop.permanent_domain }}";
+    const apiUrl = `https://contributing-albuquerque-expired-those.trycloudflare.com/api/announcement?shop=${shop}`;
 
-        fetch(apiUrl)
-            .then(res => res.json())
-            .then(response => {
-                if (!response.data || response.data.length === 0) return;
+    fetch(apiUrl)
+      .then(res => res.json())
+      .then(response => {
+        if (!response.data || response.data.length === 0) return;
 
-                const data = response.data[0];
-                const design = JSON.parse(data.designSettings);
-                const content = JSON.parse(data.content);
-                const root = document.getElementById('AppAnnouncementRoot');
+        const root = document.getElementById('AppAnnouncementRoot');
 
-                // Set Position
-                if (design.position === 'top-page') {
-                    document.body.prepend(root);
-                } else {
-                    document.body.appendChild(root);
-                }
+        // LOOP through the data array instead of taking only the first object
+        response.data.forEach((item) => {
+          const design = JSON.parse(item.designSettings);
+          const content = JSON.parse(item.content);
 
-                // Route to Injection Function based on Type
-                switch(content.announcementType) {
-                    case 'line-announce':
-                        injectLineBar(root, content, design);
-                        break;
-                    case 'simple-announce':
-                        injectSimpleBar(root, content, design);
-                        break;
-                    case 'multiple-announce':
-                        injectMultipleBar(root, content, design);
-                        break;
-                }
-            })
-            .catch(err => console.error("App Logic Error:", err));
+          // Determine Position (using first item's preference or global logic)
+          if (design.position === 'top-page') {
+            document.body.prepend(root);
+          } else {
+            document.body.appendChild(root);
+          }
 
-        // BAR 1: LINE ANNOUNCE (Marquee)
-        function injectLineBar(parent, content, design) {
-            const bar = document.createElement('div');
-            bar.id = 'bar-1';
-            bar.className = 'bar-container announcement-bar-infinite';
-            bar.style.backgroundColor = design.singleBgColor || '#ffffff';
-            
-            const repeatedText = `<span class="announcement-text" style="color: ${design.textColor}">${content.title}</span>`.repeat(6);
-            
-            bar.innerHTML = `
-                <div class="marquee-container">
-                    <div class="marquee-content">${repeatedText}</div>
-                </div>
-                <div class="action-area" style="background-color: ${design.singleBgColor}">
-                    <a href="${content.buttonLink}" class="shop-btn-dark">${content.buttonText}</a>
-                    <div class="close-icon" onclick="closeBar('bar-1')">✕</div>
-                </div>
-            `;
-            parent.appendChild(bar);
-        }
+          // Pass the unique item.id to the injection functions
+          switch (content.announcementType) {
+            case 'line-announce':
+              injectLineBar(root, content, design, item.id);
+              break;
+            case 'simple-announce':
+              injectSimpleBar(root, content, design, item.id);
+              break;
+            case 'multiple-announce':
+              injectMultipleBar(root, content, design, item.id);
+              break;
+          }
+        });
+      })
+      .catch(err => console.error("App Logic Error:", err));
 
-        // BAR 2: SIMPLE ANNOUNCE
-        function injectSimpleBar(parent, content, design) {
-            const bar = document.createElement('div');
-            bar.id = 'bar-2';
-            bar.className = 'bar-container simple-announcement-bar';
-            bar.style.backgroundColor = design.singleBgColor || '#eef2ff';
-            
-            bar.innerHTML = `
-                <div class="simple-content">
-                    <span style="color: ${design.textColor}; font-weight: 600;">${content.title}</span>
-                    <a href="${content.buttonLink}" class="shop-btn-dark">${content.buttonText}</a>
-                    <div class="close-icon" onclick="closeBar('bar-2')">✕</div>
-                </div>
-            `;
-            parent.appendChild(bar);
-        }
+    // --- UPDATED INJECTION FUNCTIONS (Added id parameter) ---
 
-        // BAR 3: MULTIPLE ANNOUNCE (Swiper)
-        function injectMultipleBar(parent, content, design) {
-            const bar = document.createElement('div');
-            bar.id = 'bar-3';
-            bar.className = 'bar-container announcement-slider-wrapper';
-            
-            bar.innerHTML = `
-                <div class="swiper-outer-container" style="background-color: ${design.singleBgColor}">
-                    <div class="swiper">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide" style="color: ${design.textColor}">${content.title}</div>
-                            <div class="swiper-slide" style="color: ${design.textColor}">Check out our seasonal deals!</div>
-                        </div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div>
-                </div>
-            `;
-            parent.appendChild(bar);
-            
-            // Initialize Swiper after injection
-            const init = () => {
-                if (typeof Swiper !== 'undefined') {
-                    new Swiper('.swiper', {
-                        loop: true,
-                        autoplay: { delay: 4000 },
-                        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
-                    });
-                } else { setTimeout(init, 100); }
-            };
-            init();
-        }
-    })();
-
-    function closeBar(id) {
-        const bar = document.getElementById(id);
-        if (bar) {
-            bar.style.opacity = '0';
-            setTimeout(() => bar.remove(), 300);
-        }
+    function injectLineBar(parent, content, design, id) {
+      let cardBg = design?.cardBg;
+      const bar = document.createElement('div');
+      bar.id = `bar-line-${id}`;
+      bar.className = 'bar-container announcement-bar-infinite';
+      // bar.style.backgroundColor = design.singleBgColor || '#ffffff';
+      bar.style.border = `${design?.borderSize}px solid ${design?.borderColor}`;
+      bar.style.borderRadius = `${design?.cornerRadius}px`;
+      bar.style.background =
+        cardBg === "single-bg"
+          ? design?.singleBgColor
+          : cardBg === "gradient-bg"
+            ? `linear-gradient(${design?.gradientRange[1]}deg, ${design?.gradeintColor1}, ${design?.gradeintColor2}`
+            : `url("https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg") center center / cover`;
+      bar.innerHTML = `
+      <div class="marquee-container">
+        <div class="marquee-content">${`<span class="announcement-text" style="color: ${design?.textColor}">${content.title}</span>`.repeat(6)}</div>
+      </div>
+      <div class="action-area" style="background-color: ${design?.singleBgColor}">
+        <a href="${content.buttonLink}" 
+          class="shop-btn-dark btn-link" 
+          style="
+            color: ${design.btnTextColor};
+            background-color: ${design.btnColor};
+            padding: 8px 16px;
+            border-radius: ${design.btnRadius}px;
+            border: 0;
+            font-size: ${design.btnTextSize}px;
+            text-decoration: none;
+            display: inline-block;
+          ">
+          ${content.buttonText}
+        </a>
+        <div class="close-icon" onclick="closeBar('bar-line-${id}')">
+           <svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="m7.414 6 4.293-4.293A.999.999 0 1 0 10.293.293L6 4.586 1.707.293A.999.999 0 1 0 .293 1.707L4.586 6 .293 10.293a.999.999 0 1 0 1.414 1.414L6 7.414l4.293 4.293a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414L7.414 6Z" fill=${design?.textColor}></path>
+            </svg>
+        </div>
+      </div>
+    `;
+      parent.appendChild(bar);
     }
+
+    function injectSimpleBar(parent, content, design, id) {
+      let cardBg = design?.cardBg;
+      const bar = document.createElement('div');
+      bar.id = `bar-simple-${id}`;
+      bar.className = 'bar-container simple-announcement-bar';
+      // bar.style.backgroundColor = design.singleBgColor || '#eef2ff';
+      bar.style.border= `${design?.borderSize}px solid ${design?.borderColor}`;
+      bar.style.borderRadius = `${design?.cornerRadius}px`;
+      bar.style.background =
+        cardBg === "single-bg"
+          ? design?.singleBgColor
+          : cardBg === "gradient-bg"
+            ? `linear-gradient(${design?.gradientRange[1]}deg, ${design?.gradeintColor1}, ${design?.gradeintColor2}`
+            : `url("https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg") center center / cover`;
+      bar.innerHTML = `
+      <div class="simple-content">
+        <span style="color: ${design.textColor}; font-weight: 600;">${content.title}</span>
+        <a href="${content.buttonLink}" 
+          class="btn-link" 
+          style="
+            color: ${design.btnTextColor};
+            background-color: ${design.btnColor};
+            padding: 8px 16px;
+            border-radius: ${design.btnRadius}px;
+            border: 0;
+            font-size: ${design.btnTextSize}px;
+            text-decoration: none;
+            display: inline-block;
+          ">
+          ${content.buttonText}
+        </a>
+        <div class="close-icon" onclick="closeBar('bar-simple-${id}')"><svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="m7.414 6 4.293-4.293A.999.999 0 1 0 10.293.293L6 4.586 1.707.293A.999.999 0 1 0 .293 1.707L4.586 6 .293 10.293a.999.999 0 1 0 1.414 1.414L6 7.414l4.293 4.293a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414L7.414 6Z" fill=${design?.textColor}></path>
+            </svg></div>
+      </div>
+    `;
+      parent.appendChild(bar);
+    }
+
+    function injectMultipleBar(parent, content, design, id) {
+      let cardBg = design?.cardBg;
+
+      const bar = document.createElement('div');
+      bar.id = `bar-slider-${id}`; // Unique ID
+      bar.className = 'bar-container announcement-slider-wrapper';
+      bar.innerHTML = `
+      <div class="swiper-outer-container" style="background: ${cardBg === "single-bg"
+          ? design?.singleBgColor
+          : cardBg === "gradient-bg"
+            ? `linear-gradient(${design?.gradientRange[1]}deg, ${design?.gradeintColor1}, ${design?.gradeintColor2})`
+            : `url("https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg") center center / cover`}; 
+            border: ${design?.borderSize}px solid ${design?.borderColor}; border-radius: ${design?.cornerRadius}px;">
+        <div class="swiper swiper-${id}">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide" style="color: ${design.textColor}">${content.title} 
+                <div class="action-area">
+                <a href="${content.buttonLink}" 
+                  class="shop-btn-dark btn-link" 
+                  style="
+                    color: ${design.btnTextColor};
+                    background-color: ${design.btnColor};
+                    padding: 8px 16px;
+                    border-radius: ${design.btnRadius}px;
+                    border: 0;
+                    font-size: ${design.btnTextSize}px;
+                    text-decoration: none;
+                    display: inline-block;
+                  ">
+                  ${content.buttonText}
+                </a>
+               <svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="m7.414 6 4.293-4.293A.999.999 0 1 0 10.293.293L6 4.586 1.707.293A.999.999 0 1 0 .293 1.707L4.586 6 .293 10.293a.999.999 0 1 0 1.414 1.414L6 7.414l4.293 4.293a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414L7.414 6Z" fill=${design?.textColor}></path>
+                </svg>
+            </div>
+            </div>
+            <div class="swiper-slide" style="color: ${design.textColor}">Check out our seasonal deals!</div>
+          </div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
+    `;
+      parent.appendChild(bar);
+
+      // Initialize THIS specific swiper instance
+      const init = () => {
+        if (typeof Swiper !== 'undefined') {
+          new Swiper(`.swiper-${id}`, {
+            loop: true,
+            autoplay: { delay: 4000 },
+            navigation: {
+              nextEl: bar.querySelector('.swiper-button-next'),
+              prevEl: bar.querySelector('.swiper-button-prev')
+            }
+          });
+        } else { setTimeout(init, 100); }
+      };
+      init();
+    }
+  })();
+
+  function closeBar(id) {
+    const bar = document.getElementById(id);
+    if (bar) {
+      bar.style.opacity = '0';
+      setTimeout(() => bar.remove(), 300);
+    }
+  }
 </script>
 
 {% schema %}
 {
-  "name": "Announcementbar Pro",
-  "target": "body",
-  "settings": []
+"name": "Announcementbar Pro",
+"target": "body",
+"settings": []
 }
 {% endschema %}
