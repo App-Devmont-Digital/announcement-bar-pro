@@ -4,6 +4,13 @@ import useStore from "../zustand/store";
 
 const Placement = () => {
   const { setPlacement, placement } = useStore();
+
+  const handleSelectProducts = async () => {
+    const selected = await shopify.resourcePicker({type: 'product' ,multiple: true});
+   
+    console.log({selected});
+    
+  }
   return (
     <div style={styles.section}>
       <s-stack gap="large">
@@ -27,6 +34,10 @@ const Placement = () => {
             <s-choice value="specific-products">Specific product pages</s-choice>
           </s-choice-list>
         </s-stack>
+
+        <s-box>
+          <s-button onClick={handleSelectProducts}>Select Products</s-button>
+        </s-box>
 
         <s-box>
           <s-heading>Geolocation targeting</s-heading>

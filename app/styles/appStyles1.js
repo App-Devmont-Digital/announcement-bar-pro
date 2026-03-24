@@ -249,7 +249,7 @@ export const styles = {
     border: 0,
     outline: "none",
     background: "none",
-    cursor: 'pointer'
+    cursor: "pointer",
   },
 
   /* Skeleton card */
@@ -409,5 +409,44 @@ export const styles = {
     right: 0,
     opacity: 0,
     cursor: "pointer",
+  },
+  statNumberStyle: {
+    fontSize: "1.3rem",
+    fontWeight: "700",
+    lineHeight: "1.2",
+    margin: "0",
+    color: "#000",
+    marginTop: "0.3rem",
+    paddingLeft: "4px",
+  },
+
+  emptyStateStyle: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "3rem",
+    gap: "1rem",
+    textAlign: "center",
+  },
+
+  emptyIconStyle: {
+    width: "60px",
+    height: "60px",
+    color: "#000",
+  },
+
+  emptyTitleStyle: {
+    fontSize: "18px",
+    fontWeight: "600",
+    margin: "0",
+    paddingBottom:'0.3rem',
+    color: "#000",
+  },
+
+  emptySubtitleStyle: {
+    fontSize: "0.875rem",
+    margin: "0",
+    color: "#000",
   },
 };
