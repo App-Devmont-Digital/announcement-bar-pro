@@ -48,6 +48,30 @@ const useStore = create((set) => ({
     exclude_templates: ["page.contact"],
   },
 
+  // Now an Array of announcement objects
+  multiContent: [
+    {
+      id: crypto.randomUUID(), // Unique ID for keying
+      title: "Enjoy a 20% discount!",
+      subheading: "",
+      icon: "",
+      callToAction: "button",
+      showCloseIcon: false,
+      buttonText: "Shop Now!",
+      buttonLink: "#",
+    },
+    {
+      id: crypto.randomUUID(), // Unique ID for keying
+      title: "Enjoy a 20% discount!",
+      subheading: "",
+      icon: "",
+      callToAction: "button",
+      showCloseIcon: false,
+      buttonText: "Shop Now!",
+      buttonLink: "#",
+    },
+  ],
+
   // Action to update a specific field inside designSettings
   updateContent: (field, value) =>
     set((state) => ({
@@ -68,6 +92,39 @@ const useStore = create((set) => ({
 
   setPlacement: (value) => set({ placement: value }),
   setPlacementRules: (rules) => set({ placementRules: rules }),
+
+  // Actions for multi update contents
+
+  // Update a specific field for a specific announcement index
+  updateContentAt: (index, field, value) =>
+    set((state) => {
+      const newContents = [...state.multiContent];
+      newContents[index] = { ...newContents[index], [field]: value };
+      return { multiContent: newContents };
+    }),
+
+  addContent: () =>
+    set((state) => ({
+      multiContent: [
+        ...state.multiContent,
+        {
+          id: crypto.randomUUID(), // Unique ID for keying
+          title: "Enjoy a 20% discount!",
+          subheading: "",
+          icon: "",
+          callToAction: "button",
+          showCloseIcon: false,
+          buttonText: "Shop Now!",
+          buttonLink: "#",
+        },
+      ],
+    })),
+
+  // Remove an announcement
+  removeContent: (index) =>
+    set((state) => ({
+      multiContent: state.multiContent?.filter((_, i) => i !== index),
+    })),
 
   setAll: (data) =>
     set({

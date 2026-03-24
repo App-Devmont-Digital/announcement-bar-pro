@@ -200,10 +200,11 @@ export const styles = {
     flexDirection: "column",
     position: "sticky",
     top: "5px",
+    overflow: 'hidden'
   },
 
   previewBar: {
-    padding: "10px 16px",
+    // padding: "10px 16px",
     position: "relative",
   },
   previewInnerWrapper: {
@@ -218,6 +219,7 @@ export const styles = {
     gap: "24px",
     justifyContent: "center",
     position: "relative",
+    overflow: 'hidden'
   },
   previewTextContent: {},
   subHeading: {

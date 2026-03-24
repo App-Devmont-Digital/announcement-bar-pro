@@ -37,6 +37,7 @@ model AnnSettings {
   id                String    @id @default(auto()) @map("_id") @db.ObjectId
   designSettings    String
   content           String
+  multiContent      String
   shop              String
   startDate         DateTime
   endDate           DateTime?
