@@ -33,7 +33,7 @@ const AddMultiAnnouncement = () => {
         <div key={item.id} style={styles.section}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <p style={styles.mainTitle}>Announcement {index + 1}</p>
-            {index > 1 && (
+            {multiContent?.length > 2 && (
               <s-button tone="critical" onClick={() => removeContent(index)}>
                 Remove
               </s-button>
@@ -51,7 +51,7 @@ const AddMultiAnnouncement = () => {
           {/* Subheading */}
           <s-text-field
             label="Subheading"
-            value={content?.subheading}
+            value={item?.subheading}
             onInput={(e) => updateContentAt(index, "subheading", e.target.value)}
           />
 
@@ -88,7 +88,7 @@ const AddMultiAnnouncement = () => {
 
           {/* Call to Action Select */}
           <s-select
-            value={item.callToAction}
+            value={item?.callToAction}
             onChange={(e) =>
               updateContentAt(index, "callToAction", e.target.value)
             }
@@ -98,7 +98,7 @@ const AddMultiAnnouncement = () => {
             <s-option value="link">Make entire bar clickable</s-option>
           </s-select>
 
-          {item.callToAction === "button" && (
+          {item?.callToAction === "button" && (
             <s-text-field
               label="Button Text"
               value={item.buttonText}

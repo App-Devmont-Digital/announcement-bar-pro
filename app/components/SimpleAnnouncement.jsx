@@ -42,20 +42,22 @@ const SimpleAnnouncement = () => {
         </div>
 
         {/* ========= Button Preview ========== */}
-        <a
-          href={content?.buttonLink}
-          style={{
-            ...styles.previewButton,
-            color: btnTextColor,
-            backgroundColor: btnColor,
-            padding: "8px 16px",
-            borderRadius: btnRadius + "px",
-            border: "0",
-            fontSize: btnTextSize + "px",
-          }}
-        >
-          {content?.buttonText}
-        </a>
+        {content?.callToAction === "button" && (
+          <a
+            href={content?.buttonLink}
+            style={{
+              ...styles.previewButton,
+              color: btnTextColor,
+              backgroundColor: btnColor,
+              padding: "8px 16px",
+              borderRadius: btnRadius + "px",
+              border: "0",
+              fontSize: btnTextSize + "px",
+            }}
+          >
+            {content?.buttonText}
+          </a>
+        )}
       </div>
 
       {/* Close icon button  */}

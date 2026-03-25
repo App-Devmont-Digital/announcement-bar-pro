@@ -46,7 +46,7 @@ export const action = async ({ request }) => {
 
     if (!rawData) return { error: "No data provided" };
 
-    const { designSettings, content, placement, placementRules } =
+    const { designSettings, content, placement, placementRules, multiContent } =
       JSON.parse(rawData);
 
     const dataPayload = {
@@ -54,6 +54,7 @@ export const action = async ({ request }) => {
       content: JSON.stringify({ ...content, placement, placementRules }),
       startDate: new Date().toISOString(),
       endDate: new Date("2099-12-31").toISOString(),
+      multiContent: JSON.stringify(multiContent),
     };
 
     // Upsert: Updates the record if it exists for this shop, otherwise creates it
@@ -96,6 +97,8 @@ export default function Index() {
     placement,
     setPlacementRules,
     setPlacement,
+    multiContent,
+    updateContentAt,
   } = useStore();
 
   const isLoading = ["loading", "submitting"].includes(fetcher.state);
@@ -116,16 +119,21 @@ export default function Index() {
   useEffect(() => {
     if (announcement) {
       let parseData = JSON.parse(announcement?.content);
-
-      console.log({ parseData });
+      let multiContent = JSON.parse(announcement?.multiContent);
 
       setAll(announcement);
       setPlacementRules(parseData?.placementRules);
       setPlacement(parseData?.placement);
+
+      if (multiContent) {
+        multiContent?.forEach((obj, index) => {
+          Object.keys(obj).forEach((key) => {
+            updateContentAt(index, key, obj[key]);
+          });
+        });
+      }
     }
   }, [announcement]);
-
-  console.log({ isLoading }, fetcher, "===============");
 
   const handleSave = () => {
     // We send the data as a JSON string under a 'data' key
@@ -137,13 +145,12 @@ export default function Index() {
           content,
           placement,
           placementRules,
+          multiContent,
         }),
       },
       { method: "POST" },
     );
   };
-
-  console.log({ content });
 
   const {
     cardBg,
@@ -178,7 +185,7 @@ export default function Index() {
     }
   };
 
-  console.log({ announcement });
+  console.log({ announcement, multiContent });
 
   return (
     <s-page>
@@ -250,7 +257,10 @@ export default function Index() {
                       : `url("https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg") center center / cover`,
                 border: `${borderSize}px solid ${borderColor}`,
                 borderRadius: `${cornerRadius}px`,
-                 padding: content?.announcementType === 'multiple-announce' ? '10px 0px' : "10px 16px",
+                padding:
+                  content?.announcementType === "multiple-announce"
+                    ? "10px 0px"
+                    : "10px 16px",
               }}
             >
               {/* ===== Blur Backround Feature ===== */}

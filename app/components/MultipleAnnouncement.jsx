@@ -10,7 +10,7 @@ import useStore from "../zustand/store";
 import { styles } from "../styles/appStyles1";
 
 const MultipleAnnouncement = () => {
-  const { designSettings, content } = useStore();
+  const { designSettings, content, multiContent } = useStore();
 
   const {
     textSize,
@@ -26,98 +26,66 @@ const MultipleAnnouncement = () => {
   return (
     <div>
       <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
-        <SwiperSlide>
-          <div
-            style={{
-              ...styles.previewInnerWrapper,
-              paddingLeft: "30px",
-              paddingRight: "30px",
-            }}
-          >
-            <div style={styles.previewBarContent}>
-              <div style={styles.previewTextContent}>
-                {/* ======== Heading of Preview Text =========== */}
-                <h2
+        {multiContent?.length
+          ? multiContent?.map((item) => (
+              <SwiperSlide key={item?.id}>
+                <div
                   style={{
-                    ...styles.previewText,
-                    color: textColor,
-                    fontSize: textSize + "px",
+                    ...styles.previewInnerWrapper,
+                    paddingLeft: "30px",
+                    paddingRight: "30px",
                   }}
                 >
-                  {content?.title ||
-                    "Enjoy a 20% discount on all our products!"}
-                </h2>
-                {/* Subheading content  */}
-                <p
-                  style={{
-                    ...styles.subHeading,
-                    fontSize: subheadingSize + "px",
-                    color: subheadingColor,
-                  }}
-                >
-                  {content?.subheading}
-                </p>
-              </div>
+                  <div style={styles.previewBarContent}>
+                    <div style={styles.previewTextContent}>
+                      {/* ======== Heading of Preview Text =========== */}
+                      <h2
+                        style={{
+                          ...styles.previewText,
+                          color: textColor,
+                          fontSize: textSize + "px",
+                        }}
+                      >
+                        {item?.title ||
+                          "Enjoy a 20% discount on all our products!"}
+                      </h2>
+                      {/* Subheading content  */}
+                      {item?.subheading && (
+                        <p
+                          style={{
+                            ...styles.subHeading,
+                            fontSize: subheadingSize + "px",
+                            color: subheadingColor,
+                          }}
+                        >
+                          {item?.subheading}
+                        </p>
+                      )}
+                    </div>
 
-              {/* ========= Button Preview ========== */}
-              <a
-                href={content?.buttonLink}
-                style={{
-                  ...styles.previewButton,
-                  color: btnTextColor,
-                  backgroundColor: btnColor,
-                  padding: "8px 16px",
-                  borderRadius: btnRadius + "px",
-                  border: "0",
-                  fontSize: btnTextSize + "px",
-                }}
-              >
-                {content?.buttonText}
-              </a>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div
-            style={{
-              ...styles.previewInnerWrapper,
-              paddingLeft: "30px",
-              paddingRight: "30px",
-            }}
-          >
-            <div style={styles.previewBarContent}>
-              <div style={styles.previewTextContent}>
-                {/* ======== Heading of Preview Text =========== */}
-                <h2
-                  style={{
-                    ...styles.previewText,
-                    color: textColor,
-                    fontSize: textSize + "px",
-                  }}
-                >
-                  {content?.title ||
-                    "Enjoy a 20% discount on all our products!"}
-                </h2>
-              </div>
+                    {/* ========= Button Preview ========== */}
 
-              {/* ========= Button Preview ========== */}
-              <a
-                href={content?.buttonLink}
-                style={{
-                  ...styles.previewButton,
-                  color: btnTextColor,
-                  backgroundColor: btnColor,
-                  padding: "8px 16px",
-                  borderRadius: btnRadius + "px",
-                  border: "0",
-                  fontSize: btnTextSize + "px",
-                }}
-              >
-                {content?.buttonText}
-              </a>
-            </div>
-          </div>
-        </SwiperSlide>
+                    {item?.callToAction === "button" && (
+                      <a
+                        href={item?.buttonLink || "#"}
+                        style={{
+                          ...styles.previewButton,
+                          color: btnTextColor,
+                          backgroundColor: btnColor,
+                          padding: "8px 16px",
+                          borderRadius: btnRadius + "px",
+                          border: "0",
+                          fontSize: btnTextSize + "px",
+                        }}
+                      >
+                        {item?.buttonText || "Shop Now!"}
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))
+          : null}
       </Swiper>
     </div>
   );
