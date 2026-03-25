@@ -40,3 +40,14 @@ export const Templates = [
     name: "Bubble Gum",
   },
 ];
+
+
+export const PAGES = [
+  {label: 'Home', value: 'home'},
+  {label: 'Collections', value: 'collections'},
+  {label: 'All product pages', value: 'all-products'},
+  {label: 'Blogs', value: 'blogs'},
+  {label: 'Cart', value: 'cart'},
+  {label: 'Search', value: 'search'},
+  {label: '404', value: '404'},
+]

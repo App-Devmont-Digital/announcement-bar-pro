@@ -44,8 +44,8 @@ const useStore = create((set) => ({
 
   placement: "every",
   placementRules: {
-    include_templates: ["index", "product"],
-    exclude_templates: ["page.contact"],
+    include_templates: [],
+    exclude_templates: [],
   },
 
   // Now an Array of announcement objects

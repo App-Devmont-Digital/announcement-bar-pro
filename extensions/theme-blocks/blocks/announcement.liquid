@@ -144,6 +144,14 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
 <script>
   (function () {
     const shop = "{{ shop.permanent_domain }}";
+    const pageInfo = {
+    pageType: "{{ template.name }}",  // e.g., 'index', 'product', 'collection'
+    productId: {% if template.name == 'product' %}{{ product.id }}{% else %}null{% endif %},
+    pageHandle: {% if template.name == 'page' %}"{{ page.handle }}"{% else %}null{% endif %}
+  };
+
+  console.log("Page info:", {pageInfo});
+
     const apiUrl = `https://should-comparable-stress-adrian.trycloudflare.com/api/announcement?shop=${shop}`;
 
     fetch(apiUrl)
