@@ -73,7 +73,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
   }
 
   .simple-content {
-    display: flex;
+    display: flex !important;
     align-items: center;
     gap: 28px;
   }
@@ -144,7 +144,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
 <script>
   (function () {
     const shop = "{{ shop.permanent_domain }}";
-    const apiUrl = `https://building-exist-ratio-spiritual.trycloudflare.com/api/announcement?shop=${shop}`;
+    const apiUrl = `https://should-comparable-stress-adrian.trycloudflare.com/api/announcement?shop=${shop}`;
 
     fetch(apiUrl)
       .then(res => res.json())
@@ -155,8 +155,9 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
 
         // LOOP through the data array instead of taking only the first object
         response.data.forEach((item) => {
-          const design = JSON.parse(item.designSettings);
-          const content = JSON.parse(item.content);
+          const design = JSON.parse(item?.designSettings);
+          const content = JSON.parse(item?.content);
+          const multiContent = JSON.parse(item?.multiContent);
 
           // Determine Position (using first item's preference or global logic)
           if (design.position === 'top-page') {
@@ -174,7 +175,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
               injectSimpleBar(root, content, design, item.id);
               break;
             case 'multiple-announce':
-              injectMultipleBar(root, content, design, item.id);
+              injectMultipleBar(root, multiContent, design, item.id);
               break;
           }
         });
@@ -201,7 +202,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
       <div class="marquee-container">
         <div class="marquee-content">${`<span class="announcement-text" style="color: ${design?.textColor}">${content.title}</span>`.repeat(6)}</div>
       </div>
-      <div class="action-area" style="background-color: ${design?.singleBgColor}">
+      <div class="action-area">
         <a href="${content.buttonLink}" 
           class="shop-btn-dark btn-link" 
           style="
@@ -216,7 +217,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
           ">
           ${content.buttonText}
         </a>
-        <div class="close-icon" onclick="closeBar('bar-line-${id}')">
+        <div class="close-icon">
            <svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="m7.414 6 4.293-4.293A.999.999 0 1 0 10.293.293L6 4.586 1.707.293A.999.999 0 1 0 .293 1.707L4.586 6 .293 10.293a.999.999 0 1 0 1.414 1.414L6 7.414l4.293 4.293a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414L7.414 6Z" fill=${design?.textColor}></path>
             </svg>
@@ -224,6 +225,14 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
       </div>
     `;
       parent.appendChild(bar);
+      const closeIcon = bar.querySelector('.close-icon');
+      if (closeIcon) {
+          closeIcon.addEventListener('click', function(event) {
+          event.stopPropagation();  // stop bubbling to link
+          event.preventDefault();
+          closeBar(`bar-line-${id}`);
+        });
+      }
     }
 
     function injectSimpleBar(parent, content, design, id) {
@@ -240,36 +249,108 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
           : cardBg === "gradient-bg"
             ? `linear-gradient(${design?.gradientRange[1]}deg, ${design?.gradeintColor1}, ${design?.gradeintColor2}`
             : `url("https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg") center center / cover`;
+       
+       // 🔥 Decide tag: <a> if link, else <div>
+      const Tag = content?.callToAction === "link" ? "a" : "div";
+     
       bar.innerHTML = `
-      <div class="simple-content">
-        <div>
-        <h2 class="title" style="color: ${design.textColor}; font-size: ${design?.textSize + "px"}">${content?.title || ""}</h2>
-        ${content?.subheading ? `<p class="sub-title" style=" font-size: ${design?.subheadingSize + "px"}; color: ${design?.subheadingColor}">${content?.subheading}</p>` : ""}
-        </div>
-        <a href="${content.buttonLink}" 
-          class="btn-link" 
-          style="
-            color: ${design.btnTextColor};
-            background-color: ${design.btnColor};
-            padding: 8px 16px;
-            border-radius: ${design.btnRadius}px;
-            border: 0;
-            font-size: ${design.btnTextSize}px;
-            text-decoration: none;
-            display: inline-block;
-          ">
-          ${content.buttonText}
-        </a>
-        <div class="close-icon" onclick="closeBar('bar-simple-${id}')"><svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="m7.414 6 4.293-4.293A.999.999 0 1 0 10.293.293L6 4.586 1.707.293A.999.999 0 1 0 .293 1.707L4.586 6 .293 10.293a.999.999 0 1 0 1.414 1.414L6 7.414l4.293 4.293a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414L7.414 6Z" fill=${design?.textColor}></path>
-            </svg></div>
+    <${Tag} 
+      class="simple-content"
+      ${Tag === "a" ? `href="${content?.buttonLink || '#'}" target="_blank"` : ""}
+      style="text-decoration: none; cursor: ${Tag === "a" ? 'pointer' : 'default'};"
+    >
+      <div>
+        <h2 class="title" style="color: ${design?.textColor}; font-size: ${design?.textSize + "px"}">
+          ${content?.title || ""}
+        </h2>
+        ${content?.subheading ? `<p class="sub-title" style="font-size: ${design?.subheadingSize + "px"}; color: ${design?.subheadingColor}">${content?.subheading}</p>` : ""}
       </div>
-    `;
+
+      ${content?.callToAction === "button" ? `
+        <a href="${content?.buttonLink}" 
+           class="btn-link" 
+           style="
+             color: ${design.btnTextColor};
+             background-color: ${design.btnColor};
+             padding: 8px 16px;
+             border-radius: ${design.btnRadius}px;
+             border: 0;
+             font-size: ${design.btnTextSize}px;
+             text-decoration: none;
+             display: inline-block;
+             cursor: pointer;
+           ">
+           ${content?.buttonText}
+        </a>
+      ` : ""}
+
+      <div class="close-icon">
+        <svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="m7.414 6 4.293-4.293A.999.999 0 1 0 10.293.293L6 4.586 1.707.293A.999.999 0 1 0 .293 1.707L4.586 6 .293 10.293a.999.999 0 1 0 1.414 1.414L6 7.414l4.293 4.293a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414L7.414 6Z" fill=${design?.textColor}></path>
+        </svg>
+      </div>
+    </${Tag}>
+  `;
       parent.appendChild(bar);
+
+    const closeIcon = bar.querySelector('.close-icon');
+      if (closeIcon) {
+        closeIcon.addEventListener('click', function(event) {
+        event.stopPropagation();  // stop bubbling to link
+        event.preventDefault();
+        closeBar(`bar-simple-${id}`);
+        });
+      }
     }
 
-    function injectMultipleBar(parent, content, design, id) {
+    function injectMultipleBar(parent, multiContent, design, id) {
       let cardBg = design?.cardBg;
+
+     
+     const slides = multiContent?.map(item => {
+  
+  // Decide the tag: 'a' if link, else 'div'
+  const Tag = item?.callToAction === "link" ? "a" : "div";
+
+  // Start building slide HTML
+  return `
+    <${Tag} 
+      class="swiper-slide"
+      ${Tag === "a" ? `href="${item?.buttonLink || '#'}" target="_blank"` : ""}
+      style="color: ${design?.textColor}; text-decoration: none; cursor: ${Tag === "a" ? 'pointer' : 'default'};"
+    >
+      
+      ${item?.title || ""}
+
+      <div class="action-area">
+        ${item?.callToAction === "button" ? `
+          <a href="${item?.buttonLink || "#"}" 
+            class="shop-btn-dark btn-link" 
+            style="
+              color: ${design?.btnTextColor};
+              background-color: ${design?.btnColor};
+              padding: 8px 16px;
+              border-radius: ${design?.btnRadius}px;
+              border: 0;
+              font-size: ${design?.btnTextSize}px;
+              text-decoration: none;
+              display: inline-block;
+              cursor: pointer;
+            ">
+            ${item?.buttonText || ""}
+          </a>
+        ` : ""}
+
+        <div class="close-icon">
+          <svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="m7.414 6 4.293-4.293A.999.999 0 1 0 10.293.293L6 4.586 1.707.293A.999.999 0 1 0 .293 1.707L4.586 6 .293 10.293a.999.999 0 1 0 1.414 1.414L6 7.414l4.293 4.293a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414L7.414 6Z" fill=${design?.textColor}></path>
+          </svg>
+        </div>
+      </div>
+
+    </${Tag}>
+  `;
+}).join("");
 
       const bar = document.createElement('div');
       bar.id = `bar-slider-${id}`; // Unique ID
@@ -282,36 +363,33 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
             : `url("https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg") center center / cover`}; 
             border: ${design?.borderSize}px solid ${design?.borderColor}; border-radius: ${design?.cornerRadius}px;">
         <div class="swiper swiper-${id}">
-              <div class="swiper-wrapper">
-                <div class="swiper-slide" style="color: ${design.textColor}">${content.title} 
-                <div class="action-area">
-                <a href="${content.buttonLink}" 
-                  class="shop-btn-dark btn-link" 
-                  style="
-                    color: ${design.btnTextColor};
-                    background-color: ${design.btnColor};
-                    padding: 8px 16px;
-                    border-radius: ${design.btnRadius}px;
-                    border: 0;
-                    font-size: ${design.btnTextSize}px;
-                    text-decoration: none;
-                    display: inline-block;
-                  ">
-                  ${content.buttonText}
-                </a>
-               <svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="m7.414 6 4.293-4.293A.999.999 0 1 0 10.293.293L6 4.586 1.707.293A.999.999 0 1 0 .293 1.707L4.586 6 .293 10.293a.999.999 0 1 0 1.414 1.414L6 7.414l4.293 4.293a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414L7.414 6Z" fill=${design?.textColor}></path>
-                </svg>
+            <div class="swiper-wrapper">
+              ${slides}
+               
             </div>
-            </div>
-            <div class="swiper-slide" style="color: ${design.textColor}">Check out our seasonal deals!</div>
-          </div>
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
         </div>
       </div>
     `;
       parent.appendChild(bar);
+ 
+
+    // Removing slides on close button
+     const closeIcons = bar.querySelectorAll('.close-icon');
+      closeIcons.forEach(icon => {
+        icon.addEventListener('click', function(event) {
+          event.stopPropagation();  // stop bubbling to link
+          event.preventDefault();   // prevent navigation
+
+          // Remove the entire bar, not just slide
+          if (bar) {
+            bar.style.transition = "opacity 0.3s";
+            bar.style.opacity = "0";
+            setTimeout(() => bar.remove(), 300); // removes whole bar
+          }
+        });
+});
 
       // Initialize THIS specific swiper instance
       const init = () => {
@@ -329,6 +407,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
       init();
     }
   })();
+
 
   function closeBar(id) {
     const bar = document.getElementById(id);
