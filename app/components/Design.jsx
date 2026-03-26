@@ -28,14 +28,6 @@ const Design = () => {
     const file = e.target.files[0];
 
     updateDesign("bgImageUrl", file);
-
-    // try {
-    //   const url = await handleUploadImage(file);
-
-    //   updateDesign("bgImageUrl", url);
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   return (

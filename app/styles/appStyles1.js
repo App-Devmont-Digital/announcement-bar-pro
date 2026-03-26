@@ -200,7 +200,7 @@ export const styles = {
     flexDirection: "column",
     position: "sticky",
     top: "5px",
-    overflow: 'hidden'
+    overflow: "hidden",
   },
 
   previewBar: {
@@ -219,9 +219,14 @@ export const styles = {
     gap: "24px",
     justifyContent: "center",
     position: "relative",
-    overflow: 'hidden'
+    overflow: "hidden",
   },
-  previewTextContent: {},
+  previewTextContent: {
+    display: "flex",
+    alignItems: "center",
+    gap: "18px",
+    width:'100%'
+  },
   subHeading: {
     margin: "0",
     paddingTop: "2px",
@@ -402,6 +407,7 @@ export const styles = {
     textAlign: "center",
     color: "#303030",
     fontWeight: "500",
+    fontSize: '13px'
   },
   file: {
     position: "absolute",
@@ -411,6 +417,8 @@ export const styles = {
     right: 0,
     opacity: 0,
     cursor: "pointer",
+    outline:'none',
+    border: 0
   },
   statNumberStyle: {
     fontSize: "1.3rem",
@@ -442,7 +450,7 @@ export const styles = {
     fontSize: "18px",
     fontWeight: "600",
     margin: "0",
-    paddingBottom:'0.3rem',
+    paddingBottom: "0.3rem",
     color: "#000",
   },
 

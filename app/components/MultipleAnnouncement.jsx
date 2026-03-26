@@ -38,29 +38,46 @@ const MultipleAnnouncement = () => {
                 >
                   <div style={styles.previewBarContent}>
                     <div style={styles.previewTextContent}>
-                      {/* ======== Heading of Preview Text =========== */}
-                      <h2
-                        style={{
-                          ...styles.previewText,
-                          color: textColor,
-                          fontSize: textSize + "px",
-                        }}
-                      >
-                        {item?.title ||
-                          "Enjoy a 20% discount on all our products!"}
-                      </h2>
-                      {/* Subheading content  */}
-                      {item?.subheading && (
-                        <p
+                      {item?.icon && (
+                        <img
+                          alt="icon"
+                          src={
+                            typeof item?.icon === "object"
+                              ? URL.createObjectURL(item?.icon)
+                              : item?.icon
+                          }
                           style={{
-                            ...styles.subHeading,
-                            fontSize: subheadingSize + "px",
-                            color: subheadingColor,
+                            width: "34px",
+                            height: "34px",
+                            objectFit: "contain",
+                          }}
+                        />
+                      )}
+                      <div style={{ flex: 1 }}>
+                        {/* ======== Heading of Preview Text =========== */}
+                        <h2
+                          style={{
+                            ...styles.previewText,
+                            color: textColor,
+                            fontSize: textSize + "px",
                           }}
                         >
-                          {item?.subheading}
-                        </p>
-                      )}
+                          {item?.title ||
+                            "Enjoy a 20% discount on all our products!"}
+                        </h2>
+                        {/* Subheading content  */}
+                        {item?.subheading && (
+                          <p
+                            style={{
+                              ...styles.subHeading,
+                              fontSize: subheadingSize + "px",
+                              color: subheadingColor,
+                            }}
+                          >
+                            {item?.subheading}
+                          </p>
+                        )}
+                      </div>
                     </div>
 
                     {/* ========= Button Preview ========== */}

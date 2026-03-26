@@ -144,6 +144,16 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
   pointer-events: none; /* fixed syntax */
   z-index: 1; /* make sure it's above background but below content */
   }
+  .icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+  .icon-row{ 
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
 </style>
 
 <div id="AppAnnouncementRoot" class="app-extension-wrapper"></div>
@@ -331,12 +341,16 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
       ${Tag === "a" ? `href="${content?.buttonLink || '#'}" target="_blank"` : ""}
       style="text-decoration: none; cursor: ${Tag === "a" ? 'pointer' : 'default'};"
     >
-      <div>
-        <h2 class="title" style="color: ${design?.textColor}; font-size: ${design?.textSize + "px"}">
-          ${content?.title || ""}
-        </h2>
-        ${content?.subheading ? `<p class="sub-title" style="font-size: ${design?.subheadingSize + "px"}; color: ${design?.subheadingColor}">${content?.subheading}</p>` : ""}
+     <div class="icon-row">
+       ${content?.icon ? `<img src="${content?.icon}" alt="icon" class="icon"/>` : ''} 
+         <div>
+            <h2 class="title" style="color: ${design?.textColor}; font-size: ${design?.textSize + "px"}">
+              ${content?.title || ""}
+            </h2>
+            ${content?.subheading ? `<p class="sub-title" style="font-size: ${design?.subheadingSize + "px"}; color: ${design?.subheadingColor}">${content?.subheading}</p>` : ""}
+        </div>
       </div>
+     
 
       ${content?.callToAction === "button" ? `
         <a href="${content?.buttonLink}" 
@@ -389,10 +403,15 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
     <${Tag} 
       class="swiper-slide"
       ${Tag === "a" ? `href="${item?.buttonLink || '#'}" target="_blank"` : ""}
-      style="color: ${design?.textColor}; text-decoration: none; cursor: ${Tag === "a" ? 'pointer' : 'default'};"
+      style="color: ${design?.textColor}; text-decoration: none; cursor: ${Tag === "a" ? 'pointer' : 'default'}; height: auto;"
     >
-      
-      ${item?.title || ""}
+      <div class="icon-row">
+       ${item?.icon ? `<img src="${item?.icon}" alt="icon" class="icon"/>` : ''} 
+        <div>
+          ${item?.title || ""}
+          ${item?.subheading ? `<p class="sub-title" style="font-size: ${design?.subheadingSize + "px"}; color: ${design?.subheadingColor}">${item?.subheading}</p>` : ""}
+        </div>
+      </div>
 
       <div class="action-area">
         ${item?.callToAction === "button" ? `
@@ -470,7 +489,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
         if (typeof Swiper !== 'undefined') {
           new Swiper(`.swiper-${id}`, {
             loop: true,
-            autoplay: { delay: 4000 },
+            autoplay: { delay: 10000 },
             navigation: {
               nextEl: bar.querySelector('.swiper-button-next'),
               prevEl: bar.querySelector('.swiper-button-prev')

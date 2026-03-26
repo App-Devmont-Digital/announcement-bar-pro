@@ -19,26 +19,43 @@ const SimpleAnnouncement = () => {
     <div style={styles.previewInnerWrapper}>
       <div style={styles.previewBarContent}>
         <div style={styles.previewTextContent}>
-          {/* ======== Heading of Preview Text =========== */}
-          <h2
-            style={{
-              ...styles.previewText,
-              color: textColor,
-              fontSize: textSize + "px",
-            }}
-          >
-            {content?.title || "Enjoy a 20% discount on all our products!"}
-          </h2>
-          {/* Subheading content  */}
-          <p
-            style={{
-              ...styles.subHeading,
-              fontSize: subheadingSize + "px",
-              color: subheadingColor,
-            }}
-          >
-            {content?.subheading}
-          </p>
+          {content?.icon && (
+            <img
+              alt="icon"
+              src={
+                typeof content?.icon === "object"
+                  ? URL.createObjectURL(content?.icon)
+                  : content?.icon
+              }
+              style={{
+                width: "32px",
+                height: "32px",
+                objectFit: 'contain'
+              }}
+            />
+          )}
+          <div style={{ flex: 1 }}>
+            {/* ======== Heading of Preview Text =========== */}
+            <h2
+              style={{
+                ...styles.previewText,
+                color: textColor,
+                fontSize: textSize + "px",
+              }}
+            >
+              {content?.title || "Enjoy a 20% discount on all our products!"}
+            </h2>
+            {/* Subheading content  */}
+            <p
+              style={{
+                ...styles.subHeading,
+                fontSize: subheadingSize + "px",
+                color: subheadingColor,
+              }}
+            >
+              {content?.subheading}
+            </p>
+          </div>
         </div>
 
         {/* ========= Button Preview ========== */}
@@ -53,7 +70,7 @@ const SimpleAnnouncement = () => {
               borderRadius: btnRadius + "px",
               border: "0",
               fontSize: btnTextSize + "px",
-              display:'block'
+              display: "block",
             }}
           >
             {content?.buttonText}

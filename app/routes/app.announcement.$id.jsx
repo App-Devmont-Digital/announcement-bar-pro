@@ -147,35 +147,62 @@ export default function Index() {
   const handleSave = async () => {
     try {
       setLoader(true);
-      let bgImageUrl = designSettings?.bgImageUrl;
 
+      // 1️⃣ Handle bgImageUrl if it's a File
+      let bgImageUrl = designSettings?.bgImageUrl;
       if (typeof bgImageUrl === "object") {
-        // Upload image and get URL
         bgImageUrl = await handleUploadImage(bgImageUrl);
       }
 
-      // Create a new designSettings object with updated bgImageUrl
       const payloadDesignSettings = {
         ...designSettings,
         bgImageUrl,
       };
 
-      setLoader(false);
+      // 2️⃣ Handle content.icon if it's a File
+      let contentIcon = content?.icon;
+      if (typeof contentIcon === "object") {
+        contentIcon = await handleUploadImage(contentIcon);
+      }
 
-      // Send payload directly
+      const payloadContent = {
+        ...content,
+        icon: contentIcon,
+      };
+
+      // 3️⃣ Handle multiContent icons
+      const updatedMultiContent = await Promise.all(
+        multiContent.map(async (item) => {
+          let newIcon = item.icon;
+
+          if (newIcon && typeof newIcon === "object") {
+            // Upload File object
+            newIcon = await handleUploadImage(newIcon);
+          }
+
+          return {
+            ...item,
+            icon: newIcon, // updated URL if uploaded, else keep original
+          };
+        }),
+      );
+
+      // 4️⃣ Submit payload with updated multiContent
       fetcher.submit(
         {
           id: "69a96b321a3abc4665297d59",
           data: JSON.stringify({
             designSettings: payloadDesignSettings,
-            content,
+            content: payloadContent,
             placement,
             placementRules,
-            multiContent,
+            multiContent: updatedMultiContent,
           }),
         },
         { method: "POST" },
       );
+
+      setLoader(false);
     } catch (error) {
       setLoader(false);
       console.log(error);
@@ -235,7 +262,7 @@ export default function Index() {
     return `url(${image || "https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg"}) center center / cover`;
   };
 
-  console.log({ announcement, multiContent });
+  console.log({ announcement, multiContent, content });
 
   return (
     <s-page>
@@ -251,7 +278,11 @@ export default function Index() {
             <s-heading variant="headingLg">{content?.name}</s-heading>
             <s-badge tone="attention">Not published</s-badge>
           </div>
-          <s-button variant="primary" onClick={handleSave} loading={isLoading || loader}>
+          <s-button
+            variant="primary"
+            onClick={handleSave}
+            loading={isLoading || loader}
+          >
             Save
           </s-button>
         </div>

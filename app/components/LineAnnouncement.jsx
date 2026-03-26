@@ -34,7 +34,6 @@ const LineAnnouncement = () => {
                 >
                   {content?.title ||
                     "Enjoy a 40% discount on all our products!"}
-                  
                 </span>
               ))}
 
@@ -51,7 +50,6 @@ const LineAnnouncement = () => {
                 >
                   {content?.title ||
                     "Enjoy a 40% discount on all our products!"}
-                  
                 </span>
               ))}
             </div>
@@ -71,7 +69,8 @@ const LineAnnouncement = () => {
           borderRadius: btnRadius + "px",
           border: "0",
           fontSize: btnTextSize + "px",
-           display:'block'
+          display: "block",
+          position: "relative",
         }}
       >
         {content?.buttonText}

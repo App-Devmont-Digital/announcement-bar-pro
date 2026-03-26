@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import useStore from "../zustand/store";
 
 import { styles } from "../styles/appStyles1";
+import SelectIcons from "./SelectIcons";
 
 const AddMultiAnnouncement = () => {
   const {
@@ -12,6 +13,14 @@ const AddMultiAnnouncement = () => {
     updateContent,
     content,
   } = useStore();
+
+  const [selectedIdx, setSelectedIdx] = React.useState(0);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const handleUploadFile = (e, index) => {
+    const file = e.target?.files[0];
+    updateContentAt(index, "icon", file);
+  };
 
   return (
     <>
@@ -52,7 +61,9 @@ const AddMultiAnnouncement = () => {
           <s-text-field
             label="Subheading"
             value={item?.subheading}
-            onInput={(e) => updateContentAt(index, "subheading", e.target.value)}
+            onInput={(e) =>
+              updateContentAt(index, "subheading", e.target.value)
+            }
           />
 
           {/* Icon — no Polaris component for icon picker, keep custom layout */}
@@ -61,29 +72,65 @@ const AddMultiAnnouncement = () => {
               <s-text variant="bodyMd" font-weight="medium">
                 Icon
               </s-text>
-              <s-badge tone="info">Starter plan</s-badge>
             </div>
             <div style={styles.iconRow}>
               <div style={styles.iconPreviewBox}>
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="#c9cccf">
-                  <path d="M4 6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6zm9 0a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2V6zM4 15a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3zm9 0a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2v-3z" />
-                </svg>
+                {item?.icon ? (
+                  <img
+                    src={
+                      typeof item?.icon === "object"
+                        ? URL.createObjectURL(item?.icon)
+                        : item?.icon
+                    }
+                    style={{
+                      width: "26px",
+                      height: "26px",
+                      objectFit: "cover",
+                    }}
+                  />
+                ) : (
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="#c9cccf"
+                  >
+                    <path d="M4 6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6zm9 0a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2V6zM4 15a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3zm9 0a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2v-3z" />
+                  </svg>
+                )}
               </div>
               <div style={styles.iconButtons}>
-                <s-button full-width onClick={() => {}}>
+                <s-button
+                  slot="secondary-actions"
+                  commandFor="global-icon-modal"
+                  onClick={() => {
+                    setIsOpenModal(true);
+                    setSelectedIdx(index);
+                  }}
+                >
                   Select Icon
                 </s-button>
-                <s-button full-width disabled onClick={() => {}}>
-                  Upload Icon
-                </s-button>
+                <div style={{ width: "100%", position: "relative" }}>
+                  <input
+                    type="file"
+                    style={styles.file}
+                    onChange={(e) => handleUploadFile(e, index)}
+                  />
+                  <button
+                    type="button"
+                    style={{
+                      ...styles.btn,
+                      width: "fit-content",
+                      backgroundColor: "#303030",
+                      color: "#fff",
+                      boxShadow: "none",
+                    }}
+                  >
+                    Upload Icon
+                  </button>
+                </div>
               </div>
             </div>
-            <s-text variant="bodySm" tone="subdued">
-              Available with Starter plan.{" "}
-              <a href="#" style={styles.link}>
-                Upgrade now.
-              </a>
-            </s-text>
           </div>
 
           {/* Call to Action Select */}
@@ -114,6 +161,12 @@ const AddMultiAnnouncement = () => {
           Add another announcement
         </s-button>
       </div>
+
+      <SelectIcons
+        id="global-icon-modal"
+        activeIndex={selectedIdx}
+        isOpen={isOpenModal}
+      />
     </>
   );
 };
