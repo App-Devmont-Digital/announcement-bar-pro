@@ -15,19 +15,15 @@ const Placement = () => {
     }
   }, [placementRules]);
 
-  const handleSelectProducts = async (value) => {
-    console.log({x: placementRules?.include_templates, y: value});
-
-    
-    
+  const handleSelectProducts = async () => {
     const selected = await shopify.resourcePicker({
       type: "product",
       multiple: true,
-      selectionIds: value == "specific-products" ? placementRules?.include_templates  : []
-    
-    });
 
-    console.log({ selected });
+      selectionIds: placementRules?.include_templates?.map((id) => ({
+        id: `gid://shopify/Product/${id}`,
+      })),
+    });
 
     if (selected) {
       let ids = [];
@@ -41,18 +37,12 @@ const Placement = () => {
         exclude_templates: [],
         include_templates: [...ids],
       });
-    } 
+    }
   };
 
   const handlePlacement = (value) => {
     setPlacement(value);
-
-    if (value == "specific-products") {
-      handleSelectProducts(value);
-    }
   };
-
-  console.log({ placement, placementRules, clonePlacement });
 
   // Exclude pages onchange
   const handleChange = (value, checked) => {
@@ -104,9 +94,11 @@ const Placement = () => {
           </s-choice-list>
         </s-stack>
 
-        {/* <s-box>
-          <s-button onClick={handleSelectProducts}>Select Products</s-button>
-        </s-box> */}
+        {placement === "specific-products" && (
+          <s-box>
+            <s-button onClick={handleSelectProducts}>Select Products</s-button>
+          </s-box>
+        )}
 
         {placement == "page-excludes" && (
           <>

@@ -152,7 +152,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
 
   console.log("Page info:", {pageInfo});
 
-    const apiUrl = `https://should-comparable-stress-adrian.trycloudflare.com/api/announcement?shop=${shop}`;
+    const apiUrl = `https://zero-arms-between-insulin.trycloudflare.com/api/announcement?shop=${shop}`;
 
     fetch(apiUrl)
       .then(res => res.json())
@@ -166,6 +166,67 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
           const design = JSON.parse(item?.designSettings);
           const content = JSON.parse(item?.content);
           const multiContent = JSON.parse(item?.multiContent);
+
+          console.log({content});
+
+          // show only in homepage
+          if (content?.placement === "index") {
+            const currentPage = pageInfo?.pageType; 
+            //  If it is NOT the index, stop immediately
+            if (currentPage !== "index") {
+              return; // STOP: Do not render the bar
+            }
+            // If it IS the index, continue  
+          }
+
+          // show in all product  pages only
+          if (content?.placement === "all-products") {
+            const currentPage = pageInfo?.pageType; 
+            if (currentPage !== "product") {
+              return; 
+            }
+            
+          }
+
+         if (content?.placement === "specific-products") {
+            // 1. If we aren't even on a product page, stop now
+            if (pageInfo?.pageType !== "product") {
+              console.log("Not a product page. Hiding announcement.");
+              return;
+            }
+
+            // 2. Since we ARE on a product page, we can safely check the ID
+            const productId = pageInfo?.productId?.toString() || "";
+            const allowedProducts = content?.placementRules?.include_templates || [];
+
+            // Check if current ID exists in your array
+            const isMatched = allowedProducts?.some(id => productId.includes(id));
+
+            if (!isMatched) {
+              console.log("Product ID not in allowed list. Hiding announcement.");
+              return;
+            }
+
+            console.log("Correct page and product match! Continuing...");
+          }
+
+          // If exclude pages
+          if (content?.placement === "page-excludes") {
+              const currentPage = pageInfo?.pageType; // e.g., "product", "index", "collection"
+              const excludedPages = content?.placementRules?.exclude_templates || [];
+
+              // 1. Check if the current page type is in the exclude list
+              const isExcluded = excludedPages?.includes(currentPage);
+
+              if (isExcluded) {
+                console.log(`Page type "${currentPage}" is excluded. Stopping.`);
+                return; // STOP: Do not show the announcement
+              }
+
+              // 2. If it's NOT in the list, continue showing the announcement
+              
+            }
+          
 
           // Determine Position (using first item's preference or global logic)
           if (design.position === 'top-page') {

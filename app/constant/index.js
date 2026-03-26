@@ -43,9 +43,9 @@ export const Templates = [
 
 
 export const PAGES = [
-  {label: 'Home', value: 'home'},
-  {label: 'Collections', value: 'collections'},
-  {label: 'All product pages', value: 'all-products'},
+  {label: 'Home', value: 'index'},
+  {label: 'Collections', value: "collection"},
+  {label: 'All product pages', value: "product"},
   {label: 'Blogs', value: 'blogs'},
   {label: 'Cart', value: 'cart'},
   {label: 'Search', value: 'search'},
