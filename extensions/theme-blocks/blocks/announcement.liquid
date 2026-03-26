@@ -135,6 +135,15 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
     padding-top: 2px;
     line-height: 1.4;
   }
+  .blur-bg {
+    position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.01); /* slight alpha for blur to show */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px); /* for Safari */
+  pointer-events: none; /* fixed syntax */
+  z-index: 1; /* make sure it's above background but below content */
+  }
 </style>
 
 <div id="AppAnnouncementRoot" class="app-extension-wrapper"></div>
@@ -203,11 +212,8 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
             const isMatched = allowedProducts?.some(id => productId.includes(id));
 
             if (!isMatched) {
-              console.log("Product ID not in allowed list. Hiding announcement.");
               return;
             }
-
-            console.log("Correct page and product match! Continuing...");
           }
 
           // If exclude pages
@@ -222,12 +228,9 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
                 console.log(`Page type "${currentPage}" is excluded. Stopping.`);
                 return; // STOP: Do not show the announcement
               }
-
               // 2. If it's NOT in the list, continue showing the announcement
-              
             }
           
-
           // Determine Position (using first item's preference or global logic)
           if (design.position === 'top-page') {
             document.body.prepend(root);
@@ -266,7 +269,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
           ? design?.singleBgColor
           : cardBg === "gradient-bg"
             ? `linear-gradient(${design?.gradientRange[1]}deg, ${design?.gradeintColor1}, ${design?.gradeintColor2}`
-            : `url("https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg") center center / cover`;
+            : `url(${design?.bgImageUrl}) center center / cover`;
       bar.innerHTML = `
       <div class="marquee-container">
         <div class="marquee-content">${`<span class="announcement-text" style="color: ${design?.textColor}">${content.title}</span>`.repeat(6)}</div>
@@ -317,7 +320,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
           ? design?.singleBgColor
           : cardBg === "gradient-bg"
             ? `linear-gradient(${design?.gradientRange[1]}deg, ${design?.gradeintColor1}, ${design?.gradeintColor2}`
-            : `url("https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg") center center / cover`;
+            : `url(${design?.bgImageUrl}) center center / cover`
        
        // 🔥 Decide tag: <a> if link, else <div>
       const Tag = content?.callToAction === "link" ? "a" : "div";
@@ -425,17 +428,19 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
       bar.id = `bar-slider-${id}`; // Unique ID
       bar.className = 'bar-container announcement-slider-wrapper';
       bar.innerHTML = `
+        
       <div class="swiper-outer-container" style="background: ${cardBg === "single-bg"
           ? design?.singleBgColor
           : cardBg === "gradient-bg"
             ? `linear-gradient(${design?.gradientRange[1]}deg, ${design?.gradeintColor1}, ${design?.gradeintColor2})`
-            : `url("https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg") center center / cover`}; 
+            : `url(${design?.bgImageUrl}) center center / cover`}; 
             border: ${design?.borderSize}px solid ${design?.borderColor}; border-radius: ${design?.cornerRadius}px;">
-        <div class="swiper swiper-${id}">
+          
+          ${design?.blurBackground ? `<div class='blur-bg'></div>` : ''}
+          <div class="swiper swiper-${id}">
             <div class="swiper-wrapper">
               ${slides}
-               
-            </div>
+          </div>
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
         </div>

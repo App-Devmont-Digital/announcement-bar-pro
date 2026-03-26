@@ -8,6 +8,8 @@ import ColorPicker from "./ColorPicker";
 import PixelFieldInput from "./PixelFieldInput";
 import { styles } from "../styles/appStyles1";
 
+import { handleUploadImage } from "../helper";
+
 import "react-range-slider-input/dist/style.css";
 
 const Design = () => {
@@ -18,7 +20,23 @@ const Design = () => {
 
   // const [value, setValue] = useState([0, 50]);
 
-  const { designSettings, updateDesign } = useStore();
+  const { designSettings, updateDesign, setUploadFile } = useStore();
+
+  console.log({ designSettings });
+
+  const handleFileBg = async (e) => {
+    const file = e.target.files[0];
+
+    updateDesign("bgImageUrl", file);
+
+    // try {
+    //   const url = await handleUploadImage(file);
+
+    //   updateDesign("bgImageUrl", url);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
 
   return (
     <>
@@ -129,13 +147,22 @@ const Design = () => {
                 <div style={styles.bgImageBoxContainer}>
                   <img
                     style={styles.bgImageBox}
-                    src="https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg"
+                    src={
+                      typeof designSettings?.bgImageUrl === "object"
+                        ? URL.createObjectURL(designSettings?.bgImageUrl)
+                        : designSettings?.bgImageUrl ||
+                          "https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg"
+                    }
                     alt="image"
                   />
 
                   <div style={{ position: "relative", width: "100%" }}>
                     <div style={{ width: "100%" }}>
-                      <input type="file" style={styles.file} />
+                      <input
+                        type="file"
+                        style={styles.file}
+                        onChange={handleFileBg}
+                      />
                       <button type="button" style={styles.btn}>
                         Change Image
                       </button>

@@ -71,6 +71,7 @@ const LineAnnouncement = () => {
           borderRadius: btnRadius + "px",
           border: "0",
           fontSize: btnTextSize + "px",
+           display:'block'
         }}
       >
         {content?.buttonText}

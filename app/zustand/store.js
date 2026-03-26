@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 const useStore = create((set) => ({
+  uploadFile: null,
   // Design Settings
   designSettings: {
     position: "top-page",
@@ -25,6 +26,7 @@ const useStore = create((set) => ({
     btnTextSize: 14,
     btnTextColor: "#ffffff",
     btnRadius: 0,
+    bgImageUrl: "https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg",
   },
 
   // Content
@@ -92,6 +94,7 @@ const useStore = create((set) => ({
 
   setPlacement: (value) => set({ placement: value }),
   setPlacementRules: (rules) => set({ placementRules: rules }),
+  setUploadFile: (value) => set({ uploadFile: value }),
 
   // Actions for multi update contents
 
