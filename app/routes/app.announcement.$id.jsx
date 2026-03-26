@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { useFetcher, useLoaderData } from "react-router";
+import {
+  redirect,
+  useFetcher,
+  useLoaderData,
+  useNavigate,
+  useParams,
+} from "react-router";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 
@@ -23,15 +29,21 @@ export const loader = async ({ request, params }) => {
 
   const { id } = params; // This gets the ID from the URL
 
+  if (id == "new") {
+    return {
+      announcement: null,
+    };
+  }
+
   const announcement = await prisma.annSettings.findUnique({
     where: {
-      id: "69a96b321a3abc4665297d59",
+      id: id,
       shop: session.shop, // Safety check: ensure it belongs to this shop
     },
   });
 
   if (!announcement) {
-    throw new Response("Not Found", { status: 404 });
+    throw new Response("Announcement not found.", { status: 404 });
   }
 
   return {
@@ -46,10 +58,34 @@ export const action = async ({ request }) => {
     const rawData = formData.get("data");
     const id = formData.get("id");
 
+    // 1. Get the intent
+    const intent = formData.get("intent");
+
+    // --- DELETE LOGIC ---
+    if (intent === "delete") {
+      if (!id) return { error: "ID required for deletion" };
+      await prisma.annSettings.delete({
+        where: { id: id },
+      });
+
+      return redirect("/app");
+      // return {
+      //   success: true,
+      //   message: "Announcement deleted",
+      //   action: "delete",
+      // };
+    }
+
     if (!rawData) return { error: "No data provided" };
 
-    const { designSettings, content, placement, placementRules, multiContent } =
-      JSON.parse(rawData);
+    const {
+      designSettings,
+      content,
+      placement,
+      placementRules,
+      multiContent,
+      status,
+    } = JSON.parse(rawData);
 
     const dataPayload = {
       designSettings: JSON.stringify(designSettings),
@@ -57,6 +93,7 @@ export const action = async ({ request }) => {
       startDate: new Date().toISOString(),
       endDate: new Date("2099-12-31").toISOString(),
       multiContent: JSON.stringify(multiContent),
+      status: status,
     };
 
     // Upsert: Updates the record if it exists for this shop, otherwise creates it
@@ -76,7 +113,11 @@ export const action = async ({ request }) => {
       });
     }
 
-    return { success: true, data: savedSettings };
+    return {
+      success: true,
+      data: savedSettings,
+      action: id == "undefined" ? "new" : "updated",
+    };
   } catch (error) {
     return {
       error: error,
@@ -87,9 +128,14 @@ export const action = async ({ request }) => {
 export default function Index() {
   const [selectedTab, setSelectedTab] = useState("content");
   const [loader, setLoader] = useState(false);
+  const [publishLoader, setPublishLoader] = useState(false);
 
   const fetcher = useFetcher();
   const shopify = useAppBridge();
+
+  const navigation = useNavigate();
+
+  const { id } = useParams();
 
   const { announcement } = useLoaderData();
   const setAll = useStore((state) => state?.setAll);
@@ -102,15 +148,27 @@ export default function Index() {
     setPlacement,
     multiContent,
     updateContentAt,
-    uploadFile,
-    updateDesign,
   } = useStore();
 
-  const isLoading = ["loading", "submitting"].includes(fetcher.state);
+  const isFetching = fetcher.state !== "idle";
+
+  // Check specifically WHICH button is loading
+  const isSavingLive =
+    isFetching && fetcher.formData?.get("status") === "active";
+  const isSavingDraft =
+    isFetching && fetcher.formData?.get("status") === "draft";
+  const deleteLoader =
+    isFetching && fetcher.formData?.get("intent") === "delete";
 
   useEffect(() => {
     if (fetcher.data?.success) {
       shopify.toast.show("Product created");
+    }
+    if (fetcher.data?.action === "delete") {
+      navigation(`/app`);
+    }
+    if (fetcher.data?.action === "new") {
+      navigation(`/app`);
     }
     if (fetcher.data?.error) {
       shopify.toast.show(
@@ -120,10 +178,6 @@ export default function Index() {
       );
     }
   }, [fetcher.data, shopify]);
-
-  console.log({ fetcher }, "========");
-
-  console.log({ uploadFile });
 
   useEffect(() => {
     if (announcement) {
@@ -144,9 +198,13 @@ export default function Index() {
     }
   }, [announcement]);
 
-  const handleSave = async () => {
+  const handleSave = async (status = "draft") => {
     try {
-      setLoader(true);
+      if (status == "draft") {
+        setLoader(true);
+      } else {
+        setPublishLoader(true);
+      }
 
       // 1️⃣ Handle bgImageUrl if it's a File
       let bgImageUrl = designSettings?.bgImageUrl;
@@ -190,23 +248,38 @@ export default function Index() {
       // 4️⃣ Submit payload with updated multiContent
       fetcher.submit(
         {
-          id: "69a96b321a3abc4665297d59",
+          id: id == "new" ? undefined : id,
+          status: status,
           data: JSON.stringify({
             designSettings: payloadDesignSettings,
             content: payloadContent,
             placement,
             placementRules,
             multiContent: updatedMultiContent,
+            status: status,
           }),
         },
         { method: "POST" },
       );
 
       setLoader(false);
+      setPublishLoader(false);
     } catch (error) {
       setLoader(false);
+      setPublishLoader(false);
       console.log(error);
     }
+  };
+
+  const handleDelete = async () => {
+    // 4️⃣ Submit payload with updated multiContent
+    fetcher.submit(
+      {
+        id: id,
+        intent: "delete",
+      },
+      { method: "POST" },
+    );
   };
 
   const {
@@ -219,14 +292,6 @@ export default function Index() {
     cornerRadius,
     borderColor,
     borderSize,
-    textSize,
-    textColor,
-    btnTextColor,
-    btnTextSize,
-    btnColor,
-    btnRadius,
-    subheadingSize,
-    subheadingColor,
   } = designSettings;
 
   const renderAnnoucementPreview = () => {
@@ -270,21 +335,45 @@ export default function Index() {
         {/* ── Top Bar ── */}
         <div style={styles.topBar}>
           <div style={styles.topBarLeft}>
-            <s-button
-              variant="tertiary"
-              icon="ArrowLeftMinor"
-              onClick={() => {}}
-            />
+            <s-button variant="primary" icon="arrow-left" onClick={() => {}} />
             <s-heading variant="headingLg">{content?.name}</s-heading>
-            <s-badge tone="attention">Not published</s-badge>
+            {announcement?.status && (
+              <s-badge
+                tone={announcement?.status == "draft" ? "critical" : "success"}
+              >
+                {announcement?.status?.charAt(0).toUpperCase() +
+                  announcement?.status?.slice(1)}
+              </s-badge>
+            )}
           </div>
-          <s-button
-            variant="primary"
-            onClick={handleSave}
-            loading={isLoading || loader}
-          >
-            Save
-          </s-button>
+
+          <s-stack direction="inline" gap="small">
+            {id !== "new" && (
+              <s-button
+                variant="primary"
+                tone="critical"
+                onClick={handleDelete}
+                loading={deleteLoader}
+              >
+                Delete
+              </s-button>
+            )}
+
+            <s-button
+              variant="secondary"
+              onClick={() => handleSave("active")}
+              loading={isSavingLive || publishLoader}
+            >
+              Publish
+            </s-button>
+            <s-button
+              variant="primary"
+              onClick={() => handleSave("draft")}
+              loading={isSavingDraft || loader}
+            >
+              Save
+            </s-button>
+          </s-stack>
         </div>
 
         {/* ── Two-column layout ── */}

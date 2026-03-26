@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import RangeSlider from "react-range-slider-input";
 
 import useStore from "../zustand/store";
@@ -8,21 +6,10 @@ import ColorPicker from "./ColorPicker";
 import PixelFieldInput from "./PixelFieldInput";
 import { styles } from "../styles/appStyles1";
 
-import { handleUploadImage } from "../helper";
-
 import "react-range-slider-input/dist/style.css";
 
 const Design = () => {
-  // const [position, setPosition] = useState("top-page");
-  // const [template, setTemplate] = useState(1);
-  // const [card, setCard] = useState("single-bg");
-  // const [singleBgColor, setsingleBgColor] = useState("#dddddd");
-
-  // const [value, setValue] = useState([0, 50]);
-
-  const { designSettings, updateDesign, setUploadFile } = useStore();
-
-  console.log({ designSettings });
+  const { designSettings, updateDesign } = useStore();
 
   const handleFileBg = async (e) => {
     const file = e.target.files[0];
@@ -45,9 +32,9 @@ const Design = () => {
         </s-stack>
       </div>
 
-      <div style={styles.divider} />
+      {/* <div style={styles.divider} /> */}
 
-      <div style={styles.section}>
+      {/* <div style={styles.section}>
         <s-stack>
           <s-select
             label="Template"
@@ -61,7 +48,7 @@ const Design = () => {
             ))}
           </s-select>
         </s-stack>
-      </div>
+      </div> */}
 
       <div style={styles.divider} />
 

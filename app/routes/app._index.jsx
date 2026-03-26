@@ -45,10 +45,7 @@ export default function Index() {
 
   const { announcement } = useLoaderData();
 
-  const isLoading = ["loading", "submitting"].includes(fetcher.state);
-
   const navigate = useNavigate();
-
 
   useEffect(() => {
     if (fetcher.data?.success) {
@@ -62,24 +59,6 @@ export default function Index() {
       );
     }
   }, [fetcher.data, shopify]);
-
-  const handleSave = () => {
-    // We send the data as a JSON string under a 'data' key
-    // fetcher.submit(
-    //   {
-    //     id: "69a96b321a3abc4665297d59",
-    //     data: JSON.stringify({
-    //       designSettings,
-    //       content,
-    //       placement,
-    //       placementRules,
-    //     }),
-    //   },
-    //   { method: "POST" },
-    // );
-  };
-
-  console.log({ announcement });
 
   return (
     <s-page title="Announcements">
@@ -168,7 +147,12 @@ export default function Index() {
               paddingBlock="base"
             >
               <s-heading>Announcements</s-heading>
-              <s-button variant="primary">New Announcement</s-button>
+              <s-button
+                variant="primary"
+                onClick={() => navigate(`/app/announcement/new`)}
+              >
+                New Announcement
+              </s-button>
             </s-stack>
             <s-table>
               <s-table-header-row>
@@ -212,7 +196,14 @@ export default function Index() {
                           accessibilityLabel="Customer actions"
                         >
                           <s-button icon="clipboard">Copy ID</s-button>
-                          <s-button icon="edit" onClick={() => navigate(`/app/announcement/${ann?.id}`)}>Edit</s-button>
+                          <s-button
+                            icon="edit"
+                            onClick={() =>
+                              navigate(`/app/announcement/${ann?.id}`)
+                            }
+                          >
+                            Edit
+                          </s-button>
                           <s-button icon="delete" tone="critical">
                             Delete
                           </s-button>
@@ -228,8 +219,6 @@ export default function Index() {
       ) : (
         <s-box background="subdued" border="base" borderRadius="base">
           <div style={styles.emptyStateStyle}>
-            
-
             {/* Megaphone SVG */}
             <svg
               style={styles.emptyIconStyle}
@@ -265,7 +254,12 @@ export default function Index() {
               </p>
             </div>
 
-            <s-button variant="primary">New Announcement</s-button>
+            <s-button
+              variant="primary"
+              onClick={() => navigate(`/app/announcement/new`)}
+            >
+              New Announcement
+            </s-button>
           </div>
         </s-box>
       )}

@@ -26,6 +26,7 @@ export const loader = async ({ request }) => {
     const announcement = await prisma.annSettings.findMany({
       where: {
         shop: shop, // or just 'shop' if the variable name matches
+        status: "active",
       },
     });
 
