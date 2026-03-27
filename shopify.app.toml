@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "1d31020718c92cc03d5631b069e0bee9"
-name = "Announcement Bar Pro"
+name = "Announcement Pro"
 application_url = "https://announcement-bar-pro.vercel.app"
 embedded = true
 
