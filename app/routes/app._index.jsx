@@ -60,7 +60,6 @@ export default function Index() {
     }
   }, [fetcher.data, shopify]);
 
-  console.log({ announcement });
 
   return (
     <s-page title="Announcements">

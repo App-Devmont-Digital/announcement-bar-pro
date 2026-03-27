@@ -208,7 +208,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
          if (content?.placement === "specific-products") {
             // 1. If we aren't even on a product page, stop now
             if (pageInfo?.pageType !== "product") {
-              console.log("Not a product page. Hiding announcement.");
+              
               return;
             }
 
@@ -233,7 +233,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
               const isExcluded = excludedPages?.includes(currentPage);
 
               if (isExcluded) {
-                console.log(`Page type "${currentPage}" is excluded. Stopping.`);
+             
                 return; // STOP: Do not show the announcement
               }
               // 2. If it's NOT in the list, continue showing the announcement
