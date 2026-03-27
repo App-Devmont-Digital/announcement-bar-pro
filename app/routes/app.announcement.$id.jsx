@@ -154,15 +154,18 @@ export default function Index() {
 
   // Check specifically WHICH button is loading
   const isSavingLive =
-    isFetching && fetcher.formData?.get("status") === "active";
+    isFetching && fetcher.formData?.get("action") === "publish";
   const isSavingDraft =
-    isFetching && fetcher.formData?.get("status") === "draft";
+    isFetching && fetcher.formData?.get("action") === "save";
   const deleteLoader =
     isFetching && fetcher.formData?.get("intent") === "delete";
 
   useEffect(() => {
-    if (fetcher.data?.success) {
-      shopify.toast.show("Product created");
+    if (fetcher.data?.success && fetcher.data?.action === "new") {
+      shopify.toast.show("Announcement created.");
+    }
+    if (fetcher.data?.success && fetcher.data?.action === "updated") {
+      shopify.toast.show("Settings saved.");
     }
     if (fetcher.data?.action === "delete") {
       navigation(`/app`);
@@ -198,7 +201,7 @@ export default function Index() {
     }
   }, [announcement]);
 
-  const handleSave = async (status = "draft") => {
+  const handleSave = async (status = "draft", action) => {
     try {
       if (status == "draft") {
         setLoader(true);
@@ -249,7 +252,7 @@ export default function Index() {
       fetcher.submit(
         {
           id: id == "new" ? undefined : id,
-          status: status,
+          action,
           data: JSON.stringify({
             designSettings: payloadDesignSettings,
             content: payloadContent,
@@ -327,15 +330,19 @@ export default function Index() {
     return `url(${image || "https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg"}) center center / cover`;
   };
 
-  console.log({ announcement, multiContent, content });
-
   return (
     <s-page>
       <div style={styles.pageWrapper}>
         {/* ── Top Bar ── */}
         <div style={styles.topBar}>
           <div style={styles.topBarLeft}>
-            <s-button variant="primary" icon="arrow-left" onClick={() => {}} />
+            <s-button
+              variant="primary"
+              icon="arrow-left"
+              onClick={() => {
+                navigation("/app");
+              }}
+            />
             <s-heading variant="headingLg">{content?.name}</s-heading>
             {announcement?.status && (
               <s-badge
@@ -361,14 +368,24 @@ export default function Index() {
 
             <s-button
               variant="secondary"
-              onClick={() => handleSave("active")}
+              onClick={() =>
+                handleSave(
+                  announcement?.status == "active" ? "draft" : "active",
+                  "publish",
+                )
+              }
               loading={isSavingLive || publishLoader}
             >
-              Publish
+              {announcement?.status === "active" ? "Unpublish" : "Publish"}
             </s-button>
             <s-button
               variant="primary"
-              onClick={() => handleSave("draft")}
+              onClick={() =>
+                handleSave(
+                  announcement?.status == "active" ? "active" : "draft",
+                  "save",
+                )
+              }
               loading={isSavingDraft || loader}
             >
               Save
@@ -401,9 +418,9 @@ export default function Index() {
             {/* Scrollable body */}
             <div style={styles.leftBody}>
               {selectedTab === "content" ? (
-                <Content />
+                <Content setSelectedTab={setSelectedTab} />
               ) : selectedTab === "design" ? (
-                <Design />
+                <Design setSelectedTab={setSelectedTab} />
               ) : (
                 <Placement />
               )}

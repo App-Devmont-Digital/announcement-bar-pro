@@ -50,8 +50,8 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
 
   .announcement-text {
     font-weight: 600;
-    font-size: 15px;
-    padding: 0 40px;
+    /* font-size: 15px; */
+    padding: 0 20px;
     white-space: nowrap;
   }
 
@@ -169,9 +169,9 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
     pageHandle: {% if template.name == 'page' %}"{{ page.handle }}"{% else %}null{% endif %}
   };
 
-  console.log("Page info:", {pageInfo});
+  
 
-    const apiUrl = `https://zero-arms-between-insulin.trycloudflare.com/api/announcement?shop=${shop}`;
+    const apiUrl = `https://companies-labor-particularly-portrait.trycloudflare.com/api/announcement?shop=${shop}`;
 
     fetch(apiUrl)
       .then(res => res.json())
@@ -185,8 +185,6 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
           const design = JSON.parse(item?.designSettings);
           const content = JSON.parse(item?.content);
           const multiContent = JSON.parse(item?.multiContent);
-
-          console.log({content});
 
           // show only in homepage
           if (content?.placement === "index") {
@@ -282,7 +280,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
             : `url(${design?.bgImageUrl}) center center / cover`;
       bar.innerHTML = `
       <div class="marquee-container">
-        <div class="marquee-content">${`<span class="announcement-text" style="color: ${design?.textColor}">${content.title}</span>`.repeat(6)}</div>
+        <div class="marquee-content">${`<span class="announcement-text" style="color: ${design?.textColor}; font-size: ${design?.textSize}px">${content?.title}</span>`.repeat(12)}</div>
       </div>
       <div class="action-area">
         <a href="${content.buttonLink}" 

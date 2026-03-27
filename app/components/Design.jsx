@@ -8,7 +8,7 @@ import { styles } from "../styles/appStyles1";
 
 import "react-range-slider-input/dist/style.css";
 
-const Design = () => {
+const Design = ({setSelectedTab}) => {
   const { designSettings, updateDesign } = useStore();
 
   const handleFileBg = async (e) => {
@@ -309,7 +309,7 @@ const Design = () => {
       </div>
 
       <div style={styles.continueBtn}>
-        <s-button full-width onClick={() => setSelectedTab("design")}>
+        <s-button full-width onClick={() => setSelectedTab("placement")}>
           Continue to placement
         </s-button>
       </div>

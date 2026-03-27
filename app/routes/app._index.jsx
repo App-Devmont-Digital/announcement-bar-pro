@@ -60,6 +60,8 @@ export default function Index() {
     }
   }, [fetcher.data, shopify]);
 
+  console.log({ announcement });
+
   return (
     <s-page title="Announcements">
       {/* Dashboard Stats Overview */}
@@ -104,9 +106,8 @@ export default function Index() {
               </s-stack>
               <s-text>
                 <h2 style={styles.statNumberStyle}>
-                  {announcement?.filter(
-                    (a) => JSON.parse(a?.content)?.status === "active",
-                  ).length ?? 0}
+                  {announcement?.filter((a) => a?.status === "active").length ??
+                    0}
                 </h2>
               </s-text>
             </s-stack>
@@ -127,9 +128,8 @@ export default function Index() {
               </s-stack>
               <s-text>
                 <h2 style={styles.statNumberStyle}>
-                  {announcement?.filter(
-                    (a) => JSON.parse(a?.content)?.status !== "active",
-                  ).length ?? 0}
+                  {announcement?.filter((a) => a?.status !== "active").length ??
+                    0}
                 </h2>
               </s-text>
             </s-stack>
@@ -166,7 +166,9 @@ export default function Index() {
               <s-table-body>
                 {announcement?.map((ann) => {
                   const content = JSON.parse(ann?.content);
-                  const design = JSON.parse(ann?.designSettings);
+
+                  const menuId = `menu-${ann.id}`;
+
                   return (
                     <s-table-row key={ann?.id}>
                       <s-table-cell>{content?.name}</s-table-cell>
@@ -178,34 +180,30 @@ export default function Index() {
                       <s-table-cell>{content?.placement} page</s-table-cell>
                       <s-table-cell>
                         <s-badge
-                          tone={
-                            content?.status === "active" ? "success" : "warning"
-                          }
+                          tone={ann?.status == "active" ? "success" : "warning"}
                         >
-                          {content?.status === "active" ? "Published" : "Draft"}
+                          {ann?.status === "active" ? "Published" : "Draft"}
                         </s-badge>
                       </s-table-cell>
                       <s-table-cell>
                         <s-button
-                          commandFor="customer-menu"
+                          commandFor={menuId}
                           variant="tertiary"
                           icon="menu-horizontal"
                         ></s-button>
                         <s-menu
-                          id="customer-menu"
+                          id={menuId}
                           accessibilityLabel="Customer actions"
                         >
                           <s-button icon="clipboard">Copy ID</s-button>
+
                           <s-button
                             icon="edit"
-                            onClick={() =>
-                              navigate(`/app/announcement/${ann?.id}`)
-                            }
+                            onClick={() => {
+                              navigate(`/app/announcement/${ann?.id}`);
+                            }}
                           >
                             Edit
-                          </s-button>
-                          <s-button icon="delete" tone="critical">
-                            Delete
                           </s-button>
                         </s-menu>
                       </s-table-cell>

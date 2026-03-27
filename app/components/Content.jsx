@@ -5,7 +5,7 @@ import useStore from "../zustand/store";
 import AddMultiAnnouncement from "../components/AddMultiAnnouncement";
 import SelectIcons from "../components/SelectIcons";
 
-const Content = ({}) => {
+const Content = ({ setSelectedTab }) => {
   const [openModal, setOpenModal] = useState(false);
 
   const { designSettings, updateDesign, content, updateContent } = useStore();
@@ -193,52 +193,6 @@ const Content = ({}) => {
       ) : (
         <AddMultiAnnouncement />
       )}
-
-      <div style={styles.divider} />
-
-      {/* ── Scheduling ── */}
-      <div style={styles.section}>
-        <div style={styles.rowWithBadge}>
-          <p style={styles.mainTitle}>Scheduling</p>
-          {/* <s-badge tone="info">Essential plan</s-badge> */}
-        </div>
-
-        {/* Starts */}
-        <div style={styles.scheduleBlock}>
-          <s-text variant="bodySm" font-weight="medium">
-            Starts
-          </s-text>
-          <s-choice-list
-            label=""
-            name="start"
-            values={[content?.scheduleStart]}
-            onChange={(event) =>
-              updateContent("scheduleStart", event.currentTarget.values[0])
-            }
-          >
-            <s-choice value="right-now">Right now</s-choice>
-            <s-choice value="start-date">Specific date</s-choice>
-          </s-choice-list>
-        </div>
-
-        {/* Ends */}
-        <div style={styles.scheduleBlock}>
-          <s-text variant="bodySm" font-weight="medium">
-            Ends
-          </s-text>
-          <s-choice-list
-            label=""
-            name="end"
-            values={[content?.scheduleEnd]}
-            onChange={(event) =>
-              updateContent("scheduleEnd", event.currentTarget.values[0])
-            }
-          >
-            <s-choice value="never">Never</s-choice>
-            <s-choice value="end-date">Specific date</s-choice>
-          </s-choice-list>
-        </div>
-      </div>
 
       {content?.announcementType == "simple-announce" && (
         <SelectIcons isOpen={openModal} />
