@@ -14,6 +14,7 @@ export const styles = {
     fontSize: "13px",
     color: "#303030",
     margin: "0",
+    fontFamily: '"Inter", sans-serif',
     // fontFamily: '"Raleway", sans-serif',
   },
 
@@ -86,25 +87,27 @@ export const styles = {
   /* Tab strip — custom, no Polaris web component equivalent */
   tabsBar: {
     display: "flex",
-    borderBottom: "1px solid #e1e3e5",
+    backgroundColor: "#dedede",
   },
   tabBtn: {
     flex: 1,
-    padding: "12px 4px",
+    padding: "9px 4px",
     border: "none",
-    borderBottom: "2px solid transparent",
+    // borderBottom: "2px solid transparent",
     background: "none",
     cursor: "pointer",
-    fontSize: "14px",
-    fontWeight: "400",
-    color: "#6d7175",
+    fontSize: "13px",
+    fontWeight: "500",
+    color: "#303030",
     transition: "color .15s, border-color .15s",
+    borderRadius: "2px",
+    fontFamily: '"Inter", sans-serif',
   },
   tabBtnActive: {
-    fontWeight: "600",
-    color: "#303030",
-    borderBottom: "2px solid #303030",
+    fontWeight: "500",
+    color: "#fff",
     marginBottom: "-1px",
+    backgroundColor: "#424242",
   },
 
   /* Scrollable panel body */
@@ -225,7 +228,7 @@ export const styles = {
     display: "flex",
     alignItems: "center",
     gap: "18px",
-    width:'100%'
+    width: "100%",
   },
   subHeading: {
     margin: "0",
@@ -407,7 +410,7 @@ export const styles = {
     textAlign: "center",
     color: "#303030",
     fontWeight: "500",
-    fontSize: '13px'
+    fontSize: "13px",
   },
   file: {
     position: "absolute",
@@ -417,8 +420,8 @@ export const styles = {
     right: 0,
     opacity: 0,
     cursor: "pointer",
-    outline:'none',
-    border: 0
+    outline: "none",
+    border: 0,
   },
   statNumberStyle: {
     fontSize: "1.3rem",

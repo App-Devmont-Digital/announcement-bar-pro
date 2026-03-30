@@ -69,11 +69,6 @@ export const action = async ({ request }) => {
       });
 
       return redirect("/app");
-      // return {
-      //   success: true,
-      //   message: "Announcement deleted",
-      //   action: "delete",
-      // };
     }
 
     if (!rawData) return { error: "No data provided" };

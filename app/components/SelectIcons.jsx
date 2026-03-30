@@ -33,7 +33,7 @@ const SelectIcons = ({ id = "modal", activeIndex, isOpen = false }) => {
         {isOpen && visibleIcons.map((icon, index) => (
           <s-grid-item key={index}>
             <div
-              className="icon-box"
+              className="icon-box-grid"
               onClick={() => {
                 // Use strict check for 0 index
                 if (typeof activeIndex === "number") {

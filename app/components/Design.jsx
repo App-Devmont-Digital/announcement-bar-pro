@@ -4,11 +4,12 @@ import useStore from "../zustand/store";
 import { Templates } from "../constant";
 import ColorPicker from "./ColorPicker";
 import PixelFieldInput from "./PixelFieldInput";
+import CustomRadioGroup from "./CustomRadioGroup";
 import { styles } from "../styles/appStyles1";
 
 import "react-range-slider-input/dist/style.css";
 
-const Design = ({setSelectedTab}) => {
+const Design = ({ setSelectedTab }) => {
   const { designSettings, updateDesign } = useStore();
 
   const handleFileBg = async (e) => {
@@ -16,6 +17,12 @@ const Design = ({setSelectedTab}) => {
 
     updateDesign("bgImageUrl", file);
   };
+
+  const backgroundOptions = [
+    { label: "Single color background", value: "single-bg" },
+    { label: "Gradient background", value: "gradient-bg" },
+    { label: "Background image", value: "image-bg" },
+  ];
 
   return (
     <>
@@ -55,22 +62,15 @@ const Design = ({setSelectedTab}) => {
       <div style={{ ...styles.section }}>
         <s-stack gap="base large">
           <p style={styles.mainTitle}>Card</p>
-          <s-choice-list
-            label=""
-            name="Card"
-            details=""
-            values={[designSettings?.cardBg]}
-            onChange={(event) =>
-              updateDesign("cardBg", event.currentTarget.values[0])
-            }
-          >
-            <s-choice value="single-bg">Single color background</s-choice>
-            <s-choice value="gradient-bg">Gradient background</s-choice>
-            <s-choice value="image-bg">Background image</s-choice>
-          </s-choice-list>
+          <CustomRadioGroup
+            name="background-config"
+            options={backgroundOptions}
+            selectedValue={designSettings?.cardBg}
+            onChange={(value) => updateDesign("cardBg", value)}
+          />
         </s-stack>
 
-        <s-stack gap="base large">
+        <s-stack gap="large" paddingBlockStart="small">
           {/* Single Background card color  */}
           {designSettings?.cardBg === "single-bg" && (
             <>

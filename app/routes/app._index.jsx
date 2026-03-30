@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFetcher, useLoaderData, useNavigate } from "react-router";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { authenticate } from "../shopify.server";
 import prisma from "../db.server";
 import DiscoveryUI from "../components/DiscoveryUI";
+import DeleteConfirmation from "../components/DeleteConfirmation";
 
 import { styles } from "../styles/appStyles1";
 
@@ -29,8 +30,18 @@ export const loader = async ({ request }) => {
 
 export const action = async ({ request }) => {
   try {
-    const { session } = await authenticate.admin(request);
     const formData = await request.formData();
+
+    const id = formData.get("id");
+    const intent = formData.get("intent");
+
+    // --- DELETE Announcement ---
+    if (intent === "delete") {
+      if (!id) return { error: "ID required for deletion" };
+      await prisma.annSettings.delete({
+        where: { id: id },
+      });
+    }
 
     return { success: true };
   } catch (error) {
@@ -41,6 +52,8 @@ export const action = async ({ request }) => {
 };
 
 export default function Index() {
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
+
   const fetcher = useFetcher();
   const shopify = useAppBridge();
 
@@ -48,9 +61,11 @@ export default function Index() {
 
   const navigate = useNavigate();
 
+  const isLoading = fetcher.state === "submitting" || fetcher.state === "loading";
+
   useEffect(() => {
     if (fetcher.data?.success) {
-      shopify.toast.show("Product created");
+      shopify.toast.show("Announcement deleted successfully.");
     }
     if (fetcher.data?.error) {
       shopify.toast.show(
@@ -60,6 +75,17 @@ export default function Index() {
       );
     }
   }, [fetcher.data, shopify]);
+
+  const handleDelete = async () => {
+    if (!selectedAnnouncement) return;
+    fetcher.submit(
+      {
+        id: selectedAnnouncement?.id,
+        intent: "delete",
+      },
+      { method: "POST" },
+    );
+  };
 
   return (
     <s-page title="Announcements">
@@ -204,6 +230,14 @@ export default function Index() {
                           >
                             Edit
                           </s-button>
+                          <s-button
+                            icon="delete"
+                            tone="critical"
+                            commandFor="delete-modal"
+                            onClick={() => setSelectedAnnouncement(ann)}
+                          >
+                            Delete
+                          </s-button>
                         </s-menu>
                       </s-table-cell>
                     </s-table-row>
@@ -211,6 +245,12 @@ export default function Index() {
                 })}
               </s-table-body>
             </s-table>
+
+            <DeleteConfirmation
+              ann={selectedAnnouncement}
+              handleDelete={handleDelete}
+              isLoading={isLoading}
+            />
           </s-card>
         </>
       ) : (

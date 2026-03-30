@@ -4,6 +4,7 @@ import useStore from "../zustand/store";
 
 import AddMultiAnnouncement from "../components/AddMultiAnnouncement";
 import SelectIcons from "../components/SelectIcons";
+import CustomRadioGroup from "./CustomRadioGroup";
 
 const Content = ({ setSelectedTab }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -16,6 +17,12 @@ const Content = ({ setSelectedTab }) => {
     updateContent("icon", file);
   };
 
+  const annOptions = [
+    { label: "Simple announcement", value: "simple-announce" },
+    { label: "Running line announcement", value: "line-announce" },
+    { label: "Multiple rotating announcements", value: "multiple-announce" },
+  ];
+
   return (
     <>
       {/* ── Announcement Type ── */}
@@ -23,24 +30,13 @@ const Content = ({ setSelectedTab }) => {
         <div style={styles.radioGroup}>
           <s-stack gap="base large">
             <p style={styles.mainTitle}>Announcement type</p>
-            <s-choice-list
-              label=""
-              name="Announcement type"
-              details=""
-              values={[content?.announcementType]}
-              onChange={(event) =>
-                // setAnnouncementType(event.currentTarget.values)
-                updateContent("announcementType", event.currentTarget.values[0])
-              }
-            >
-              <s-choice value="simple-announce">Simple announcement</s-choice>
-              <s-choice value="line-announce">
-                Running line announcement
-              </s-choice>
-              <s-choice value="multiple-announce">
-                Multiple rotating announcements
-              </s-choice>
-            </s-choice-list>
+
+            <CustomRadioGroup
+              name="announcement-config"
+              options={annOptions}
+              selectedValue={content?.announcementType}
+              onChange={(value) => updateContent("announcementType", value)}
+            />
           </s-stack>
         </div>
 

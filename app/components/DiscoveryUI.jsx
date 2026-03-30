@@ -1,18 +1,21 @@
 const APPS = [
   {
-    title: "Essential Free Shipping Upsell",
-    desc: "Boost sales and AOV by displaying a free shipping progress bar and upsell.",
-    img: "https://placehold.co/600x400/111/fff?text=Free+Shipping",
+    title: "Pro Wishlist",
+    desc: "Simplify your store with our Pro Wishlist app, designed for easy setup to elevate conversions",
+    img: "/wishlist-cover.webp",
+    link: "https://apps.shopify.com/quick-wishlist?surface_intra_position=2&surface_type=partners&surface_version=simplified",
   },
   {
-    title: "Essential Trust Badges & Icons",
-    desc: "Showcase your product features and store guarantees with icons and trust badge banners.",
-    img: "https://placehold.co/600x400/111/fff?text=Trust+Badges",
+    title: "Carousel Reels",
+    desc: "Showcase TikTok videos to attract customers, engage visitors, and improve aesthetics.",
+    img: "/insta-cover.webp",
+    link: "https://apps.shopify.com/carousel-reels?surface_intra_position=1&surface_type=partners&surface_version=simplified",
   },
   {
-    title: "Essential Countdown Timer Bar",
+    title: "Bundle Builder",
     desc: "Drive Sales by using Urgency. Countdown timer bar is one of the ways to motivate buyers to act.",
     img: "https://placehold.co/600x400/111/fff?text=Timer+Bar",
+    link: "#",
   },
 ];
 
@@ -70,7 +73,7 @@ export default function DiscoveryUI({ shop }) {
                   <h3>{app.title}</h3>
                   <p>{app.desc}</p>
 
-                  <button className="app-outline-btn">
+                  <button className="app-outline-btn" onClick={() => window.open(app.link, '_blank')}>
                     View on Shopify app store
                   </button>
                 </div>

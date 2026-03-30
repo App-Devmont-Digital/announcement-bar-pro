@@ -50,6 +50,97 @@
   }
 }
 
+/* Container for the whole list */
+.radio-group-container {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+/* Individual item wrapper */
+.radio-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 15px;
+  color: #202223;
+  user-select: none;
+  position: relative;
+  margin: 0 !important;
+}
+
+/* Hide the actual browser radio input */
+.radio-option input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* The Outer Circle */
+/* Individual Option Wrapper */
+.radio-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 12px;
+  user-select: none;
+  font-family: "Inter", sans-serif;
+}
+
+/* Hide Native Input */
+.radio-option input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* The Outer Circle */
+.radio-custom-circle {
+  height: 13.5px;
+  width: 13.5px;
+  background-color: #fdfdfd; /* Default state: White bg */
+  border: 0.412px solid #8a8a8a; /* Default state: Gray border */
+  border-radius: 50%;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+/* --- SELECTED STATE (Checked) --- */
+.radio-option input:checked ~ .radio-custom-circle {
+  background-color: #000000; /* BG turns Black */
+  border-color: #000; /* Border turns Black */
+}
+
+/* The Inner Dot (White) */
+.radio-custom-circle::after {
+  content: "";
+  width: 8px; /* Dot size */
+  height: 8px;
+  background: #fff; /* Inner dot color is White */
+  border-radius: 55px;
+  opacity: 0;
+}
+
+/* Show White Dot when Checked */
+.radio-option input:checked ~ .radio-custom-circle::after {
+  /* display: block; */
+  opacity: 1;
+}
+
+/* Label Text Styling */
+.radio-label-text {
+  font-size: 13.5px;
+  color: #303030;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+}
+
 .swiper {
   /* width: 100%;
   height: 100%; */
@@ -72,17 +163,16 @@
   left: -10px !important;
 }
 
-.icon-box {
-  width: 82px;
-  height: 82px;
-  padding: 2px;
-  border-radius: 8px;
-  border: 1px solid rgb(196, 205, 213);
+.icon-box-grid {
+  background: #ebedee;
+  padding: 8px;
+  border-radius: 6px;
+  width: auto;
+  height: 60px;
   display: flex;
-  -webkit-box-align: center;
   align-items: center;
-  -webkit-box-pack: center;
   justify-content: center;
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -91,9 +181,8 @@
   background-color: #f1f1f1;
   min-height: 100vh;
   padding: 20px 0px;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto,
-    sans-serif;
+  font-family: "Inter", sans-serif;
+
   color: #303030;
 }
 
@@ -102,7 +191,7 @@
   background: white;
   border: 1px solid #e1e3e5;
   border-radius: 8px;
-  padding: 0px 16px;
+  padding: 6px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -126,6 +215,7 @@
 
 .status-right {
   font-size: 13px;
+  margin: 0;
 }
 
 .status-right a {
@@ -274,9 +364,7 @@
 body {
   background-color: #f1f1f1;
   color: #303030;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto,
-    "Helvetica Neue", sans-serif;
+  font-family: "Inter", sans-serif;
   margin: 0;
   padding: 40px 20px;
   line-height: 1.5;
@@ -456,9 +544,7 @@ select.input-field {
   background-color: #ffffff;
   border: 1px solid #dcdfe3;
   border-radius: 8px;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
+  font-family: "Inter", sans-serif;
   color: #202223;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   overflow: hidden;
