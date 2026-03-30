@@ -16,7 +16,12 @@ const APPS = [
   },
 ];
 
-export default function DiscoveryUI() {
+export default function DiscoveryUI({ shop }) {
+  const apiKey = "1d31020718c92cc03d5631b069e0bee9"; // app.toml ka client_id
+  const handle = "announcement"; // aapki blocks/app-embed.liquid file ka naam
+
+  const url = `https://${shop}/admin/themes/current/editor?context=apps&activateAppId=${apiKey}/${handle}`;
+
   return (
     <div className="discovery-wrapper">
       <div className="discovery-container">
@@ -28,7 +33,10 @@ export default function DiscoveryUI() {
           </s-stack>
 
           <p className="status-right">
-            Manage app embed in the online <a href="#">store editor</a>
+            Manage app embed in the online{" "}
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              store editor
+            </a>
           </p>
         </div>
 

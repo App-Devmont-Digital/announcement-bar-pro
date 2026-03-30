@@ -24,8 +24,15 @@ const MultipleAnnouncement = () => {
   } = designSettings;
 
   return (
-    <div>
-      <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
+    <div className="swiper-wrapper-custom">
+      <Swiper
+        modules={[Navigation]}
+        navigation={{
+          prevEl: ".custom-prev",
+          nextEl: ".custom-next",
+        }}
+        className="mySwiper"
+      >
         {multiContent?.length
           ? multiContent?.map((item) => (
               <SwiperSlide key={item?.id}>
@@ -47,8 +54,8 @@ const MultipleAnnouncement = () => {
                               : item?.icon
                           }
                           style={{
-                            width: "34px",
-                            height: "34px",
+                            width: "30px",
+                            height: "30px",
                             objectFit: "contain",
                           }}
                         />
@@ -104,6 +111,27 @@ const MultipleAnnouncement = () => {
             ))
           : null}
       </Swiper>
+
+      {/* ✅ Custom Prev Button */}
+      <button className="custom-prev">
+        {/* LEFT SVG */}
+        <svg width="24" height="24" viewBox="0 0 24 24">
+          <path
+            d="M15 18l-6-6 6-6"
+            stroke="black"
+            strokeWidth="2"
+            fill="none"
+          />
+        </svg>
+      </button>
+
+      {/* ✅ Custom Next Button */}
+      <button className="custom-next">
+        {/* RIGHT SVG */}
+        <svg width="24" height="24" viewBox="0 0 24 24">
+          <path d="M9 6l6 6-6 6" stroke="black" strokeWidth="2" fill="none" />
+        </svg>
+      </button>
     </div>
   );
 };

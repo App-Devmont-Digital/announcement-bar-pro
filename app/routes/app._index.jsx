@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useFetcher, useLoaderData, useNavigate } from "react-router";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { authenticate } from "../shopify.server";
 import prisma from "../db.server";
-import DiscoveryUI from "../components/DiscoveryUI"
+import DiscoveryUI from "../components/DiscoveryUI";
 
 import { styles } from "../styles/appStyles1";
 
-export const loader = async ({ request, params }) => {
+export const loader = async ({ request }) => {
   const { session } = await authenticate.admin(request);
 
   const announcement = await prisma.annSettings.findMany({
     where: {
-      shop: session.shop, // Safety check: ensure it belongs to this shop
+      shop: session.shop,
     },
   });
 
@@ -23,6 +23,7 @@ export const loader = async ({ request, params }) => {
 
   return {
     announcement,
+    shop: session.shop,
   };
 };
 
@@ -30,7 +31,6 @@ export const action = async ({ request }) => {
   try {
     const { session } = await authenticate.admin(request);
     const formData = await request.formData();
-    const rawData = formData.get("data");
 
     return { success: true };
   } catch (error) {
@@ -44,7 +44,7 @@ export default function Index() {
   const fetcher = useFetcher();
   const shopify = useAppBridge();
 
-  const { announcement } = useLoaderData();
+  const { announcement, shop } = useLoaderData();
 
   const navigate = useNavigate();
 
@@ -60,7 +60,6 @@ export default function Index() {
       );
     }
   }, [fetcher.data, shopify]);
-
 
   return (
     <s-page title="Announcements">
@@ -262,7 +261,7 @@ export default function Index() {
         </s-box>
       )}
 
-      <DiscoveryUI/>
+      <DiscoveryUI shop={shop} />
     </s-page>
   );
 }

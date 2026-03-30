@@ -171,20 +171,24 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
 
   
 
-    const apiUrl = `https://announcement-bar-pro.vercel.app/api/announcement?shop=${shop}`;
+    const apiUrl = `https://lopez-replies-luis-gmbh.trycloudflare.com/api/announcement?shop=${shop}`;
 
     fetch(apiUrl)
       .then(res => res.json())
       .then(response => {
         if (!response.data || response.data.length === 0) return;
 
-        const root = document.getElementById('AppAnnouncementRoot');
+        
 
         // LOOP through the data array instead of taking only the first object
-        response.data.forEach((item) => {
+        response?.data?.forEach((item) => {
           const design = JSON.parse(item?.designSettings);
           const content = JSON.parse(item?.content);
           const multiContent = JSON.parse(item?.multiContent);
+
+            // ✅ create NEW root for each item
+          const root = document.createElement("div");
+          root.id = `AppAnnouncementRoot-${item.id}`;
 
           // show only in homepage
           if (content?.placement === "index") {
@@ -238,13 +242,6 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
               }
               // 2. If it's NOT in the list, continue showing the announcement
             }
-          
-          // Determine Position (using first item's preference or global logic)
-          if (design.position === 'top-page') {
-            document.body.prepend(root);
-          } else {
-            document.body.appendChild(root);
-          }
 
           // Pass the unique item.id to the injection functions
           switch (content.announcementType) {
@@ -257,6 +254,12 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
             case 'multiple-announce':
               injectMultipleBar(root, multiContent, design, item.id);
               break;
+          }
+ 
+          if (design?.position === 'top-page') {
+            document.body.prepend(root);
+          } else {
+            document.body.appendChild(root);
           }
         });
       })
