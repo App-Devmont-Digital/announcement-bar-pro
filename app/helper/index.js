@@ -1,4 +1,5 @@
 // Upload image on cloudinary
+
 export const handleUploadImage = async (image) => {
   if (!image) return;
 
@@ -22,3 +23,5 @@ export const handleUploadImage = async (image) => {
     console.error(err);
   }
 };
+
+

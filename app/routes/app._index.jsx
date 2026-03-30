@@ -4,6 +4,7 @@ import { useAppBridge } from "@shopify/app-bridge-react";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { authenticate } from "../shopify.server";
 import prisma from "../db.server";
+import DiscoveryUI from "../components/DiscoveryUI"
 
 import { styles } from "../styles/appStyles1";
 
@@ -260,6 +261,8 @@ export default function Index() {
           </div>
         </s-box>
       )}
+
+      <DiscoveryUI/>
     </s-page>
   );
 }

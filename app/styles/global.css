@@ -85,3 +85,366 @@
   justify-content: center;
   cursor: pointer;
 }
+
+/* Base Wrapper */
+.discovery-wrapper {
+  background-color: #f1f1f1;
+  min-height: 100vh;
+  padding: 20px 0px;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto,
+    sans-serif;
+  color: #303030;
+}
+
+/* Status Banner Styles */
+.status-banner {
+  background: white;
+  border: 1px solid #e1e3e5;
+  border-radius: 8px;
+  padding: 0px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.status-label {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.status-badge {
+  background-color: #bbe5b3;
+  color: #008060;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 8px;
+}
+
+.status-right {
+  font-size: 13px;
+}
+
+.status-right a {
+  color: #005bd3;
+  text-decoration: underline;
+}
+
+/* Main Container Styles */
+.discovery-main-card {
+  background: white;
+  border: 1px solid #e1e3e5;
+  border-radius: 12px;
+  padding: 10px 16px 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.discovery-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.discovery-header h2 {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.menu-dot-btn {
+  background: none;
+  border: none;
+  color: #616161;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+/* App Grid & Cards */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding-top: 10px;
+}
+
+.app-card {
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-image-box img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+}
+
+.app-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.app-card-body h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.app-card-body p {
+  font-size: 13px;
+  color: #616161;
+  line-height: 1.4;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+.app-outline-btn {
+  width: 100%;
+  padding: 7px;
+  background: white;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #303030;
+}
+
+.app-outline-btn:hover {
+  background-color: #f6f6f6;
+}
+
+/* Referral Section Styles */
+.discovery-divider {
+  border: 0;
+  border-top: 1px solid #f1f1f1;
+  margin: 30px 0;
+}
+
+.referral-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.referral-mini-card {
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.referral-icon-box {
+  width: 44px;
+  height: 44px;
+  background: black;
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.referral-text h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 2px 0;
+}
+
+.referral-text p {
+  font-size: 12px;
+  color: #616161;
+  margin: 0;
+}
+
+/* Support and help css  */
+
+body {
+  background-color: #f1f1f1;
+  color: #303030;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto,
+    "Helvetica Neue", sans-serif;
+  margin: 0;
+  padding: 40px 20px;
+  line-height: 1.5;
+}
+
+.page-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.header-section {
+  margin-bottom: 24px;
+}
+
+.header-section h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.header-section p {
+  color: #616161;
+  margin: 0;
+}
+
+/* Layout Grid */
+.support-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .support-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card Component */
+.card {
+  background: #ffffff;
+  border: 1px solid #e1e3e5;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* FAQ/Links Styling */
+.faq-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.faq-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-item h4 {
+  font-size: 14px;
+  margin: 0 0 4px 0;
+  color: #303030;
+}
+
+.faq-item p {
+  font-size: 13px;
+  color: #616161;
+  margin: 0;
+}
+
+/* Form Styling */
+
+.input-field {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  font-family: inherit;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #008060;
+  box-shadow: 0 0 0 1px #008060;
+}
+
+textarea.input-field {
+  resize: vertical;
+  min-height: 120px;
+}
+
+select.input-field {
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Button Styling */
+.btn-primary {
+  background-color: #008060;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #006e52;
+}
+
+.btn-secondary {
+  background: white;
+  border: 1px solid #d1d1d1;
+  color: #303030;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-secondary:hover {
+  background-color: #f6f6f6;
+}
+
+/* Custom Icon Box */
+.icon-box {
+  background: #f4f6f8;
+  padding: 8px;
+  border-radius: 6px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.badge-active {
+  background: #bbe5b3;
+  color: #008060;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
