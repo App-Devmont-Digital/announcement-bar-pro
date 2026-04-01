@@ -94,7 +94,7 @@ export const styles = {
     padding: "9px 4px",
     border: "none",
     // borderBottom: "2px solid transparent",
-    background: "none",
+    background: "#dedede",
     cursor: "pointer",
     fontSize: "13px",
     fontWeight: "500",

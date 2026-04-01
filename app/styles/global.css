@@ -269,7 +269,7 @@
 
 .app-image-box img {
   width: 100%;
-  aspect-ratio: 16 / 10;
+  /* aspect-ratio: 16 / 10; */
   object-fit: cover;
   display: block;
 }
@@ -332,6 +332,9 @@
   display: flex;
   align-items: center;
   gap: 16px;
+  text-decoration: none;
+  color: #303030;
+  cursor: pointer;
 }
 
 .referral-icon-box {
@@ -368,6 +371,11 @@ body {
   margin: 0;
   padding: 40px 20px;
   line-height: 1.5;
+}
+.main_heading {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
 }
 
 .page-container {
@@ -812,4 +820,39 @@ footer {
   margin-top: 40px;
   font-size: 13px;
   color: #8c9196;
+}
+
+.warning-status {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background-color: #ffb800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.warning-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.app-icon-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.app-icon-box h3 {
+  margin: 0;
+}
+.app-icon-box img {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+.app-outline-btn:disabled {
+  cursor: default;
 }

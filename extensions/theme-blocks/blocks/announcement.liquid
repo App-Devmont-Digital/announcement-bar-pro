@@ -11,6 +11,8 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
     z-index: 999999;
   }
 
+
+
   .bar-container {
     transition: all 0.3s ease;
     width: 100%;
@@ -100,7 +102,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
     align-items: center;
     justify-content: center;
     font-size: 15px;
-    padding: 0 40px;
+    padding: 0 25px;
   }
 
   .swiper-button-next,
@@ -154,6 +156,43 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
     align-items: center;
     gap: 22px;
   }
+
+  @media (max-width: 620px) {
+    .bar-container {
+      padding: 10px 22px;
+    }
+    .simple-content, .icon-row {
+      gap:13px;
+    }
+    .title {
+      font-size: 14px !important;
+    }
+    .icon {
+      width: 22px;
+      height: 22px;
+    }
+    .btn-link {
+      font-size: 13px !important;
+      padding: 6px 10px !important;
+    }
+    .action-area {
+      gap: 4px;
+      padding: 0 0 0 10px;
+    }
+    .announcement-text {
+      padding:0 10px !important;
+      font-size: 14px !important;
+    }
+    .swiper-button-prev, .swiper-button-next {
+      width: 10px !important;
+    }
+    .swiper-button-prev svg, .swiper-button-next svg {
+      width: 15px !important;
+      height: 15px !important;
+
+    }
+  }
+  
 </style>
 
 <div id="AppAnnouncementRoot" class="app-extension-wrapper"></div>
@@ -171,7 +210,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
 
   
 
-    const apiUrl = `https://lopez-replies-luis-gmbh.trycloudflare.com/api/announcement?shop=${shop}`;
+    const apiUrl = `https://bird-bibliographic-jesus-formation.trycloudflare.com/api/announcement?shop=${shop}`;
 
     fetch(apiUrl)
       .then(res => res.json())
@@ -390,11 +429,11 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
       }
     }
 
-    function injectMultipleBar(parent, multiContent, design, id) {
-      let cardBg = design?.cardBg;
 
-     
-     const slides = multiContent?.map(item => {
+  // ***** Carousel Slider ***************************************
+  function injectMultipleBar(parent, multiContent, design, id) {
+    let cardBg = design?.cardBg;
+const slides = multiContent?.map(item => {
   
   // Decide the tag: 'a' if link, else 'div'
   const Tag = item?.callToAction === "link" ? "a" : "div";
@@ -409,7 +448,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
       <div class="icon-row">
        ${item?.icon ? `<img src="${item?.icon}" alt="icon" class="icon"/>` : ''} 
         <div>
-          ${item?.title || ""}
+          <p class="title" style="color: ${design?.textColor}; font-size: ${design?.textSize + "px"}"> ${item?.title || ""}</p>
           ${item?.subheading ? `<p class="sub-title" style="font-size: ${design?.subheadingSize + "px"}; color: ${design?.subheadingColor}">${item?.subheading}</p>` : ""}
         </div>
       </div>
@@ -457,7 +496,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
             border: ${design?.borderSize}px solid ${design?.borderColor}; border-radius: ${design?.cornerRadius}px;">
           
           ${design?.blurBackground ? `<div class='blur-bg'></div>` : ''}
-          <div class="swiper swiper-${id}">
+          <div class="swiper swiper-${id} mySwiper">
             <div class="swiper-wrapper">
               ${slides}
           </div>
@@ -486,18 +525,24 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
 });
 
       // Initialize THIS specific swiper instance
-      const init = () => {
+      
+     const init = () => {
         if (typeof Swiper !== 'undefined') {
-          new Swiper(`.swiper-${id}`, {
+          setTimeout(() => {
+            new Swiper(`.swiper-${id}`, {
             loop: true,
-            autoplay: { delay: 10000 },
+            autoplay: {
+              delay: 3000,
+            },
             navigation: {
-              nextEl: bar.querySelector('.swiper-button-next'),
-              prevEl: bar.querySelector('.swiper-button-prev')
-            }
+              nextEl: `.swiper-${id} .swiper-button-next`,
+              prevEl: `.swiper-${id} .swiper-button-prev`,
+            },
           });
-        } else { setTimeout(init, 100); }
+          }, 1500);
+        }
       };
+
       init();
     }
   })();

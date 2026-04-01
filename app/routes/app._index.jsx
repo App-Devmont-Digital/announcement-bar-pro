@@ -53,6 +53,7 @@ export const action = async ({ request }) => {
 
 export default function Index() {
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
+  const [appEmbedStatus, setAppEmbedStatus] = useState(false);
 
   const fetcher = useFetcher();
   const shopify = useAppBridge();
@@ -61,9 +62,21 @@ export default function Index() {
 
   const navigate = useNavigate();
 
-  const isLoading = fetcher.state === "submitting" || fetcher.state === "loading";
+  const checkAppEmbededStatus = async () => {
+    const data = await shopify.app.extensions();
+
+    const result = data
+      ?.flatMap((item) => item?.activations || [])
+      ?.find((act) => act?.name === "Announcementbar Pro");
+
+    setAppEmbedStatus(result);
+  };
+
+  const isLoading =
+    fetcher.state === "submitting" || fetcher.state === "loading";
 
   useEffect(() => {
+    checkAppEmbededStatus();
     if (fetcher.data?.success) {
       shopify.toast.show("Announcement deleted successfully.");
     }
@@ -171,7 +184,8 @@ export default function Index() {
               justifyContent="space-between"
               paddingBlock="base"
             >
-              <s-heading>Announcements</s-heading>
+              {/* <s-heading>Announcements</s-heading> */}
+              <h3 className="main_heading">Announcements</h3>
               <s-button
                 variant="primary"
                 onClick={() => navigate(`/app/announcement/new`)}
@@ -202,7 +216,11 @@ export default function Index() {
                           ? "Simple"
                           : "Multiple"}
                       </s-table-cell>
-                      <s-table-cell>{content?.placement} page</s-table-cell>
+                      <s-table-cell>
+                        {content?.placement?.charAt(0).toUpperCase() +
+                          content?.placement?.slice(1)}{" "}
+                        page
+                      </s-table-cell>
                       <s-table-cell>
                         <s-badge
                           tone={ann?.status == "active" ? "success" : "warning"}
@@ -301,7 +319,7 @@ export default function Index() {
         </s-box>
       )}
 
-      <DiscoveryUI shop={shop} />
+      <DiscoveryUI shop={shop} appEmbedStatus={appEmbedStatus} />
     </s-page>
   );
 }

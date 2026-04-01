@@ -53,6 +53,8 @@ export async function action({ request }) {
 export default function AdditionalPage() {
   const actionData = useActionData();
 
+  console.log({ actionData });
+
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     category: "",
@@ -81,14 +83,16 @@ export default function AdditionalPage() {
         name: "",
         email: "",
       });
+      setErrors({});
     }
 
-    if (actionData?.error) {
+    if (actionData?.errors) {
       shopify.toast.show(
-        actionData?.error?.message ||
-          actionData?.error ||
+        actionData?.errors?.message ||
+          actionData?.errors ||
           "Something went wrong",
       );
+      setErrors(actionData?.errors);
     }
   }, [actionData, shopify]);
 
