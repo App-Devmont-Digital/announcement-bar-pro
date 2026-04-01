@@ -12,19 +12,68 @@ import { styles } from "../styles/appStyles1";
 export const loader = async ({ request }) => {
   const { session } = await authenticate.admin(request);
 
+  const url = new URL(request.url);
+
+  const page = parseInt(url.searchParams.get("page")) || 1;
+  const limit = 7;
+
+  const skip = (page - 1) * limit;
+
+  // 1️⃣ Get paginated data (same as before)
   const announcement = await prisma.annSettings.findMany({
     where: {
       shop: session.shop,
     },
+    skip,
+    take: limit,
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
-  if (!announcement) {
-    throw new Response("Not Found", { status: 404 });
-  }
+  // 2️⃣ Single aggregation query for all counts
+  const result = await prisma.annSettings.aggregateRaw({
+    pipeline: [
+      {
+        $match: {
+          shop: session.shop,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: 1 },
+          active: {
+            $sum: {
+              $cond: [{ $eq: ["$status", "active"] }, 1, 0],
+            },
+          },
+          draft: {
+            $sum: {
+              $cond: [{ $eq: ["$status", "draft"] }, 1, 0],
+            },
+          },
+        },
+      },
+    ],
+  });
+
+  const counts = result[0] || { total: 0, active: 0, draft: 0 };
+
+  const pagination = {
+    currentPage: page,
+    perPage: limit,
+    totalItems: counts.total,
+    totalPages: Math.ceil(counts.total / limit),
+    hasNextPage: page < Math.ceil(counts.total / limit),
+    hasPreviousPage: page > 1,
+  };
 
   return {
     announcement,
     shop: session.shop,
+    pagination,
+    counts,
   };
 };
 
@@ -58,7 +107,9 @@ export default function Index() {
   const fetcher = useFetcher();
   const shopify = useAppBridge();
 
-  const { announcement, shop } = useLoaderData();
+  const { announcement, shop, pagination, counts } = useLoaderData();
+  const hasNext = pagination?.hasNextPage;
+  const hasPrevious = pagination?.hasPreviousPage;
 
   const navigate = useNavigate();
 
@@ -122,9 +173,7 @@ export default function Index() {
                 <s-text tone="subdued">Total Announcements</s-text>
               </s-stack>
               <s-text>
-                <h2 style={styles.statNumberStyle}>
-                  {announcement?.length ?? 0}
-                </h2>
+                <h2 style={styles.statNumberStyle}>{counts?.total ?? 0}</h2>
               </s-text>
             </s-stack>
           </s-box>
@@ -143,10 +192,7 @@ export default function Index() {
                 <s-text tone="subdued">Active Announcements</s-text>
               </s-stack>
               <s-text>
-                <h2 style={styles.statNumberStyle}>
-                  {announcement?.filter((a) => a?.status === "active").length ??
-                    0}
-                </h2>
+                <h2 style={styles.statNumberStyle}>{counts?.active ?? 0}</h2>
               </s-text>
             </s-stack>
           </s-box>
@@ -165,10 +211,7 @@ export default function Index() {
                 <s-text tone="subdued">Drafts Announcement</s-text>
               </s-stack>
               <s-text>
-                <h2 style={styles.statNumberStyle}>
-                  {announcement?.filter((a) => a?.status !== "active").length ??
-                    0}
-                </h2>
+                <h2 style={styles.statNumberStyle}>{counts?.draft ?? 0}</h2>
               </s-text>
             </s-stack>
           </s-box>
@@ -193,7 +236,18 @@ export default function Index() {
                 New Announcement
               </s-button>
             </s-stack>
-            <s-table>
+            <s-table
+              paginate={counts?.total > 7}
+              hasPreviousPage={hasPrevious}
+              hasNextPage={hasNext}
+              onPreviousPage={() =>
+                navigate(`?page=${pagination?.currentPage - 1}`)
+              }
+              onNextPage={() =>
+                navigate(`?page=${pagination?.currentPage + 1}`)
+              }
+              loading={isLoading}
+            >
               <s-table-header-row>
                 <s-table-header>Announcement name</s-table-header>
                 <s-table-header>Type</s-table-header>
