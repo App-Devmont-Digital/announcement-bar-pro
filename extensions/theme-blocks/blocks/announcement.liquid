@@ -10,9 +10,6 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
     position: relative;
     z-index: 999999;
   }
-
-
-
   .bar-container {
     transition: all 0.3s ease;
     width: 100%;
@@ -228,6 +225,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
             // ✅ create NEW root for each item
           const root = document.createElement("div");
           root.id = `AppAnnouncementRoot-${item.id}`;
+          root.style.marginBottom = '6px';
 
           // show only in homepage
           if (content?.placement === "index") {
