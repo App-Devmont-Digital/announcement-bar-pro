@@ -369,7 +369,6 @@ body {
   color: #303030;
   font-family: "Inter", sans-serif;
   margin: 0;
-  padding: 40px 20px;
   line-height: 1.5;
 }
 .main_heading {
@@ -855,4 +854,264 @@ footer {
 }
 .app-outline-btn:disabled {
   cursor: default;
+}
+
+/* ============== Landing page css  =====================*/
+
+/* Utility Classes */
+.container-l {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Navigation */
+nav {
+  background: #ffffff;
+  padding: 16px 0;
+  border-bottom: 1px solid #e1e3e5;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+  color: #000000;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.nav-install {
+  font-weight: 600;
+  color: #166534;
+}
+
+.logo-icon {
+  background-color: #312e81; /* Deep Purple from logo */
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #312e81; /* Match Theme Purple */
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+/* Hero Section */
+.hero {
+  padding: 80px 0;
+  background: linear-gradient(180deg, #ffffff 0%, #f6f6f7 100%);
+}
+
+.hero h1 {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  color: #000;
+  letter-spacing: -1px;
+}
+
+.hero p {
+  font-size: 20px;
+  color: #6d7175;
+  max-width: 750px;
+  margin: 0 auto 40px;
+}
+
+/* Live Preview Simulation */
+.preview-box {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(49, 46, 129, 0.1);
+  overflow: hidden;
+  margin-top: 40px;
+  border: 1px solid #e1e3e5;
+}
+
+.browser-bar {
+  background: #f1f1f1;
+  padding: 10px;
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid #e1e3e5;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ccc;
+}
+
+/* The App's Feature: Announcement Bars */
+.demo-bar {
+  padding: 14px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: white;
+}
+
+.bar-scrolling {
+  background: #312e81;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.scrolling-text {
+  display: inline-block;
+  animation: scroll 20s linear infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Features Grid */
+.features {
+  padding: 80px 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.feature-card {
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  border: 1px solid #e1e3e5;
+  transition: transform 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  border-color: #312e81;
+}
+
+.icon {
+  width: 52px;
+  height: 52px;
+  background: #eef2ff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: #312e81;
+  font-size: 24px;
+}
+
+/* Style Showcase */
+.showcase {
+  background: #ffffff;
+  padding: 80px 0;
+}
+
+.style-item {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  margin-bottom: 80px;
+}
+
+.style-item:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.style-content {
+  flex: 1;
+}
+.style-preview {
+  flex: 1;
+  background: #f6f6f7;
+  padding: 40px;
+  border-radius: 20px;
+  border: 1px dashed #c9cccf;
+}
+
+.bar-preview {
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(49, 46, 129, 0.15);
+}
+
+/* Footer */
+footer {
+  padding: 60px 0;
+  background: #111827;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.badge-free {
+  background: #dcfce7;
+  color: #166534;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 36px;
+  }
+  .style-item {
+    flex-direction: column !important;
+    text-align: center;
+  }
+  .nav-content {
+    flex-direction: column;
+    gap: 15px;
+  }
 }
