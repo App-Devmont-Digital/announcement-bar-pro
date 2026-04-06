@@ -41,17 +41,15 @@ export const Templates = [
   },
 ];
 
-
 export const PAGES = [
-  {label: 'Home', value: 'index'},
-  {label: 'Collections', value: "collection"},
-  {label: 'All product pages', value: "product"},
-  {label: 'Blogs', value: 'blogs'},
-  {label: 'Cart', value: 'cart'},
-  {label: 'Search', value: 'search'},
-  {label: '404', value: '404'},
-]
-
+  { label: "Home", value: "index" },
+  { label: "Collections", value: "collection" },
+  { label: "All product pages", value: "product" },
+  { label: "Blogs", value: "blogs" },
+  { label: "Cart", value: "cart" },
+  { label: "Search", value: "search" },
+  { label: "404", value: "404" },
+];
 
 export const CUSTOMER_EMAIL_TEMPLATE = (name = "Merchant") => `
 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #303030; max-width: 600px; margin: 20px auto; border: 1px solid #e1e3e5; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
@@ -105,7 +103,7 @@ export const SUPPORT_TEAM_EMAIL_TEMPLATE = (data) => `
             </tr>
             <tr style="border-bottom: 1px solid #f1f1f1;">
                 <td style="padding: 12px 0; color: #6d7175;">Store URL:</td>
-                <td style="padding: 12px 0;"><a href="${data?.storeUrl}" style="color: #005bd3;">${data?.storeUrl || 'Not provided'}</a></td>
+                <td style="padding: 12px 0;"><a href="${data?.storeUrl}" style="color: #005bd3;">${data?.storeUrl || "Not provided"}</a></td>
             </tr>
         </table>
 
@@ -120,3 +118,4 @@ export const SUPPORT_TEAM_EMAIL_TEMPLATE = (data) => `
     </div>
 </div>
 `;
+
