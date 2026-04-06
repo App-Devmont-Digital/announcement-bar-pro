@@ -34,6 +34,20 @@ export const styles = {
     gap: "10px",
   },
 
+  label: {
+    fontSize: "13px",
+    color: "#303030",
+    fontWeight: "600",
+    margin: 0,
+    paddingBottom: "1.5px",
+
+    // paddingBottom:'5px'
+  },
+  labelDetail: {
+    fontSize: "13px",
+    color: "#5f5f5f",
+  },
+
   /* Page container */
 
   /* Upgrade banner */
@@ -71,7 +85,7 @@ export const styles = {
   /* Two-column grid */
   twoCol: {
     display: "grid",
-    gridTemplateColumns: "340px 1fr",
+    gridTemplateColumns: "420px 1fr",
     gap: "16px",
     alignItems: "start",
   },
@@ -79,19 +93,21 @@ export const styles = {
   /* Left panel card */
   leftPanel: {
     backgroundColor: "#ffffff",
-    borderRadius: "8px",
-    border: "1px solid #e1e3e5",
+    borderRadius: "10px",
+    border: "1px solid #D6D3D3",
     overflow: "hidden",
   },
 
   /* Tab strip — custom, no Polaris web component equivalent */
   tabsBar: {
     display: "flex",
-    backgroundColor: "#dedede",
+    backgroundColor: "#fff",
+    padding: "16px",
+    gap: "10px",
   },
   tabBtn: {
     flex: 1,
-    padding: "9px 4px",
+    padding: "6px 4px",
     border: "none",
     // borderBottom: "2px solid transparent",
     background: "#dedede",
@@ -102,6 +118,8 @@ export const styles = {
     transition: "color .15s, border-color .15s",
     borderRadius: "2px",
     fontFamily: '"Inter", sans-serif',
+    borderRadius: "6px",
+    backgroundColor: "#F0F0F0",
   },
   tabBtnActive: {
     fontWeight: "500",
@@ -121,7 +139,7 @@ export const styles = {
     padding: "16px",
     display: "flex",
     flexDirection: "column",
-    gap: "12px",
+    // gap: "12px",
   },
 
   /* Thin divider line */
@@ -177,8 +195,9 @@ export const styles = {
   },
   iconButtons: {
     display: "flex",
-    flexDirection: "column",
     gap: "6px",
+    alignItems: "center",
+    paddingTop: "10px",
   },
   link: {
     color: "#2c6ecb",
@@ -195,6 +214,8 @@ export const styles = {
   /* Continue button area */
   continueBtn: {
     padding: "12px 16px 18px",
+    display: "flex",
+    justifyContent: "flex-end",
   },
 
   /* ── Right panel ── */
@@ -204,6 +225,43 @@ export const styles = {
     position: "sticky",
     top: "5px",
     overflow: "hidden",
+   
+  },
+  liveBox: {
+    border: "1px solid #E2E2E2",
+    borderRadius: "10px",
+  },
+  liveBoxBar: {
+    backgroundColor: "#F6F6F7",
+    display: "flex",
+    alignItems: "center",
+    gap: "15px",
+    padding: "12px 16px 14px",
+    borderTopLeftRadius: "10px",
+    borderTopRightRadius: "10px",
+  },
+  liveTabs: {
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+  },
+  tabDot: {
+    borderRadius: "55px",
+    width: "11px",
+    height: "11px",
+  },
+  urlViewBox: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: "8px",
+    padding: "8px 16px",
+    flex: 1,
+  },
+  urlText: {
+    color: "#a1a1a1",
+    fontFamily: '"Inter", sans-serif',
+    fontSize: "12px",
+    fontWeight: "300",
+    margin: 0,
   },
 
   previewBar: {
@@ -270,7 +328,7 @@ export const styles = {
     padding: "22px 24px",
     display: "flex",
     flexDirection: "column",
-    gap: "36px",
+    gap: "24px",
     border: "1px solid #f6f6f7",
   },
   boxGrid: {
@@ -279,8 +337,8 @@ export const styles = {
     gap: "20px",
   },
   skeletonThumb: {
-    width: "120px",
-    height: "36px",
+    width: "130px",
+    height: "38px",
     borderRadius: "4px",
     backgroundColor: "#e1e3e5",
     flexShrink: 0,
@@ -290,11 +348,23 @@ export const styles = {
     display: "flex",
     flexDirection: "column",
     gap: "9px",
-    paddingTop: "6px",
   },
   skeletonLine: {
     height: "12px",
     borderRadius: "4px",
+    backgroundColor: "#e1e3e5",
+  },
+
+  boxSkeleton: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+  },
+
+  skeletonThumbBox: {
+    flex: "1",
+    height: "150px",
+    borderRadius: "8px",
     backgroundColor: "#e1e3e5",
   },
 

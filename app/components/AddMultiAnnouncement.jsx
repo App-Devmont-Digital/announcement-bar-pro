@@ -24,24 +24,18 @@ const AddMultiAnnouncement = () => {
 
   return (
     <>
-      <div style={{ padding: "16px 16px 0" }}>
-        <p style={{ ...styles.mainTitle, paddingBottom: "16px" }}>
-          Announcement content
-        </p>
-
-        {/* Announcement Name */}
-        <s-text-field
-          label="Announcement name"
-          value={content?.name}
-          details={"Only visible to you. For your own internal reference."}
-          help-text="Only visible to you. For your own internal reference."
-          onInput={(e) => updateContent("name", e.target.value)}
-        />
-      </div>
       {multiContent?.map((item, index) => (
         <div key={item.id} style={styles.section}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <p style={styles.mainTitle}>Announcement {index + 1}</p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginBottom: "10px",
+            }}
+          >
+            <p style={{ ...styles.mainTitle, fontSize: "14px" }}>
+              Announcement #{index + 1}
+            </p>
             {multiContent?.length > 2 && (
               <s-button tone="critical" onClick={() => removeContent(index)}>
                 Remove
@@ -50,16 +44,29 @@ const AddMultiAnnouncement = () => {
           </div>
 
           {/* Title */}
+
+          <p style={{ ...styles.label, marginBottom: "4px" }}>
+            Announcement headline
+          </p>
           <s-text-field
-            label="Title"
+            label=""
             value={item.title}
             multiline="2"
             onInput={(e) => updateContentAt(index, "title", e.target.value)}
           />
 
           {/* Subheading */}
+          <p
+            style={{
+              ...styles.label,
+              marginBottom: "4px",
+              marginTop: "16px",
+            }}
+          >
+            Subheading
+          </p>
           <s-text-field
-            label="Subheading"
+            label=""
             value={item?.subheading}
             onInput={(e) =>
               updateContentAt(index, "subheading", e.target.value)
@@ -69,9 +76,15 @@ const AddMultiAnnouncement = () => {
           {/* Icon — no Polaris component for icon picker, keep custom layout */}
           <div style={styles.fieldGroup}>
             <div style={styles.rowWithBadge}>
-              <s-text variant="bodyMd" font-weight="medium">
-                Icon
-              </s-text>
+              <p
+                style={{
+                  ...styles.label,
+                  marginBottom: "4px",
+                  marginTop: "16px",
+                }}
+              >
+                Icon settings
+              </p>
             </div>
             <div style={styles.iconRow}>
               <div style={styles.iconPreviewBox}>
@@ -99,41 +112,53 @@ const AddMultiAnnouncement = () => {
                   </svg>
                 )}
               </div>
-              <div style={styles.iconButtons}>
-                <s-button
-                  slot="secondary-actions"
-                  commandFor="global-icon-modal"
-                  onClick={() => {
-                    setIsOpenModal(true);
-                    setSelectedIdx(index);
-                  }}
-                >
-                  Select Icon
-                </s-button>
-                <div style={{ width: "100%", position: "relative" }}>
-                  <input
-                    type="file"
-                    style={styles.file}
-                    onChange={(e) => handleUploadFile(e, index)}
-                  />
-                  <button
-                    type="button"
-                    style={{
-                      ...styles.btn,
-                      width: "fit-content",
-                      backgroundColor: "#303030",
-                      color: "#fff",
-                      boxShadow: "none",
+              <div>
+                <s-text>Make it eye-catching with an icon</s-text>
+                <div style={styles.iconButtons}>
+                  <s-button
+                    slot="secondary-actions"
+                    commandFor="global-icon-modal"
+                    onClick={() => {
+                      setIsOpenModal(true);
+                      setSelectedIdx(index);
                     }}
                   >
-                    Upload Icon
-                  </button>
+                    Select Icon
+                  </s-button>
+                  <div style={{ width: "100%", position: "relative" }}>
+                    <input
+                      type="file"
+                      style={styles.file}
+                      onChange={(e) => handleUploadFile(e, index)}
+                    />
+                    <button
+                      type="button"
+                      style={{
+                        ...styles.btn,
+                        width: "fit-content",
+                        backgroundColor: "#303030",
+                        color: "#fff",
+                        boxShadow: "none",
+                      }}
+                    >
+                      Upload Icon
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Call to Action Select */}
+          <p
+            style={{
+              ...styles.label,
+              paddingBottom: "6px",
+              paddingTop: "16px",
+            }}
+          >
+            Action trigger
+          </p>
           <s-select
             value={item?.callToAction}
             onChange={(e) =>
@@ -146,13 +171,24 @@ const AddMultiAnnouncement = () => {
           </s-select>
 
           {item?.callToAction === "button" && (
-            <s-text-field
-              label="Button Text"
-              value={item.buttonText}
-              onInput={(e) =>
-                updateContentAt(index, "buttonText", e.target.value)
-              }
-            />
+            <>
+              <p
+                style={{
+                  ...styles.label,
+                  paddingBottom: "5px",
+                  marginTop: "12px",
+                }}
+              >
+                Button title
+              </p>
+              <s-text-field
+                label=""
+                value={item.buttonText}
+                onInput={(e) =>
+                  updateContentAt(index, "buttonText", e.target.value)
+                }
+              />
+            </>
           )}
         </div>
       ))}

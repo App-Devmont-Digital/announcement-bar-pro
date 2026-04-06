@@ -1,3 +1,4 @@
+import { styles } from "../styles/appStyles1";
 import React, { useEffect, useState } from "react";
 
 const ColorPicker = ({
@@ -16,8 +17,7 @@ const ColorPicker = ({
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-      <s-paragraph>{label}</s-paragraph>
-
+      <p style={styles.label}>{label}</p>
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
         {/* Trigger Button (Color Box) */}
         <s-button commandFor={popoverId} variant="tertiary" type="button">

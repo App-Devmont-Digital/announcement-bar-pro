@@ -19,7 +19,7 @@ const Design = ({ setSelectedTab }) => {
   };
 
   const backgroundOptions = [
-    { label: "Single color background", value: "single-bg" },
+    { label: "Solid background", value: "single-bg" },
     { label: "Gradient background", value: "gradient-bg" },
     { label: "Background image", value: "image-bg" },
   ];
@@ -28,14 +28,18 @@ const Design = ({ setSelectedTab }) => {
     <>
       <div style={styles.section}>
         <s-stack>
-          <s-select
-            label="Positioning"
-            value={designSettings?.position}
-            onChange={(e) => updateDesign("position", e.target.value)}
-          >
-            <s-option value="top-page">Top page</s-option>
-            <s-option value="bottom-page">Bottom page</s-option>
-          </s-select>
+          <p style={{ ...styles.label, paddingBottom: "10px" }}>
+            Layout position
+          </p>
+          <CustomRadioGroup
+            name="layout-position"
+            options={[
+              { label: "Top of the page", value: "top-page" },
+              { label: "Bottom of the page", value: "bottom-page" },
+            ]}
+            selectedValue={designSettings?.position}
+            onChange={(value) => updateDesign("position", value)}
+          />
         </s-stack>
       </div>
 
@@ -60,8 +64,8 @@ const Design = ({ setSelectedTab }) => {
       <div style={styles.divider} />
 
       <div style={{ ...styles.section }}>
-        <s-stack gap="base large">
-          <p style={styles.mainTitle}>Card</p>
+        <s-stack gap="small">
+          <p style={{ ...styles.mainTitle }}>Background type</p>
           <CustomRadioGroup
             name="background-config"
             options={backgroundOptions}
@@ -70,12 +74,13 @@ const Design = ({ setSelectedTab }) => {
           />
         </s-stack>
 
-        <s-stack gap="large" paddingBlockStart="small">
+        <s-stack gap="small" paddingBlockStart="small">
           {/* Single Background card color  */}
           {designSettings?.cardBg === "single-bg" && (
             <>
+              <p style={{ ...styles.label }}>Solid background</p>
               <ColorPicker
-                label="Single background color"
+                label=""
                 color={designSettings?.singleBgColor}
                 onChange={(color) => updateDesign("singleBgColor", color)}
                 popoverId="single-bg-color-picker"
@@ -91,7 +96,7 @@ const Design = ({ setSelectedTab }) => {
           >
             <s-stack gap="base large">
               <s-stack gap="small">
-                <s-paragraph>Gradient angle degree</s-paragraph>
+                <p style={styles.label}>Gradient angle degree</p>
                 <RangeSlider
                   value={designSettings?.gradientRange}
                   onInput={(val) => updateDesign("gradientRange", val)}
@@ -164,38 +169,43 @@ const Design = ({ setSelectedTab }) => {
               </>
             )}
 
-            {/* Corner radius  */}
+            {/* Border radius  */}
             <s-grid
               gridTemplateColumns="repeat(3, 1fr)"
               gap="small"
               justifyContent="center"
             >
               <s-grid-item gridColumn="span 1">
+                <s-box>
+                  <p style={styles.label}>Border radius</p>
+                  <PixelFieldInput
+                    label=""
+                    value={designSettings?.cornerRadius}
+                    onChange={(value) => updateDesign("cornerRadius", value)}
+                  />
+                </s-box>
+              </s-grid-item>
+              <s-grid-item gridColumn="span 1">
+                <p style={styles.label}>Border size</p>
                 <PixelFieldInput
-                  label="Corner radius"
-                  value={designSettings?.cornerRadius}
-                  onChange={(value) => updateDesign("cornerRadius", value)}
+                  label=""
+                  onChange={(val) => updateDesign("borderSize", val)}
                 />
               </s-grid-item>
-              <s-grid-item gridColumn="span 2"></s-grid-item>
             </s-grid>
 
             {/* Border size and border color  */}
             <s-grid gridTemplateColumns="repeat(3, 1fr)" gap="small">
-              <s-grid-item gridColumn="span 1">
-                <PixelFieldInput
-                  label="Border size"
-                  onChange={(val) => updateDesign("borderSize", val)}
-                />
-              </s-grid-item>
               <s-grid-item gridColumn="span 2">
+                <p style={styles.label}>Border color</p>
                 <ColorPicker
-                  label="Border color"
+                  label=""
                   color={designSettings?.borderColor}
                   onChange={(color) => updateDesign("borderColor", color)}
                   popoverId="border-color-picker"
                 />
               </s-grid-item>
+              <s-grid-item gridColumn="span 1"></s-grid-item>
             </s-grid>
           </s-stack>
         </s-stack>
@@ -205,14 +215,14 @@ const Design = ({ setSelectedTab }) => {
 
       {/* Typography section  */}
       <div style={styles.section}>
-        <s-heading>Typography</s-heading>
+        <p style={styles.mainTitle}>Typography style</p>
 
-        <s-stack gap="large">
+        <s-stack gap="large" paddingBlockStart="small-100">
           {/* Title size and color  */}
           <s-box>
-            <s-paragraph>Title size and color</s-paragraph>
             <s-grid gridTemplateColumns="repeat(3, 1fr)" gap="small">
               <s-grid-item gridColumn="span 1">
+                <p style={styles.mainTitle}>Title size</p>
                 <PixelFieldInput
                   label=""
                   value={designSettings?.textSize}
@@ -221,7 +231,7 @@ const Design = ({ setSelectedTab }) => {
               </s-grid-item>
               <s-grid-item gridColumn="span 2">
                 <ColorPicker
-                  label=""
+                  label="Title color"
                   color={designSettings?.textColor}
                   onChange={(color) => updateDesign("textColor", color)}
                   popoverId="text-color-picker"
@@ -231,7 +241,7 @@ const Design = ({ setSelectedTab }) => {
           </s-box>
 
           <s-box>
-            <s-paragraph>Subheading size and color</s-paragraph>
+            <p style={styles.label}>Subheading size and color</p>
             <s-grid gridTemplateColumns="repeat(3, 1fr)" gap="small">
               <s-grid-item gridColumn="span 1">
                 <PixelFieldInput
@@ -257,13 +267,14 @@ const Design = ({ setSelectedTab }) => {
       <div style={styles.divider} />
 
       <div style={styles.section}>
-        <s-heading>Button Style</s-heading>
+        <p style={styles.mainTitle}>Button Style</p>
 
-        <s-stack gap="large">
+        <s-stack gap="large" paddingBlockStart="small">
           {/* Title size and color  */}
           <s-box>
+            <p style={{...styles.label}}>Button color</p>
             <ColorPicker
-              label="Button color"
+              label=""
               color={designSettings?.btnColor}
               onChange={(color) => updateDesign("btnColor", color)}
               popoverId="btnBg-color-picker"
@@ -271,7 +282,7 @@ const Design = ({ setSelectedTab }) => {
           </s-box>
 
           <s-box>
-            <s-paragraph>Button text size and color</s-paragraph>
+            <p style={{...styles.label}}>Button text size and color</p>
             <s-grid gridTemplateColumns="repeat(3, 1fr)" gap="small">
               <s-grid-item gridColumn="span 1">
                 <PixelFieldInput
@@ -290,15 +301,16 @@ const Design = ({ setSelectedTab }) => {
               </s-grid-item>
             </s-grid>
           </s-box>
-          {/* Corner radius  */}
+          {/* Border radius  */}
           <s-grid
             gridTemplateColumns="repeat(3, 1fr)"
             gap="small"
             justifyContent="center"
           >
             <s-grid-item gridColumn="span 1">
+              <p style={{...styles.label}}>Button radius</p>
               <PixelFieldInput
-                label="Corner radius"
+                label=""
                 value={designSettings?.btnRadius}
                 onChange={(val) => updateDesign("btnRadius", val)}
               />

@@ -18,18 +18,42 @@ const Content = ({ setSelectedTab }) => {
   };
 
   const annOptions = [
-    { label: "Simple announcement", value: "simple-announce" },
-    { label: "Running line announcement", value: "line-announce" },
-    { label: "Multiple rotating announcements", value: "multiple-announce" },
+    {
+      label: "Simple announcement",
+      value: "simple-announce",
+      desc: "Static announcement bar",
+    },
+    {
+      label: "Running line announcement",
+      value: "line-announce",
+      desc: "Horizontal scrolling text",
+    },
+    {
+      label: "Multiple rotating announcements",
+      value: "multiple-announce",
+      desc: "Carousel of multiple announcements",
+    },
   ];
 
   return (
     <>
       {/* ── Announcement Type ── */}
-      <div style={styles.section}>
-        <div style={styles.radioGroup}>
-          <s-stack gap="base large">
-            <p style={styles.mainTitle}>Announcement type</p>
+      <div style={{ ...styles.section, paddingTop: "10px" }}>
+        {/* Announcement Name */}
+        <p style={{ ...styles.mainTitle, marginBottom: "8px" }}>
+          Announcement name
+        </p>
+
+        <s-text-field
+          label=""
+          value={content?.name}
+          details={"Only visible to you. For your own internal reference."}
+          help-text="Only visible to you. For your own internal reference."
+          onInput={(e) => updateContent("name", e.target.value)}
+        />
+        <div style={{ ...styles.radioGroup, paddingTop: "16px" }}>
+          <s-stack gap="small">
+            <p style={styles.mainTitle}>Announcement style</p>
 
             <CustomRadioGroup
               name="announcement-config"
@@ -43,34 +67,35 @@ const Content = ({ setSelectedTab }) => {
         {/* <div style={styles.divider} /> */}
       </div>
 
-      <div style={styles.divider} />
+      {/* <div style={styles.divider} /> */}
 
       {content?.announcementType !== "multiple-announce" ? (
         <>
           {/* ── Announcement Content ── */}
-          <div style={styles.section}>
-            <p style={styles.mainTitle}>Announcement content</p>
-
-            {/* Announcement Name */}
-            <s-text-field
-              label="Announcement name"
-              value={content?.name}
-              details={"Only visible to you. For your own internal reference."}
-              help-text="Only visible to you. For your own internal reference."
-              onInput={(e) => updateContent("name", e.target.value)}
-            />
-
+          <div style={{ ...styles.section, paddingTop: "8px" }}>
             {/* Title */}
+
+            <p style={{ ...styles.label, marginBottom: "4px" }}>
+              Announcement headline
+            </p>
             <s-text-field
-              label="Title"
               value={content?.title}
               multiline="2"
               onInput={(e) => updateContent("title", e.target.value)}
             />
 
             {/* Subheading */}
+            <p
+              style={{
+                ...styles.label,
+                marginBottom: "4px",
+                marginTop: "16px",
+              }}
+            >
+              Subheading
+            </p>
             <s-text-field
-              label="Subheading"
+              label=""
               value={content?.subheading}
               onInput={(e) => updateContent("subheading", e.target.value)}
             />
@@ -79,9 +104,15 @@ const Content = ({ setSelectedTab }) => {
             {content?.announcementType !== "line-announce" && (
               <div style={styles.fieldGroup}>
                 <div style={styles.rowWithBadge}>
-                  <s-text variant="bodyMd" font-weight="medium">
-                    Icon
-                  </s-text>
+                  <p
+                    style={{
+                      ...styles.label,
+                      marginBottom: "4px",
+                      marginTop: "16px",
+                    }}
+                  >
+                    Icon settings
+                  </p>
                 </div>
                 <div style={styles.iconRow}>
                   <div style={styles.iconPreviewBox}>
@@ -109,32 +140,35 @@ const Content = ({ setSelectedTab }) => {
                       </svg>
                     )}
                   </div>
-                  <div style={styles.iconButtons}>
-                    <s-button
-                      commandFor="modal"
-                      onClick={() => setOpenModal(true)}
-                    >
-                      Select Icon
-                    </s-button>
-
-                    <div style={{ width: "100%", position: "relative" }}>
-                      <input
-                        type="file"
-                        style={styles.file}
-                        onChange={handleIcon}
-                      />
-                      <button
-                        type="button"
-                        style={{
-                          ...styles.btn,
-                          width: "fit-content",
-                          backgroundColor: "#303030",
-                          color: "#fff",
-                          boxShadow: "none",
-                        }}
+                  <div>
+                    <s-text>Make it eye-catching with an icon</s-text>
+                    <div style={styles.iconButtons}>
+                      <s-button
+                        commandFor="modal"
+                        onClick={() => setOpenModal(true)}
                       >
-                        Upload Icon
-                      </button>
+                        Select Icon
+                      </s-button>
+
+                      <div style={{ width: "100%", position: "relative" }}>
+                        <input
+                          type="file"
+                          style={styles.file}
+                          onChange={handleIcon}
+                        />
+                        <button
+                          type="button"
+                          style={{
+                            ...styles.btn,
+                            width: "fit-content",
+                            backgroundColor: "#303030",
+                            color: "#fff",
+                            boxShadow: "none",
+                          }}
+                        >
+                          Upload Icon
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -142,13 +176,13 @@ const Content = ({ setSelectedTab }) => {
             )}
           </div>
 
-          <div style={styles.divider} />
-
           {/* ── Call to Action ── */}
-          <div style={styles.section}>
-            <p style={styles.mainTitle}>Call to action</p>
+          <div style={{ ...styles.section, paddingTop: "8px" }}>
+            <p style={{ ...styles.label, paddingBottom: "6px" }}>
+              Action trigger
+            </p>
 
-            <s-stack gap="base">
+            <s-stack gap="">
               <s-select
                 label=""
                 value={content?.callToAction}
@@ -161,21 +195,43 @@ const Content = ({ setSelectedTab }) => {
 
               {/* Button Text  */}
               {content?.callToAction === "button" && (
-                <s-text-field
-                  label="Button Text"
-                  value={content?.buttonText}
-                  onInput={(e) => updateContent("buttonText", e.target.value)}
-                />
+                <>
+                  <p
+                    style={{
+                      ...styles.label,
+                      paddingBottom: "5px",
+                      marginTop: "12px",
+                    }}
+                  >
+                    Button title
+                  </p>
+                  <s-text-field
+                    label=""
+                    value={content?.buttonText}
+                    onInput={(e) => updateContent("buttonText", e.target.value)}
+                  />
+                </>
               )}
 
               {/* Link of button  */}
 
               {content?.callToAction !== "no_cta" ? (
-                <s-text-field
-                  label="Button Link"
-                  value={content?.buttonLink}
-                  onInput={(e) => updateContent("buttonLink", e.target.value)}
-                />
+                <>
+                  <p
+                    style={{
+                      ...styles.label,
+                      paddingBottom: "5px",
+                      marginTop: "12px",
+                    }}
+                  >
+                    Button link
+                  </p>
+                  <s-text-field
+                    label=""
+                    value={content?.buttonLink}
+                    onInput={(e) => updateContent("buttonLink", e.target.value)}
+                  />
+                </>
               ) : null}
             </s-stack>
 

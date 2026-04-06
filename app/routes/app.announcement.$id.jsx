@@ -356,6 +356,7 @@ export default function Index() {
                 tone="critical"
                 onClick={handleDelete}
                 loading={deleteLoader}
+                icon="delete"
               >
                 Delete
               </s-button>
@@ -427,38 +428,57 @@ export default function Index() {
               RIGHT PANEL
           ══════════════════════════════ */}
           <div style={styles.rightPanel}>
-            {/* Live preview bar */}
-            <div
-              style={{
-                ...styles.previewBar,
-                background: getBackgroundStyle(),
-                border: `${borderSize}px solid ${borderColor}`,
-                borderRadius: `${cornerRadius}px`,
-                padding:
-                  content?.announcementType === "multiple-announce"
-                    ? "10px 0px"
-                    : "10px 16px",
-              }}
-            >
-              {/* ===== Blur Backround Feature ===== */}
-              {blurBackground ? (
-                <div style={styles.blurBackground}></div>
-              ) : null}
-
-              {renderAnnoucementPreview()}
-            </div>
-
-            {/* Skeleton content placeholder */}
-
-            <div style={styles.skeletonCard}>
-              <div style={styles.boxGrid}>
-                <div style={styles.skeletonThumb} />
-                <div style={styles.skeletonThumb} />
+            <div style={styles.liveBox}>
+              <div style={{ ...styles.liveBoxBar }}>
+                <div style={styles.liveTabs}>
+                  {["#ff5f56", "#ffbd2e", "#27c93f"].map((color) => (
+                    <div
+                      style={{ ...styles.tabDot, backgroundColor: color }}
+                      key={color}
+                    ></div>
+                  ))}
+                </div>
+                <div style={styles.urlViewBox}>
+                  <p style={styles.urlText}>www.annoucementpro.com</p>
+                </div>
               </div>
-              <div style={styles.skeletonLines}>
-                <div style={{ ...styles.skeletonLine, width: "100%" }} />
-                <div style={{ ...styles.skeletonLine, width: "85%" }} />
-                <div style={{ ...styles.skeletonLine, width: "55%" }} />
+              {/* Live preview bar */}
+              <div
+                style={{
+                  ...styles.previewBar,
+                  background: getBackgroundStyle(),
+                  border: `${borderSize}px solid ${borderColor}`,
+                  borderRadius: `${cornerRadius}px`,
+                  padding:
+                    content?.announcementType === "multiple-announce"
+                      ? "10px 0px"
+                      : "10px 16px",
+                }}
+              >
+                {/* ===== Blur Backround Feature ===== */}
+                {blurBackground ? (
+                  <div style={styles.blurBackground}></div>
+                ) : null}
+
+                {renderAnnoucementPreview()}
+              </div>
+
+              {/* Skeleton content placeholder */}
+
+              <div style={styles.skeletonCard}>
+                <div style={styles.boxGrid}>
+                  <div style={styles.skeletonThumb} />
+                </div>
+                <div style={styles.skeletonLines}>
+                  <div style={{ ...styles.skeletonLine, width: "100%" }} />
+                  <div style={{ ...styles.skeletonLine, width: "85%" }} />
+                  <div style={{ ...styles.skeletonLine, width: "55%" }} />
+                </div>
+                <div style={styles.boxSkeleton}>
+                  {[0, 1].map((i) => (
+                    <div style={styles.skeletonThumbBox} key={i} />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
