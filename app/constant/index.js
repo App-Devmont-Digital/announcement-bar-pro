@@ -119,3 +119,66 @@ export const SUPPORT_TEAM_EMAIL_TEMPLATE = (data) => `
 </div>
 `;
 
+export const getInitialState = () => ({
+  uploadFile: null,
+
+  designSettings: {
+    position: "top-page",
+    template: 1,
+    cardBg: "single-bg",
+    gradientRange: [0, 50],
+    singleBgColor: "#ffffff",
+    gradeintColor1: "#dddddd",
+    gradeintColor2: "#ffffff",
+    blurBackground: true,
+    cornerRadius: 0,
+    borderSize: 0,
+    borderColor: "#ffffff",
+
+    textSize: 18,
+    textColor: "#202223",
+    subheadingSize: 14,
+    subheadingColor: "#202223",
+
+    btnColor: "#000000",
+    btnTextSize: 14,
+    btnTextColor: "#ffffff",
+    btnRadius: 0,
+    bgImageUrl:
+      "https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg",
+  },
+
+  content: {
+    announcementType: "simple-announce",
+    name: "Announcement name",
+    title: "Enjoy a 20% discount on all our products!",
+    subheading: "",
+    icon: "",
+    callToAction: "button",
+    showCloseIcon: false,
+    buttonText: "Shop Now!",
+    buttonLink: "#",
+    scheduleStart: "right-now",
+    scheduleEnd: "never",
+  },
+
+  placement: "every",
+
+  placementRules: {
+    include_templates: [],
+    exclude_templates: [],
+  },
+
+  multiContent: [
+    {
+      id: crypto.randomUUID(),
+      title: "Enjoy 20% off your purchase!",
+      subheading: "",
+      icon: "",
+      callToAction: "button",
+      showCloseIcon: false,
+      buttonText: "Shop Now!",
+      buttonLink: "#",
+    },
+  ],
+});

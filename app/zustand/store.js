@@ -1,3 +1,4 @@
+import { getInitialState } from "../constant";
 import { create } from "zustand";
 
 const useStore = create((set) => ({
@@ -26,7 +27,8 @@ const useStore = create((set) => ({
     btnTextSize: 14,
     btnTextColor: "#ffffff",
     btnRadius: 0,
-    bgImageUrl: "https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg",
+    bgImageUrl:
+      "https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg",
   },
 
   // Content
@@ -128,6 +130,8 @@ const useStore = create((set) => ({
     set((state) => ({
       multiContent: state.multiContent?.filter((_, i) => i !== index),
     })),
+
+  resetAll: () => set(getInitialState()),
 
   setAll: (data) =>
     set({

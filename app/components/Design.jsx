@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import RangeSlider from "react-range-slider-input";
 
 import useStore from "../zustand/store";
@@ -7,10 +8,17 @@ import PixelFieldInput from "./PixelFieldInput";
 import CustomRadioGroup from "./CustomRadioGroup";
 import { styles } from "../styles/appStyles1";
 
-import "react-range-slider-input/dist/style.css";
-
-const Design = ({ setSelectedTab }) => {
+const Design = ({ setSelectedTab, selectedTab }) => {
   const { designSettings, updateDesign } = useStore();
+
+
+  useEffect(() => {
+  if (selectedTab === "design") {
+    setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+    }, 50);
+  }
+}, [selectedTab]);
 
   const handleFileBg = async (e) => {
     const file = e.target.files[0];
@@ -272,7 +280,7 @@ const Design = ({ setSelectedTab }) => {
         <s-stack gap="large" paddingBlockStart="small">
           {/* Title size and color  */}
           <s-box>
-            <p style={{...styles.label}}>Button color</p>
+            <p style={{ ...styles.label }}>Button color</p>
             <ColorPicker
               label=""
               color={designSettings?.btnColor}
@@ -282,7 +290,7 @@ const Design = ({ setSelectedTab }) => {
           </s-box>
 
           <s-box>
-            <p style={{...styles.label}}>Button text size and color</p>
+            <p style={{ ...styles.label }}>Button text size and color</p>
             <s-grid gridTemplateColumns="repeat(3, 1fr)" gap="small">
               <s-grid-item gridColumn="span 1">
                 <PixelFieldInput
@@ -308,7 +316,7 @@ const Design = ({ setSelectedTab }) => {
             justifyContent="center"
           >
             <s-grid-item gridColumn="span 1">
-              <p style={{...styles.label}}>Button radius</p>
+              <p style={{ ...styles.label }}>Button radius</p>
               <PixelFieldInput
                 label=""
                 value={designSettings?.btnRadius}

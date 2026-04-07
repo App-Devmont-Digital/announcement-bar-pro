@@ -17,9 +17,7 @@ import useStore from "../zustand/store";
 import Content from "../components/Content";
 import Design from "../components/Design";
 import Placement from "../components/Placement";
-import LineAnnouncement from "../components/LineAnnouncement";
-import SimpleAnnoucement from "../components/SimpleAnnouncement";
-import MultipleAnnouncement from "../components/MultipleAnnouncement";
+import LivePreview from "../components/LivePreview";
 import { handleUploadImage } from "../helper";
 
 import { styles } from "../styles/appStyles1";
@@ -134,6 +132,7 @@ export default function Index() {
 
   const { announcement } = useLoaderData();
   const setAll = useStore((state) => state?.setAll);
+  const resetAll = useStore((state) => state?.resetAll);
   const {
     designSettings,
     content,
@@ -195,6 +194,12 @@ export default function Index() {
       }
     }
   }, [announcement]);
+
+  useEffect(() => {
+    if (id === "new") {
+      resetAll();
+    }
+  }, [id]);
 
   const handleSave = async (status = "draft", action) => {
     try {
@@ -278,51 +283,6 @@ export default function Index() {
       },
       { method: "POST" },
     );
-  };
-
-  const {
-    cardBg,
-    singleBgColor,
-    gradeintColor1,
-    gradeintColor2,
-    gradientRange,
-    blurBackground,
-    cornerRadius,
-    borderColor,
-    borderSize,
-  } = designSettings;
-
-  const renderAnnoucementPreview = () => {
-    switch (content?.announcementType) {
-      case "simple-announce":
-        return <SimpleAnnoucement />;
-      case "line-announce":
-        return <LineAnnouncement />;
-      case "multiple-announce":
-        return <MultipleAnnouncement />;
-      default:
-        return <SimpleAnnoucement />;
-    }
-  };
-
-  const getBackgroundStyle = () => {
-    if (cardBg === "single-bg") {
-      return singleBgColor;
-    }
-
-    if (cardBg === "gradient-bg") {
-      return `linear-gradient(${gradientRange[1]}deg, ${gradeintColor1}, ${gradeintColor2})`;
-    }
-
-    const image = designSettings?.bgImageUrl;
-    // Default: image background
-    if (image && typeof image === "object") {
-      // image is a File object → create temporary URL
-      return `url(${URL.createObjectURL(image)}) center center / cover`;
-    }
-
-    // bgFile is a string URL
-    return `url(${image || "https://vamxifegjdrgriapwsjg.supabase.co/storage/v1/object/public/main/bg-images/bg-3.jpg"}) center center / cover`;
   };
 
   return (
@@ -416,7 +376,10 @@ export default function Index() {
               {selectedTab === "content" ? (
                 <Content setSelectedTab={setSelectedTab} />
               ) : selectedTab === "design" ? (
-                <Design setSelectedTab={setSelectedTab} />
+                <Design
+                  setSelectedTab={setSelectedTab}
+                  selectedTab={selectedTab}
+                />
               ) : (
                 <Placement />
               )}
@@ -442,26 +405,8 @@ export default function Index() {
                   <p style={styles.urlText}>www.annoucementpro.com</p>
                 </div>
               </div>
-              {/* Live preview bar */}
-              <div
-                style={{
-                  ...styles.previewBar,
-                  background: getBackgroundStyle(),
-                  border: `${borderSize}px solid ${borderColor}`,
-                  borderRadius: `${cornerRadius}px`,
-                  padding:
-                    content?.announcementType === "multiple-announce"
-                      ? "10px 0px"
-                      : "10px 16px",
-                }}
-              >
-                {/* ===== Blur Backround Feature ===== */}
-                {blurBackground ? (
-                  <div style={styles.blurBackground}></div>
-                ) : null}
-
-                {renderAnnoucementPreview()}
-              </div>
+              {/* Live preview Top bar */}
+              {designSettings?.position === "top-page" ? <LivePreview /> : null}
 
               {/* Skeleton content placeholder */}
 
@@ -480,6 +425,9 @@ export default function Index() {
                   ))}
                 </div>
               </div>
+
+              {/* Live preview bottom bar  */}
+              {designSettings?.position !== "top-page" ? <LivePreview /> : null}
             </div>
           </div>
           {/* /rightPanel */}
