@@ -166,18 +166,18 @@ export default function App() {
 
           {showForm && (
             <Form className="login-card" method="post" action="/auth/login">
-              <div class="form-group">
-                <label class="form-label">Shop domain</label>
+              <div className="form-group">
+                <label className="form-label">Shop domain</label>
                 <input
                   type="text"
-                  class="form-input"
+                  className="form-input"
                   placeholder="my-shop-domain"
                   required
                 />
-                <span class="form-hint">e.g: my-shop-domain.myshopify.com</span>
+                <span className="form-hint">e.g: my-shop-domain.myshopify.com</span>
               </div>
               <button
-                class="btn-primary"
+                className="btn-primary"
                 type="submit"
                 style={{ width: "100%", padding: "16px", fontSize: "16px" }}
               >
