@@ -170,11 +170,16 @@ export default function App() {
                 <label className="form-label">Shop domain</label>
                 <input
                   type="text"
+                  id="shop"
+                  name="shop"
                   className="form-input"
                   placeholder="my-shop-domain"
                   required
                 />
-                <span className="form-hint">e.g: my-shop-domain.myshopify.com</span>
+
+                <span className="form-hint">
+                  e.g: my-shop-domain.myshopify.com
+                </span>
               </div>
               <button
                 className="btn-primary"
