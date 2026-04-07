@@ -70,12 +70,11 @@
   border: 1px solid #c9cccf;
   border-radius: 8px;
   padding: 6px 12px;
-  background-color: #FAFAFA99;
+  background-color: #fafafa99;
   box-shadow: 6px 3px 11px 0px rgba(0, 0, 0, 0.05);
 }
 .selected-radio {
-  border: 1px solid #5C5C5C !important;
-
+  border: 1px solid #5c5c5c !important;
 }
 .no-desc-radio {
   padding-top: 8px !important;
@@ -1125,5 +1124,99 @@ footer {
   .nav-content {
     flex-direction: column;
     gap: 15px;
+  }
+}
+
+.login-container {
+  width: 100%;
+  max-width: 380px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+/* Form Styling */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #202223;
+  text-align: left;
+}
+
+/* Custom Input Class */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.shop-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #babfc3;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  color: #202223;
+  background-color: #fff;
+}
+
+.shop-input:focus {
+  outline: none;
+  border-color: #312e81;
+  box-shadow: 0 0 0 1px #312e81;
+}
+
+.shop-input::placeholder {
+  color: #8c9196;
+}
+
+/* Helper Text */
+.helper-text {
+  font-size: 14px !important;
+  color: #6d7175;
+  margin-top: 2px;
+  margin: 0 !important;
+  text-align: left !important;
+}
+
+/* Custom Button */
+.submit-btn {
+  background-color: #312e81;
+  color: #ffffff;
+  border: none;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.submit-btn:hover {
+  opacity: 0.8;
+}
+
+.submit-btn:active {
+  transform: scale(0.99);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .login-container {
+    max-width: 100%;
   }
 }

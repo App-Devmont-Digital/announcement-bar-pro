@@ -71,6 +71,33 @@ export default function App() {
             Get Announcement Pro For Free
           </a>
 
+          {showForm && (
+            <div class="login-container">
+            <Form className="login-form" method="post" action="/auth/login">
+              <div class="field-group">
+                <label for="shop" class="field-label">
+                  Shop domain
+                </label>
+                <div class="input-wrapper">
+                  <input
+                    type="text"
+                    id="shop"
+                    name="shop"
+                    class="shop-input"
+                    placeholder="my-shop-domain"
+                    required
+                  />
+                </div>
+                <p class="helper-text">e.g: my-shop-domain.myshopify.com</p>
+              </div>
+
+              <button type="submit" class="submit-btn">
+                Log in
+              </button>
+            </Form>
+            </div>
+          )}
+
           <div className="preview-box">
             <div className="browser-bar">
               <div className="dot"></div>
