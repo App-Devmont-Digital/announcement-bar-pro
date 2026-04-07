@@ -1127,96 +1127,58 @@ footer {
   }
 }
 
-.login-container {
-  width: 100%;
-  max-width: 380px;
-  padding: 20px;
+/* Login Section - SEPARATED */
+.login-section {
+  padding: 60px 0;
+  background: #f6f6f7;
+  border-top: 1px solid #e1e3e5;
+  border-bottom: 1px solid #e1e3e5;
+}
+
+.login-card {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(49, 46, 129, 0.08);
+  max-width: 500px;
   margin: 0 auto;
-}
-
-/* Form Styling */
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.field-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.field-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #202223;
+  border: 1px solid #e1e3e5;
   text-align: left;
 }
 
-/* Custom Input Class */
-.input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
+.form-group {
+  margin-bottom: 24px;
 }
 
-.shop-input {
-  width: 100%;
-  padding: 10px 12px;
-  font-size: 14px;
-  border: 1px solid #babfc3;
-  border-radius: 6px;
-  transition: all 0.2s ease-in-out;
-  color: #202223;
-  background-color: #fff;
-}
-
-.shop-input:focus {
-  outline: none;
-  border-color: #312e81;
-  box-shadow: 0 0 0 1px #312e81;
-}
-
-.shop-input::placeholder {
-  color: #8c9196;
-}
-
-/* Helper Text */
-.helper-text {
-  font-size: 14px !important;
-  color: #6d7175;
-  margin-top: 2px;
-  margin: 0 !important;
-  text-align: left !important;
-}
-
-/* Custom Button */
-.submit-btn {
-  background-color: #312e81;
-  color: #ffffff;
-  border: none;
-  padding: 12px 16px;
-  font-size: 14px;
+.form-label {
+  display: block;
   font-weight: 600;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  width: 100%;
-  margin-top: 4px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #202223;
 }
 
-.submit-btn:hover {
-  opacity: 0.8;
+.form-input {
+  width: -webkit-fill-available;
+  padding: 14px 18px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.2s;
+  background: #f9fafb;
+  
 }
 
-.submit-btn:active {
-  transform: scale(0.99);
+.form-input:focus {
+  border-color: #312e81;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(49, 46, 129, 0.1);
 }
 
-/* Responsive adjustments */
-@media (max-width: 480px) {
-  .login-container {
-    max-width: 100%;
-  }
+.form-hint {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #6b7280;
 }

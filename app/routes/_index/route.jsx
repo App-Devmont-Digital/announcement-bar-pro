@@ -71,7 +71,7 @@ export default function App() {
             Get Announcement Pro For Free
           </a>
 
-          {showForm && (
+          {/* {showForm && (
             <div class="login-container">
             <Form className="login-form" method="post" action="/auth/login">
               <div class="field-group">
@@ -96,7 +96,7 @@ export default function App() {
               </button>
             </Form>
             </div>
-          )}
+          )} */}
 
           <div className="preview-box">
             <div className="browser-bar">
@@ -157,6 +157,40 @@ export default function App() {
           </div>
         </div>
       </header>
+
+      <section id="get-started" class="login-section">
+        <div class="container text-center">
+          <h2 style={{ marginBottom: "12px", fontSize: "32px" }}>
+            Ready to Start?
+          </h2>
+          <p style={{ marginBottom: "40px", color: "#6d7175" }}>
+            Enter your shop URL to install the app and create your first bar in
+            minutes.
+          </p>
+
+          {showForm && (
+            <Form className="login-card" method="post" action="/auth/login">
+              <div class="form-group">
+                <label class="form-label">Shop domain</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  placeholder="my-shop-domain"
+                  required
+                />
+                <span class="form-hint">e.g: my-shop-domain.myshopify.com</span>
+              </div>
+              <button
+                class="btn-primary"
+                type="submit"
+                style={{ width: "100%", padding: "16px", fontSize: "16px" }}
+              >
+                Log in
+              </button>
+            </Form>
+          )}
+        </div>
+      </section>
 
       <section className="features">
         <div className="container-l">
