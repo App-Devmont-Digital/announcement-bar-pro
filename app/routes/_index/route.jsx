@@ -28,6 +28,7 @@ export default function App() {
                   width: "40px",
                   height: "40px",
                   objectFit: "contain",
+                  borderRadius: "6px",
                 }}
               />
             </div>
