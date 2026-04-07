@@ -132,8 +132,8 @@
 /* The Inner Dot (White) */
 .radio-custom-circle::after {
   content: "";
-  width: 8px; /* Dot size */
-  height: 8px;
+  width: 7.5px; /* Dot size */
+  height: 7.5px;
   background: #fff; /* Inner dot color is White */
   border-radius: 55px;
   opacity: 0;

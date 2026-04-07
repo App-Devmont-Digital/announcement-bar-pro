@@ -59,22 +59,24 @@ const LineAnnouncement = () => {
 
       {/* Close icon button  */}
       {/* ========= Button Preview ========== */}
-      <a
-        href={content?.buttonLink}
-        style={{
-          ...styles.previewButton,
-          color: btnTextColor,
-          backgroundColor: btnColor,
-          padding: "8px 16px",
-          borderRadius: btnRadius + "px",
-          border: "0",
-          fontSize: btnTextSize + "px",
-          display: "block",
-          position: "relative",
-        }}
-      >
-        {content?.buttonText}
-      </a>
+      {content?.callToAction === "button" && (
+        <a
+          href={content?.buttonLink}
+          style={{
+            ...styles.previewButton,
+            color: btnTextColor,
+            backgroundColor: btnColor,
+            padding: "8px 16px",
+            borderRadius: btnRadius + "px",
+            border: "0",
+            fontSize: btnTextSize + "px",
+            display: "block",
+            position: "relative",
+          }}
+        >
+          {content?.buttonText}
+        </a>
+      )}
     </div>
   );
 };
