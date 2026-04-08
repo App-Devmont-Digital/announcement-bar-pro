@@ -248,68 +248,35 @@ export default function App() {
               className="logo-icon"
               style={{ width: "32px", height: "32px" }}
             >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M11 5L6 9H2V15H6L11 19V5Z"></path>
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-              </svg>
+              <img
+                src="/logo-ann.png"
+                alt="Announcement Pro"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  objectFit: "contain",
+                  borderRadius: "6px",
+                }}
+              />
             </div>
 
             <span style={{ fontWeight: 700 }}>Announcement Pro</span>
           </div>
 
           <p>
-            &copy; 2024 Announcement Pro. The #1 Free Announcement Bar for
-            Shopify.
-          </p>
-
-          <p style={{ fontSize: "14px", marginTop: "12px" }}>
-            Boost your conversions today without the monthly fees.
+            &copy; 2026{" "}
+            <a
+              target="_blank"
+              href="https://devmontdigital.io/"
+              style={{ color: "#5c5f62", textDecoration: "none" }}
+            >
+              Devmont Digital
+            </a>
+            . All Rights Reserved.
           </p>
         </div>
       </footer>
     </>
-    // <div className={styles.index}>
-    //   <div className={styles.content}>
-    //     <h1 className={styles.heading}>A short heading about [your app]</h1>
-    //     <p className={styles.text}>
-    //       A tagline about [your app] that describes your value proposition.
-    //     </p>
-    //     {showForm && (
-    //       <Form className={styles.form} method="post" action="/auth/login">
-    //         <label className={styles.label}>
-    //           <span>Shop domain</span>
-    //           <input className={styles.input} type="text" name="shop" />
-    //           <span>e.g: my-shop-domain.myshopify.com</span>
-    //         </label>
-    //         <button className={styles.button} type="submit">
-    //           Log in
-    //         </button>
-    //       </Form>
-    //     )}
-    //     <ul className={styles.list}>
-    //       <li>
-    //         <strong>Product feature</strong>. Some detail about your feature and
-    //         its benefit to your customer.
-    //       </li>
-    //       <li>
-    //         <strong>Product feature</strong>. Some detail about your feature and
-    //         its benefit to your customer.
-    //       </li>
-    //       <li>
-    //         <strong>Product feature</strong>. Some detail about your feature and
-    //         its benefit to your customer.
-    //       </li>
-    //     </ul>
-    //   </div>
-    // </div>
+    
   );
 }
