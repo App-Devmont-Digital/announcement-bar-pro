@@ -53,8 +53,6 @@ export async function action({ request }) {
 export default function AdditionalPage() {
   const actionData = useActionData();
 
-  console.log({ actionData });
-
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     category: "",

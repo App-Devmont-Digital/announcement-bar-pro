@@ -2,7 +2,7 @@
 Public App Extension: Fully Dynamic JS-Injected Announcement Bars
 {% endcomment %}
 
-{{ 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css' | stylesheet_tag }}
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 
 <style>
   .app-extension-wrapper {
@@ -194,7 +194,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
 
 <div id="AppAnnouncementRoot" class="app-extension-wrapper"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js" defer></script>
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
 
 <script>
   (function () {
