@@ -324,7 +324,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
       </div>
       <div class="action-area">
        ${
-          content?.callToAction === "button" &&
+          content?.callToAction === "button" ?
           `<a href="${content?.buttonLink}" 
             class="shop-btn-dark btn-link" 
             style="
@@ -338,7 +338,7 @@ Public App Extension: Fully Dynamic JS-Injected Announcement Bars
               display: inline-block;
             ">
             ${content?.buttonText}
-          </a>`   
+          </a>`: ''   
         }
         <div class="close-icon">
            <svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg">
