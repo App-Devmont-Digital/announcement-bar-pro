@@ -89,18 +89,27 @@ const AddMultiAnnouncement = () => {
             <div style={styles.iconRow}>
               <div style={styles.iconPreviewBox}>
                 {item?.icon ? (
-                  <img
-                    src={
-                      typeof item?.icon === "object"
-                        ? URL.createObjectURL(item?.icon)
-                        : item?.icon
-                    }
-                    style={{
-                      width: "26px",
-                      height: "26px",
-                      objectFit: "cover",
-                    }}
-                  />
+                  <>
+                    <button
+                      type="button"
+                      style={styles.removeIcon}
+                      onClick={() => updateContentAt(index, "icon", "")}
+                    >
+                      <s-icon type="delete" tone="critical" />
+                    </button>
+                    <img
+                      src={
+                        typeof item?.icon === "object"
+                          ? URL.createObjectURL(item?.icon)
+                          : item?.icon
+                      }
+                      style={{
+                        width: "26px",
+                        height: "26px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </>
                 ) : (
                   <svg
                     width="26"

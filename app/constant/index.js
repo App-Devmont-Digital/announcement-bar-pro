@@ -171,8 +171,18 @@ export const getInitialState = () => ({
 
   multiContent: [
     {
-      id: crypto.randomUUID(),
-      title: "Enjoy 20% off your purchase!",
+      id: crypto.randomUUID(), // Unique ID for keying
+      title: "Enjoy 30% off your purchase!",
+      subheading: "",
+      icon: "",
+      callToAction: "button",
+      showCloseIcon: false,
+      buttonText: "Shop Now!",
+      buttonLink: "#",
+    },
+    {
+      id: crypto.randomUUID(), // Unique ID for keying
+      title: "Enjoy 40% off your purchase!",
       subheading: "",
       icon: "",
       callToAction: "button",

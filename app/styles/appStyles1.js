@@ -192,6 +192,16 @@ export const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    position: "relative",
+  },
+  removeIcon: {
+    position: "absolute",
+    top: "1px",
+    left: "1px",
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+    padding:'0'
   },
   iconButtons: {
     display: "flex",

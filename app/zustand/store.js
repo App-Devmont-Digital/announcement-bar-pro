@@ -56,7 +56,7 @@ const useStore = create((set) => ({
   multiContent: [
     {
       id: crypto.randomUUID(), // Unique ID for keying
-      title: "Enjoy 20% off your purchase!",
+      title: "Enjoy 30% off your purchase!",
       subheading: "",
       icon: "",
       callToAction: "button",
@@ -66,7 +66,7 @@ const useStore = create((set) => ({
     },
     {
       id: crypto.randomUUID(), // Unique ID for keying
-      title: "Enjoy 20% off your purchase!",
+      title: "Enjoy 40% off your purchase!",
       subheading: "",
       icon: "",
       callToAction: "button",

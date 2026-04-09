@@ -117,18 +117,27 @@ const Content = ({ setSelectedTab }) => {
                 <div style={styles.iconRow}>
                   <div style={styles.iconPreviewBox}>
                     {content?.icon ? (
-                      <img
-                        src={
-                          typeof content?.icon === "object"
-                            ? URL.createObjectURL(content?.icon)
-                            : content?.icon
-                        }
-                        style={{
-                          width: "26px",
-                          height: "26px",
-                          objectFit: "cover",
-                        }}
-                      />
+                      <>
+                        <button
+                          type="button"
+                          style={styles.removeIcon}
+                          onClick={() => updateContent("icon", "")}
+                        >
+                          <s-icon type="delete" tone="critical" />
+                        </button>
+                        <img
+                          src={
+                            typeof content?.icon === "object"
+                              ? URL.createObjectURL(content?.icon)
+                              : content?.icon
+                          }
+                          style={{
+                            width: "26px",
+                            height: "26px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      </>
                     ) : (
                       <svg
                         width="26"
