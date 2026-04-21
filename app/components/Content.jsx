@@ -9,7 +9,7 @@ import CustomRadioGroup from "./CustomRadioGroup";
 const Content = ({ setSelectedTab }) => {
   const [openModal, setOpenModal] = useState(false);
 
-  const { designSettings, updateDesign, content, updateContent } = useStore();
+  const { content, updateContent } = useStore();
 
   const handleIcon = (e) => {
     const file = e.target.files[0];
