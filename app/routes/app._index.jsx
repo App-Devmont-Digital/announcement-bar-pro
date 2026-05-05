@@ -155,6 +155,7 @@ export default function Index() {
   const AnnoucementChart = [
     {
       label: "Total Announcements",
+      total: counts?.total,
       icon: (
         <svg
           width={27}
@@ -168,6 +169,7 @@ export default function Index() {
     },
     {
       label: "Active Announcements",
+      total: counts?.active,
       icon: (
         <svg
           width={26}
@@ -181,6 +183,7 @@ export default function Index() {
     },
     {
       label: "Draft Announcements",
+      total: counts?.draft,
       icon: (
         <svg
           width={25}
@@ -202,6 +205,7 @@ export default function Index() {
       console.error("Failed to copy: ", err);
     }
   };
+  
 
   return (
     <s-page title="Announcements">
@@ -235,7 +239,7 @@ export default function Index() {
                   </p>
                 </s-stack>
                 <s-text>
-                  <h2 style={styles.statNumberStyle}>{counts?.total ?? 0}</h2>
+                  <h2 style={styles.statNumberStyle}>{item?.total ?? 0}</h2>
                 </s-text>
               </s-stack>
             </s-box>
