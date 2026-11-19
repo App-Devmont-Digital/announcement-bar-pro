@@ -34,5 +34,5 @@ export const loader = async ({ request }) => {
       { error: "Unable to check outbound IP" },
       { status: 502 }
     );
-  }
+  } 
 };
